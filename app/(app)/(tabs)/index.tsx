@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native'
 
-import { useSession } from '@/contexts/ctx'
+import { useSession } from '@/contexts/AuthContext'
 
 export default function Tab() {
-  const { signOut } = useSession()
+  const { logout } = useSession()
 
   return (
     <View style={styles.container}>
@@ -11,10 +11,10 @@ export default function Tab() {
       <Text
         onPress={() => {
           // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
-          signOut()
+          logout()
         }}
       >
-        Sign Out
+        Logout
       </Text>
     </View>
   )
