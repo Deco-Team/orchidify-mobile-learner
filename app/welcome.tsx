@@ -1,24 +1,34 @@
-import { router } from 'expo-router'
 import { Button, Carousel, View } from 'react-native-ui-lib'
 
 import Banner from '@/assets/images/login-banner.svg'
+import MyLink from '@/components/MyLink'
 import MyText from '@/components/MyText'
-import { myFontWeight, myTextColor, myTheme } from '@/constants'
-import { useSession } from '@/contexts/ctx'
+import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 
 export default function Welcome() {
-  const { login } = useSession()
-
   const text = [
     'Cùng khám phá những khóa học chất lượng hàng đầu của chúng tôi',
     'Dễ dàng lựa chọn khóa học phù hợp với mong muốn của bạn',
     'Được tham gia học trực tiếp và cấp chứng chỉ đào tạo'
   ]
+
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        paddingBottom: height < myDeviceHeight.sm ? 0 : 50
+      }}
+    >
       <Banner style={{ flexGrow: 1 }} />
       <View style={{ alignItems: 'center', gap: 24, padding: 24 }}>
-        <MyText weight={myFontWeight.semiBold} styleProps={{ fontSize: 26 }} text='Chào mừng tới Orchidify' />
+        <MyText
+          weight={myFontWeight.semiBold}
+          styleProps={{
+            fontSize: width < myDeviceWidth.sm ? 24 : 26
+          }}
+          text='Chào mừng tới Orchidify'
+        />
         <Carousel
           style={{ flexGrow: 0 }}
           loop
@@ -56,16 +66,21 @@ export default function Welcome() {
           }}
         />
 
-        <MyText
+        <MyLink
           weight={myFontWeight.medium}
           styleProps={{ color: myTextColor.primary, fontSize: 16 }}
-          onPress={() => {
-            login()
-            router.replace('/')
-          }}
           text='Đã có tài khoản'
+          href='/login'
         />
       </View>
     </View>
   )
 }
+
+/**
+ * 
+ * async () => {
+            await login('learner@gmail.com', '123456789')
+            router.replace('/')
+          }
+ */

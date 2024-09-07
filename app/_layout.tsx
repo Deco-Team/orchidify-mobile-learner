@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import { View } from 'react-native-ui-lib'
 
-import { SessionProvider } from '@/contexts/ctx'
+import { SessionProvider } from '@/contexts/AuthContext'
 SplashScreen.preventAutoHideAsync()
 
 export default function Root() {
@@ -35,7 +35,8 @@ export default function Root() {
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1
+      flex: 1,
+      paddingTop: 50
     }
   })
 
