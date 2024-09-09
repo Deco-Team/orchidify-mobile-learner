@@ -76,11 +76,3 @@ export default function Welcome() {
     </View>
   )
 }
-
-/**
- * 
- * async () => {
-            await login('learner@gmail.com', '123456789')
-            router.replace('/')
-          }
- */
