@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native"
+import { Dimensions } from 'react-native'
 
 export const myFontWeight = {
   bold: 'Main-Font-Bold',
