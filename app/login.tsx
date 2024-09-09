@@ -1,29 +1,16 @@
 import Feather from '@expo/vector-icons/Feather'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useRouter } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { Button, TextField, View } from 'react-native-ui-lib'
-import * as yup from 'yup'
 
 import MyText from '@/components/MyText'
 import { useSession } from '@/contexts/AuthContext'
 import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTheme, width } from '@/contracts/constants'
 import { ILoginPayload } from '@/contracts/interfaces/auth.interface'
-import { errorMessage } from '@/contracts/messages'
-import { extractMessage } from '@/utils'
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .required(extractMessage(errorMessage.ERM002, ['Email']))
-    .email(errorMessage.ERM018),
-  password: yup
-    .string()
-    .required(extractMessage(errorMessage.ERM002, ['Mật khẩu']))
-    .min(8, extractMessage(errorMessage.ERM020, ['Mật khẩu', '8']))
-})
+import { authSchema } from '@/contracts/validations/auth.validation'
 
 const LoginScreen = () => {
   const { login } = useSession()
@@ -35,7 +22,7 @@ const LoginScreen = () => {
     setError,
     formState: { errors }
   } = useForm<ILoginPayload>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(authSchema),
     reValidateMode: 'onChange',
     defaultValues: {
       email: '',
@@ -50,46 +37,56 @@ const LoginScreen = () => {
         type: 'manual',
         message: result
       })
+    } else {
+      router.replace('/')
     }
   }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-        <View style={{ paddingLeft: 20 }}>
-          <MyText
+        <Stack.Screen
+          options={{
+            title: 'Đăng nhập',
+            headerTitleStyle: {
+              fontFamily: myFontWeight.bold
+            }
+          }}
+        />
+        <View style={{ paddingHorizontal: 20, gap: 24 }}>
+          {/* <MyText
             text='Đăng nhập'
             weight={myFontWeight.semiBold}
             styleProps={{ fontSize: 20, textAlign: 'left', marginBottom: 25, marginTop: 25 }}
-          />
+          /> */}
           <MyText
             text='Xin chào, mừng bạn quay trở lại Orchidify!'
-            styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginBottom: 40 }}
+            styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginTop: 24 }}
           />
-          <View style={{ position: 'relative', marginBottom: 20 }}>
+          <View style={{ position: 'relative' }}>
             <MyText
               text='Email'
-              styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left', marginBottom: 5 }}
-            />
-            <Feather
-              style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 15 }}
-              name='mail'
-              size={24}
-              color={myTheme.primary}
+              styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left' }}
             />
             <Controller
               control={control}
               name='email'
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextField
+                  leadingAccessory={
+                    <Feather
+                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 15 }}
+                      name='mail'
+                      size={24}
+                      color={myTheme.primary}
+                      y
+                    />
+                  }
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                   placeholder='Email'
                   placeholderTextColor='grey'
-                  containerStyle={{
-                    width: '95%'
-                  }}
                   fieldStyle={{
                     paddingVertical: 20
                   }}
@@ -108,19 +105,14 @@ const LoginScreen = () => {
                 />
               )}
             />
-            {errors.email && <MyText text={errors.email.message || ''} styleProps={{ color: 'red', marginTop: -10 }} />}
+            {errors.email && <MyText text={errors.email.message || ''} styleProps={{ color: 'red' }} />}
           </View>
-          <View style={{ position: 'relative', marginTop: 15 }}>
+          <View style={{ position: 'relative' }}>
             <MyText
               text='Mật khẩu'
-              styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left', marginBottom: 5 }}
+              styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left' }}
             />
-            <Feather
-              style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 15 }}
-              name='lock'
-              size={24}
-              color={myTheme.primary}
-            />
+
             <Controller
               control={control}
               name='password'
@@ -129,13 +121,26 @@ const LoginScreen = () => {
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
+                  leadingAccessory={
+                    <Feather
+                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 15 }}
+                      name='lock'
+                      size={24}
+                      color={myTheme.primary}
+                    />
+                  }
+                  trailingAccessory={
+                    <TouchableOpacity
+                      onPress={() => setIsShowPassword(!isShowPassword)}
+                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, right: 20 }}
+                    >
+                      <Feather name={isShowPassword ? 'eye' : 'eye-off'} size={24} color='lightgray' />
+                    </TouchableOpacity>
+                  }
                   placeholder='Mật khẩu'
                   placeholderTextColor='grey'
                   multiline={false}
                   secureTextEntry={!isShowPassword}
-                  containerStyle={{
-                    width: '95%'
-                  }}
                   fieldStyle={{
                     paddingVertical: 20
                   }}
@@ -154,18 +159,9 @@ const LoginScreen = () => {
                 />
               )}
             />
-
-            <TouchableOpacity
-              onPress={() => setIsShowPassword(!isShowPassword)}
-              style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, right: 35 }}
-            >
-              <Feather name={isShowPassword ? 'eye' : 'eye-off'} size={24} color='lightgray' />
-            </TouchableOpacity>
-            {errors.password && (
-              <MyText text={errors.password.message || ''} styleProps={{ color: 'red', marginTop: -10 }} />
-            )}
+            {errors.password && <MyText text={errors.password.message || ''} styleProps={{ color: 'red' }} />}
           </View>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ gap: 24 }}>
             <Button
               onPress={handleSubmit(onSubmit)}
               label='Đăng nhập'
@@ -174,9 +170,7 @@ const LoginScreen = () => {
                 backgroundColor: myTheme.primary,
                 minWidth: '95%',
                 height: 48,
-                marginTop: 20,
-                justifyContent: 'center',
-                marginLeft: -20
+                justifyContent: 'center'
               }}
               labelStyle={{
                 fontFamily: myFontWeight.bold,
@@ -184,7 +178,7 @@ const LoginScreen = () => {
               }}
             />
             {errors.root && (
-              <MyText text={errors.root.message || ''} styleProps={{ marginTop: 20, marginLeft: -20, color: 'red' }} />
+              <MyText text={errors.root.message || ''} styleProps={{ color: 'red', textAlign: 'center' }} />
             )}
           </View>
         </View>

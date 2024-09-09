@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font'
-import { Slot, SplashScreen } from 'expo-router'
+import { SplashScreen, Stack } from 'expo-router'
 import { useEffect } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import { View } from 'react-native-ui-lib'
@@ -43,7 +43,21 @@ export default function Root() {
   return (
     <View useSafeArea={Platform.OS === 'ios'} style={styles.container}>
       <SessionProvider>
-        <Slot />
+        <Stack>
+          <Stack.Screen
+            name='(app)'
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name='welcome'
+            options={{
+              title: '',
+              headerShown: false
+            }}
+          />
+        </Stack>
       </SessionProvider>
     </View>
   )
