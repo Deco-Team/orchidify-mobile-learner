@@ -1,39 +1,49 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Header } from '@react-navigation/elements'
 import { Tabs } from 'expo-router'
-import { Platform } from 'react-native'
+
+import { myFontWeight } from '@/contracts/constants'
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'blue',
-        headerStyle:
-          Platform.OS === 'android'
-            ? {
-                height: 60,
-                justifyContent: 'center'
-              }
-            : undefined,
-        headerTitleStyle:
-          Platform.OS === 'android'
-            ? {
-                marginTop: -50
-              }
-            : undefined
+        tabBarActiveTintColor: 'blue'
       }}
     >
       <Tabs.Screen
         name='index'
         options={{
-          title: 'Home',
-
+          header: () => (
+            <Header
+              title='Home'
+              headerStyle={{
+                height: 60
+              }}
+              headerTitleStyle={{
+                fontFamily: myFontWeight.bold,
+                marginTop: -50
+              }}
+            />
+          ),
           tabBarIcon: ({ color }) => <FontAwesome size={28} name='home' color={color} />
         }}
       />
       <Tabs.Screen
         name='settings'
         options={{
-          title: 'Settings',
+          header: () => (
+            <Header
+              title='Settings'
+              headerStyle={{
+                height: 60
+              }}
+              headerTitleStyle={{
+                fontFamily: myFontWeight.bold,
+                marginTop: -50
+              }}
+            />
+          ),
           tabBarIcon: ({ color }) => <FontAwesome size={28} name='cog' color={color} />
         }}
       />

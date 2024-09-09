@@ -1,14 +1,16 @@
+import { Header, HeaderBackButton } from '@react-navigation/elements'
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
+import { SplashScreen, Stack, useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import { View } from 'react-native-ui-lib'
 
 import { SessionProvider } from '@/contexts/AuthContext'
+import { myFontWeight } from '@/contracts/constants'
 SplashScreen.preventAutoHideAsync()
 
 export default function Root() {
-  // Set up the auth context and render our layout inside of it.
+  const router = useRouter()
 
   const [loaded, error] = useFonts({
     'Main-Font-Bold': require('@/assets/fonts/static/WixMadeforText-Bold.ttf'),
@@ -55,6 +57,40 @@ export default function Root() {
             options={{
               title: '',
               headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name='login'
+            options={{
+              header: () => (
+                <Header
+                  headerLeft={() => <HeaderBackButton onPress={() => router.back()} />}
+                  title='Đăng nhập'
+                  headerStyle={{
+                    height: 60
+                  }}
+                  headerTitleStyle={{
+                    fontFamily: myFontWeight.bold
+                  }}
+                />
+              )
+            }}
+          />
+          <Stack.Screen
+            name='register'
+            options={{
+              header: () => (
+                <Header
+                  title='Tạo tài khoản'
+                  headerLeft={() => <HeaderBackButton onPress={() => router.back()} />}
+                  headerStyle={{
+                    height: 60
+                  }}
+                  headerTitleStyle={{
+                    fontFamily: myFontWeight.bold
+                  }}
+                />
+              )
             }}
           />
         </Stack>

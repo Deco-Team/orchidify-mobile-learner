@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Feather'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Stack, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
@@ -45,20 +45,7 @@ const LoginScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-        <Stack.Screen
-          options={{
-            title: 'Đăng nhập',
-            headerTitleStyle: {
-              fontFamily: myFontWeight.bold
-            }
-          }}
-        />
         <View style={{ paddingHorizontal: 20, gap: 24 }}>
-          {/* <MyText
-            text='Đăng nhập'
-            weight={myFontWeight.semiBold}
-            styleProps={{ fontSize: 20, textAlign: 'left', marginBottom: 25, marginTop: 25 }}
-          /> */}
           <MyText
             text='Xin chào, mừng bạn quay trở lại Orchidify!'
             styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginTop: 24 }}
@@ -73,6 +60,7 @@ const LoginScreen = () => {
               name='email'
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextField
+                  autoFocus
                   leadingAccessory={
                     <Feather
                       style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 15 }}
@@ -82,6 +70,8 @@ const LoginScreen = () => {
                       y
                     />
                   }
+                  inputMode='email'
+                  maxLength={50}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -129,6 +119,7 @@ const LoginScreen = () => {
                       color={myTheme.primary}
                     />
                   }
+                  maxLength={50}
                   trailingAccessory={
                     <TouchableOpacity
                       onPress={() => setIsShowPassword(!isShowPassword)}
