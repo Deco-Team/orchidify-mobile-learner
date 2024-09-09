@@ -6,9 +6,10 @@ import { Controller, useForm } from 'react-hook-form'
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { Button, TextField, View } from 'react-native-ui-lib'
 
+import MyLink from '@/components/MyLink'
 import MyText from '@/components/MyText'
 import { useSession } from '@/contexts/AuthContext'
-import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTheme, width } from '@/contracts/constants'
+import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { ILoginPayload } from '@/contracts/interfaces/auth.interface'
 import { authSchema } from '@/contracts/validations/auth.validation'
 
@@ -44,8 +45,11 @@ const LoginScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-        <View style={{ paddingHorizontal: 20, gap: 24 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1, backgroundColor: '#FFF' }}
+      >
+        <View style={{ paddingHorizontal: 20, gap: 24, backgroundColor: '#FFF' }}>
           <MyText
             text='Xin chào, mừng bạn quay trở lại Orchidify!'
             styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginTop: 24 }}
@@ -171,6 +175,15 @@ const LoginScreen = () => {
             {errors.root && (
               <MyText text={errors.root.message || ''} styleProps={{ color: 'red', textAlign: 'center' }} />
             )}
+            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 2.5 }}>
+              <MyText styleProps={{ fontSize: 16, color: myTextColor.caption }} text='Chưa có tài khoản?' />
+              <MyLink
+                weight={myFontWeight.medium}
+                styleProps={{ color: myTextColor.primary, fontSize: 16 }}
+                text='Đăng kí'
+                href='/register'
+              />
+            </View>
           </View>
         </View>
       </KeyboardAvoidingView>

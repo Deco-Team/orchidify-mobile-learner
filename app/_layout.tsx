@@ -64,7 +64,15 @@ export default function Root() {
             options={{
               header: () => (
                 <Header
-                  headerLeft={() => <HeaderBackButton onPress={() => router.back()} />}
+                  headerLeft={() => (
+                    <HeaderBackButton
+                      label='Quay lại'
+                      labelStyle={{
+                        fontFamily: myFontWeight.regular
+                      }}
+                      onPress={() => router.back()}
+                    />
+                  )}
                   title='Đăng nhập'
                   headerStyle={{
                     height: 60
@@ -82,7 +90,15 @@ export default function Root() {
               header: () => (
                 <Header
                   title='Tạo tài khoản'
-                  headerLeft={() => <HeaderBackButton onPress={() => router.back()} />}
+                  headerLeft={() => (
+                    <HeaderBackButton
+                      label='Quay lại'
+                      labelStyle={{
+                        fontFamily: myFontWeight.regular
+                      }}
+                      onPress={() => router.back()}
+                    />
+                  )}
                   headerStyle={{
                     height: 60
                   }}
