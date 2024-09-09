@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import { Button, Carousel, View } from 'react-native-ui-lib'
 
 import Banner from '@/assets/images/login-banner.svg'
@@ -11,6 +12,7 @@ export default function Welcome() {
     'Dễ dàng lựa chọn khóa học phù hợp với mong muốn của bạn',
     'Được tham gia học trực tiếp và cấp chứng chỉ đào tạo'
   ]
+  const router = useRouter()
 
   return (
     <View
@@ -60,6 +62,7 @@ export default function Welcome() {
             height: 48,
             justifyContent: 'center'
           }}
+          onPress={() => router.push('/register')}
           labelStyle={{
             fontFamily: myFontWeight.bold,
             fontSize: 16
