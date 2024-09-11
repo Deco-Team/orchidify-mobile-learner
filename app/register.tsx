@@ -1,9 +1,9 @@
 import Feather from '@expo/vector-icons/Feather'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
-  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -22,7 +22,10 @@ import { registerSchema } from '@/contracts/validations/register.validation'
 import useUser from '@/hooks/api/useUser'
 
 const RegisterScreen = () => {
+  const router = useRouter()
   const [isShowPassword, setIsShowPassword] = useState(false)
+  const [isShowPasswordConfirmation, setIsShowPasswordConfirmation] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const { register } = useUser()
   const {
     control,
@@ -43,6 +46,7 @@ const RegisterScreen = () => {
   })
 
   const onSubmit = async (data: IRegisterFormPayload) => {
+    setIsLoading(true)
     if (data.password !== data.passwordConfirmation) {
       setError('root', {
         type: 'manual',
@@ -62,7 +66,7 @@ const RegisterScreen = () => {
           message: result
         })
       } else {
-        Alert.alert('Đăng kí thành công', 'HIHIHI')
+        router.replace(`/verify?email=${data.email}&screen=register`)
       }
     }
   }
@@ -73,7 +77,7 @@ const RegisterScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1, backgroundColor: '#FFF' }}
       >
-        <ScrollView style={{ paddingHorizontal: 20, paddingBottom: 20, backgroundColor: '#FFF' }}>
+        <ScrollView style={{ paddingHorizontal: 20, backgroundColor: '#FFF' }}>
           <MyText
             text='Điền thông tin phía dưới để tham gia trải nghiệm các khóa học tuyệt vời của chúng tôi.'
             styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginVertical: 24 }}
@@ -154,7 +158,7 @@ const RegisterScreen = () => {
                   }}
                   style={{
                     borderStyle: 'solid',
-                    borderColor: errors.email ? 'red' : myTheme.primary,
+                    borderColor: errors.email || errors.root?.message === errorMessage.ERM019 ? 'red' : myTheme.primary,
                     borderWidth: 1,
                     borderRadius: 7,
                     height: height < myDeviceHeight.sm ? 60 : 70,
@@ -337,16 +341,16 @@ const RegisterScreen = () => {
                   }
                   trailingAccessory={
                     <TouchableOpacity
-                      onPress={() => setIsShowPassword(!isShowPassword)}
+                      onPress={() => setIsShowPasswordConfirmation(!isShowPasswordConfirmation)}
                       style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, right: 20 }}
                     >
-                      <Feather name={isShowPassword ? 'eye' : 'eye-off'} size={24} color='lightgray' />
+                      <Feather name={isShowPasswordConfirmation ? 'eye' : 'eye-off'} size={24} color='lightgray' />
                     </TouchableOpacity>
                   }
                   placeholder='Xác nhận mật khẩu'
                   placeholderTextColor='grey'
                   multiline={false}
-                  secureTextEntry={!isShowPassword}
+                  secureTextEntry={!isShowPasswordConfirmation}
                   fieldStyle={{
                     paddingVertical: 20
                   }}
@@ -368,15 +372,14 @@ const RegisterScreen = () => {
                 />
               )}
             />
-            {errors.password && (
+            {errors.passwordConfirmation && (
               <MyText text={errors.passwordConfirmation?.message || ''} styleProps={{ color: 'red' }} />
-            )}
-            {errors.root?.message === errorMessage.ERM030 && (
-              <MyText text={errors.root?.message || ''} styleProps={{ color: 'red' }} />
             )}
           </View>
           <View style={{ marginTop: 12, gap: 24 }}>
             <Button
+              disabled={isLoading}
+              disabledBackgroundColor='red'
               onPress={handleSubmit(onSubmit)}
               label='Đăng kí'
               size='large'
@@ -385,20 +388,28 @@ const RegisterScreen = () => {
                 minWidth: '95%',
                 height: 48,
                 justifyContent: 'center',
-                marginBottom: -45
+                marginBottom: -40
               }}
               labelStyle={{
                 fontFamily: myFontWeight.bold,
                 fontSize: 16
               }}
             />
-            {errors.root?.message !== errorMessage.ERM030 && (
+            {errors.root && (
               <MyText
                 text={errors.root?.message || ''}
                 styleProps={{ color: 'red', textAlign: 'center', marginTop: 48 }}
               />
             )}
-            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 2.5, marginBottom: 48 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                gap: 2.5,
+                marginBottom: 50,
+                marginTop: errors.root ? undefined : 40
+              }}
+            >
               <MyText styleProps={{ fontSize: 16, color: myTextColor.caption }} text='Đã có tài khoản?' />
               <MyLink
                 weight={myFontWeight.medium}

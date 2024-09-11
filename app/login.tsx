@@ -11,6 +11,7 @@ import MyText from '@/components/MyText'
 import { useSession } from '@/contexts/AuthContext'
 import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { ILoginPayload } from '@/contracts/interfaces/auth.interface'
+import { errorMessage } from '@/contracts/messages'
 import { authSchema } from '@/contracts/validations/auth.validation'
 
 const LoginScreen = () => {
@@ -34,10 +35,14 @@ const LoginScreen = () => {
   const onSubmit = async (data: ILoginPayload) => {
     const result = await login(data.email, data.password)
     if (typeof result === 'string') {
-      setError('root', {
-        type: 'manual',
-        message: result
-      })
+      if (result.includes(errorMessage.ERM029)) {
+        router.replace(`/verify?email=${data.email}&password=${data.password}&page=login`)
+      } else {
+        setError('root', {
+          type: 'manual',
+          message: result
+        })
+      }
     } else {
       router.replace('/')
     }

@@ -109,6 +109,22 @@ export default function Root() {
               )
             }}
           />
+          <Stack.Screen
+            name='verify'
+            options={{
+              header: () => (
+                <Header
+                  title='Xác minh tài khoản'
+                  headerStyle={{
+                    height: 60
+                  }}
+                  headerTitleStyle={{
+                    fontFamily: myFontWeight.bold
+                  }}
+                />
+              )
+            }}
+          />
         </Stack>
       </SessionProvider>
     </View>

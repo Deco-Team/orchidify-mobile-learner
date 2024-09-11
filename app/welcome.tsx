@@ -19,7 +19,8 @@ export default function Welcome() {
       style={{
         flex: 1,
         alignItems: 'center',
-        paddingBottom: height < myDeviceHeight.sm ? 0 : 50
+        paddingBottom: height < myDeviceHeight.sm ? 0 : 50,
+        backgroundColor: '#FFF'
       }}
     >
       <Banner style={{ flexGrow: 1 }} />
@@ -68,7 +69,6 @@ export default function Welcome() {
             fontSize: 16
           }}
         />
-
         <MyLink
           weight={myFontWeight.medium}
           styleProps={{ color: myTextColor.primary, fontSize: 16 }}

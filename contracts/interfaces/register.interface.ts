@@ -9,3 +9,11 @@ export interface IRegisterPayload {
   dateOfBirth: Date
   phone: string
 }
+
+export interface IResendOtpPayload {
+  email: string
+}
+
+export interface IVerifyOtpPayload extends IResendOtpPayload {
+  code: string
+}
