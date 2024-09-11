@@ -4,7 +4,7 @@ import { useSession } from '@/contexts/AuthContext'
 
 export default function Tab() {
   const { logout } = useSession()
-
+  const { user } = useSession()
   const handleLogout = () => {
     Alert.alert('Xác nhận đăng xuất', 'Bạn có muốn đăng xuất khỏi thiết bị này?', [
       {
@@ -21,7 +21,7 @@ export default function Tab() {
 
   return (
     <View style={styles.container}>
-      <Text>Tab [Home|Settings]</Text>
+      <Text>Hello {user?.name}</Text>
       <Text onPress={handleLogout}>Logout</Text>
     </View>
   )

@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { DELETE, GET, PATCH, POST, PUT } from '../../utils/api.caller'
 
 import { useSession } from '@/contexts/AuthContext'
+import { CommonErrorResponse } from '@/contracts/types'
 
 export interface IApiOptions {
   method: 'get' | 'post' | 'put' | 'delete' | 'patch'
@@ -59,7 +60,7 @@ const useApi = () => {
       headers = {},
       params = {},
       body = {}
-    ): Promise<{ data: T | null } & { error?: string; message?: string }> => {
+    ): Promise<{ data: T | null } & CommonErrorResponse> => {
       try {
         const headersDefault = { Accept: 'application/json', Authorization: `Bearer ${idToken}`, ...headers }
         let response
