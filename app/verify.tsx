@@ -10,12 +10,12 @@ import { useTimer } from 'react-timer-hook'
 import MyText from '@/components/MyText'
 import { useSession } from '@/contexts/AuthContext'
 import { myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
-import useUser from '@/hooks/api/useUser'
+import useAuth from '@/hooks/api/useAuth'
 const VerifyScreen = () => {
   const expiryTimestamp = new Date()
   expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 300)
 
-  const { verifyOtp, resendOtp } = useUser()
+  const { verifyOtp, resendOtp } = useAuth()
   const { login } = useSession()
   const { email, password, page } = useLocalSearchParams<{ email: string; password: string; page: string }>()
   const [code, setCode] = useState('')
@@ -51,11 +51,12 @@ const VerifyScreen = () => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1, backgroundColor: '#FFF' }}
-      >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1, backgroundColor: '#FFF' }}
+      keyboardVerticalOffset={100}
+    >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ paddingHorizontal: 20, gap: 24, backgroundColor: '#FFF', alignItems: 'center' }}>
           <MyText
             text='Mã xác minh đang được gửi tới email'
@@ -126,8 +127,8 @@ const VerifyScreen = () => {
           />
           <MyText text={error} styleProps={{ color: 'red', textAlign: 'center' }} />
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 
