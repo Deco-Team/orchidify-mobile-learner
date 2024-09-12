@@ -19,14 +19,14 @@ import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myThe
 import { IRegisterFormPayload } from '@/contracts/interfaces/register.interface'
 import { errorMessage } from '@/contracts/messages'
 import { registerSchema } from '@/contracts/validations/register.validation'
-import useUser from '@/hooks/api/useUser'
+import useAuth from '@/hooks/api/useAuth'
 
 const RegisterScreen = () => {
   const router = useRouter()
   const [isShowPassword, setIsShowPassword] = useState(false)
   const [isShowPasswordConfirmation, setIsShowPasswordConfirmation] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { register } = useUser()
+  const { register } = useAuth()
   const {
     control,
     handleSubmit,
@@ -47,36 +47,32 @@ const RegisterScreen = () => {
 
   const onSubmit = async (data: IRegisterFormPayload) => {
     setIsLoading(true)
-    if (data.password !== data.passwordConfirmation) {
+
+    const result = await register({
+      dateOfBirth: data.dateOfBirth,
+      email: data.email,
+      name: data.name,
+      password: data.password,
+      phone: data.phone
+    })
+    if (typeof result === 'string') {
       setError('root', {
         type: 'manual',
-        message: errorMessage.ERM030
+        message: result
       })
     } else {
-      const result = await register({
-        dateOfBirth: data.dateOfBirth,
-        email: data.email,
-        name: data.name,
-        password: data.password,
-        phone: data.phone
-      })
-      if (typeof result === 'string') {
-        setError('root', {
-          type: 'manual',
-          message: result
-        })
-      } else {
-        router.replace(`/verify?email=${data.email}&screen=register`)
-      }
+      router.replace(`/verify?email=${data.email}&screen=register`)
     }
+    setIsLoading(false)
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1, backgroundColor: '#FFF' }}
-      >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1, backgroundColor: '#FFF' }}
+      keyboardVerticalOffset={100}
+    >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <ScrollView style={{ paddingHorizontal: 20, backgroundColor: '#FFF' }}>
           <MyText
             text='Điền thông tin phía dưới để tham gia trải nghiệm các khóa học tuyệt vời của chúng tôi.'
@@ -289,7 +285,12 @@ const RegisterScreen = () => {
                   trailingAccessory={
                     <TouchableOpacity
                       onPress={() => setIsShowPassword(!isShowPassword)}
-                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, right: 20 }}
+                      style={{
+                        padding: 10,
+                        position: 'absolute',
+                        top: height < myDeviceHeight.sm ? 26 : 33,
+                        right: 10
+                      }}
                     >
                       <Feather name={isShowPassword ? 'eye' : 'eye-off'} size={24} color='lightgray' />
                     </TouchableOpacity>
@@ -342,7 +343,12 @@ const RegisterScreen = () => {
                   trailingAccessory={
                     <TouchableOpacity
                       onPress={() => setIsShowPasswordConfirmation(!isShowPasswordConfirmation)}
-                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, right: 20 }}
+                      style={{
+                        padding: 10,
+                        position: 'absolute',
+                        top: height < myDeviceHeight.sm ? 26 : 33,
+                        right: 10
+                      }}
                     >
                       <Feather name={isShowPasswordConfirmation ? 'eye' : 'eye-off'} size={24} color='lightgray' />
                     </TouchableOpacity>
@@ -356,10 +362,7 @@ const RegisterScreen = () => {
                   }}
                   style={{
                     borderStyle: 'solid',
-                    borderColor:
-                      errors.passwordConfirmation || errors.root?.message === errorMessage.ERM030
-                        ? 'red'
-                        : myTheme.primary,
+                    borderColor: errors.passwordConfirmation ? 'red' : myTheme.primary,
                     borderWidth: 1,
                     borderRadius: 7,
                     height: height < myDeviceHeight.sm ? 60 : 70,
@@ -398,7 +401,7 @@ const RegisterScreen = () => {
             {errors.root && (
               <MyText
                 text={errors.root?.message || ''}
-                styleProps={{ color: 'red', textAlign: 'center', marginTop: 48 }}
+                styleProps={{ color: 'red', textAlign: 'center', marginTop: 36 }}
               />
             )}
             <View
@@ -406,7 +409,7 @@ const RegisterScreen = () => {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 gap: 2.5,
-                marginBottom: 50,
+                marginBottom: 40,
                 marginTop: errors.root ? undefined : 40
               }}
             >
@@ -420,8 +423,8 @@ const RegisterScreen = () => {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 

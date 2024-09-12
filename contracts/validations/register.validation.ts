@@ -13,7 +13,7 @@ export const registerSchema = yup.object().shape({
   phone: yup
     .string()
     .required(extractMessage(errorMessage.ERM002, ['Số điện thoại']))
-    .matches(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/, errorMessage.ERM023),
+    .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, errorMessage.ERM023),
 
   password: yup
     .string()
@@ -22,7 +22,10 @@ export const registerSchema = yup.object().shape({
     .max(50, extractMessage(errorMessage.ERM009, ['Mật khẩu', '50']))
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/g, errorMessage.ERM021),
 
-  passwordConfirmation: yup.string().required(extractMessage(errorMessage.ERM002, ['Xác nhận mật khẩu'])),
+  passwordConfirmation: yup
+    .string()
+    .required(extractMessage(errorMessage.ERM002, ['Xác nhận mật khẩu']))
+    .oneOf([yup.ref('password')], errorMessage.ERM030),
 
   dateOfBirth: yup.date().required(extractMessage(errorMessage.ERM002, ['Ngày sinh'])),
 

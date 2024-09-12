@@ -49,11 +49,12 @@ const LoginScreen = () => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1, backgroundColor: '#FFF' }}
-      >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1, backgroundColor: '#FFF' }}
+      keyboardVerticalOffset={100}
+    >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ paddingHorizontal: 20, gap: 24, backgroundColor: '#FFF' }}>
           <MyText
             text='Xin chào, mừng bạn quay trở lại Orchidify!'
@@ -132,7 +133,12 @@ const LoginScreen = () => {
                   trailingAccessory={
                     <TouchableOpacity
                       onPress={() => setIsShowPassword(!isShowPassword)}
-                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, right: 20 }}
+                      style={{
+                        padding: 10,
+                        position: 'absolute',
+                        top: height < myDeviceHeight.sm ? 26 : 33,
+                        right: 10
+                      }}
                     >
                       <Feather name={isShowPassword ? 'eye' : 'eye-off'} size={24} color='lightgray' />
                     </TouchableOpacity>
@@ -161,7 +167,7 @@ const LoginScreen = () => {
             />
             {errors.password && <MyText text={errors.password.message || ''} styleProps={{ color: 'red' }} />}
           </View>
-          <View style={{ gap: 24 }}>
+          <View style={{ gap: 20 }}>
             <Button
               onPress={handleSubmit(onSubmit)}
               label='Đăng nhập'
@@ -191,8 +197,8 @@ const LoginScreen = () => {
             </View>
           </View>
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 
