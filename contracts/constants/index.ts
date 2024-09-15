@@ -20,7 +20,8 @@ export const myTextColor = {
 
 export const myTheme = {
   primary: '#2ec5b6',
-  lighter: '#D5F3F0'
+  lighter: '#D5F3F0',
+  lightGrey: '#f6faf9'
 }
 
 export const myDeviceHeight = {

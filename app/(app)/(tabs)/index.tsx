@@ -2,9 +2,8 @@ import { View, Text, StyleSheet, Alert } from 'react-native'
 
 import { useSession } from '@/contexts/AuthContext'
 
-export default function Tab() {
-  const { logout } = useSession()
-  const { user } = useSession()
+export default function HomeScreen() {
+  const { user, logout } = useSession()
   const handleLogout = () => {
     Alert.alert('Xác nhận đăng xuất', 'Bạn có muốn đăng xuất khỏi thiết bị này?', [
       {

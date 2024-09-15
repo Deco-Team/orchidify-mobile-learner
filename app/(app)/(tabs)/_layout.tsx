@@ -8,8 +8,10 @@ import { Avatar, View } from 'react-native-ui-lib'
 import MyText from '@/components/MyText'
 import { myFontWeight, myTheme } from '@/contracts/constants'
 import { IUser } from '@/contracts/interfaces/user.interface'
+import useUser from '@/hooks/api/useUser'
 
 export default function TabLayout() {
+  const { getProfile } = useUser()
   const [user, setUser] = useState<IUser>({
     email: '',
     _id: '',
@@ -27,10 +29,11 @@ export default function TabLayout() {
     }
   })
 
-  useEffect(() => {}, [])
-
   return (
     <Tabs
+      sceneContainerStyle={{
+        backgroundColor: '#FFF'
+      }}
       screenOptions={{
         tabBarActiveTintColor: myTheme.primary,
         tabBarShowLabel: false,
@@ -132,6 +135,12 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name='profile'
+        listeners={{
+          focus: async () => {
+            const data = await getProfile()
+            if (data && typeof data !== 'string') setUser(data)
+          }
+        }}
         options={{
           header: () => (
             <ImageBackground
@@ -163,7 +172,7 @@ export default function TabLayout() {
                   marginBottom: 10
                 }}
                 source={{
-                  uri: 'https://lh3.googleusercontent.com/-cw77lUnOvmI/AAAAAAAAAAI/AAAAAAAAAAA/WMNck32dKbc/s181-c/104220521160525129167.jpg'
+                  uri: user.avatar ? user.avatar : 'https://avatar.iran.liara.run/public'
                 }}
               />
               <MyText
@@ -174,7 +183,7 @@ export default function TabLayout() {
                   fontFamily: myFontWeight.bold,
                   color: '#FFF'
                 }}
-                text='Phong'
+                text={user.name || ''}
               />
               <MyText
                 styleProps={{
@@ -182,7 +191,7 @@ export default function TabLayout() {
                   fontSize: 15,
                   color: '#FFF'
                 }}
-                text='example@gmail.com'
+                text={user.email}
               />
             </ImageBackground>
           ),

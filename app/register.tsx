@@ -18,7 +18,7 @@ import MyText from '@/components/MyText'
 import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IRegisterFormPayload } from '@/contracts/interfaces/register.interface'
 import { errorMessage } from '@/contracts/messages'
-import { registerSchema } from '@/contracts/validations/register.validation'
+import { registerSchema } from '@/contracts/validations/auth.validation'
 import useAuth from '@/hooks/api/useAuth'
 
 const RegisterScreen = () => {
@@ -47,7 +47,7 @@ const RegisterScreen = () => {
 
   const onSubmit = async (data: IRegisterFormPayload) => {
     setIsLoading(true)
-
+    console.log(data)
     const result = await register({
       dateOfBirth: data.dateOfBirth,
       email: data.email,
@@ -96,7 +96,6 @@ const RegisterScreen = () => {
                       name='user'
                       size={24}
                       color={myTheme.primary}
-                      y
                     />
                   }
                   onBlur={onBlur}
@@ -141,7 +140,6 @@ const RegisterScreen = () => {
                       name='mail'
                       size={24}
                       color={myTheme.primary}
-                      y
                     />
                   }
                   onBlur={onBlur}
@@ -180,6 +178,7 @@ const RegisterScreen = () => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <DateTimePicker
                   mode='date'
+                  dateFormat='DD/MM/YYYY'
                   migrateDialog
                   leadingAccessory={
                     <Feather
@@ -187,11 +186,10 @@ const RegisterScreen = () => {
                       name='calendar'
                       size={24}
                       color={myTheme.primary}
-                      y
                     />
                   }
                   onBlur={onBlur}
-                  onChangeText={onChange}
+                  onChange={onChange}
                   value={value}
                   maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 10))}
                   placeholder='Ngày sinh'
@@ -233,7 +231,6 @@ const RegisterScreen = () => {
                       name='phone'
                       size={24}
                       color={myTheme.primary}
-                      y
                     />
                   }
                   onBlur={onBlur}

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "orchidify-mobile-learner",
+    "name": "Orchidify",
     "slug": "orchidify-mobile-learner",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -28,7 +28,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": ["expo-router", "expo-font", "expo-image-picker", "expo-av"],
     "experiments": {
       "typedRoutes": true
     },
@@ -37,8 +37,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "58ab565a-f1ca-4a08-a7fa-3ad124e850e9"
+        "projectId": "75d3dc90-36ee-4b24-94ad-674d619198a0"
       }
-    }
+    },
+    "owner": "sukute1712"
   }
 }
