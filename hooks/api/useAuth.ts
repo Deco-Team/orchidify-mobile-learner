@@ -5,7 +5,7 @@ import useApi from './useApi'
 
 import { IRegisterPayload, IResendOtpPayload, IVerifyOtpPayload } from '@/contracts/interfaces/register.interface'
 import { errorMessage } from '@/contracts/messages'
-import { CommonErrorResponse, CommonResponse } from '@/contracts/types'
+import { CommonErrorResponse } from '@/contracts/types'
 
 const useAuth = () => {
   const callApi = useApi()
@@ -15,14 +15,14 @@ const useAuth = () => {
   const register = useCallback(
     async (data: IRegisterPayload) => {
       try {
-        await callApi<CommonResponse<undefined>>('post', rootEndpoint + 'register', {}, {}, data)
+        await callApi('post', rootEndpoint + 'register', {}, {}, data)
         return true
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const response = error.response?.data as CommonErrorResponse
           return response.message
         } else {
-          return errorMessage.ERM000
+          return errorMessage.ERM033
         }
       }
     },
@@ -39,7 +39,7 @@ const useAuth = () => {
           const response = error.response?.data as CommonErrorResponse
           return response.message
         } else {
-          return errorMessage.ERM000
+          return errorMessage.ERM033
         }
       }
     },
@@ -56,7 +56,7 @@ const useAuth = () => {
           const response = error.response?.data as CommonErrorResponse
           return response.message
         } else {
-          return errorMessage.ERM000
+          return errorMessage.ERM033
         }
       }
     },

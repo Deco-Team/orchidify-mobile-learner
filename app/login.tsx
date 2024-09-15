@@ -77,7 +77,6 @@ const LoginScreen = () => {
                       name='mail'
                       size={24}
                       color={myTheme.primary}
-                      y
                     />
                   }
                   inputMode='email'
@@ -152,7 +151,7 @@ const LoginScreen = () => {
                   }}
                   style={{
                     borderStyle: 'solid',
-                    borderColor: errors.email ? 'red' : myTheme.primary,
+                    borderColor: errors.password ? 'red' : myTheme.primary,
                     borderWidth: 1,
                     borderRadius: 7,
                     height: height < myDeviceHeight.sm ? 60 : 70,

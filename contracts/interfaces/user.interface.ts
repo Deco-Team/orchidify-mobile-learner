@@ -1,9 +1,12 @@
-export interface IUser {
+export interface IUser extends IEditUserPayload {
   email: string
   _id: string
-  name: string
-  avatar: string
-  dateOfBirth: Date
-  phone: string
   status: string
+}
+
+export interface IEditUserPayload {
+  name?: string
+  avatar?: string
+  dateOfBirth?: Date
+  phone?: string
 }
