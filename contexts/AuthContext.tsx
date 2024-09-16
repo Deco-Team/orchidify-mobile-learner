@@ -12,15 +12,17 @@ import { log } from '@/utils/logger'
 const AuthContext = createContext<{
   login: (email: string, password: string) => Promise<boolean | string>
   logout: () => Promise<void>
-  idToken?: string | null
+  accessToken?: string | null
   refreshToken?: string | null
   user?: IUser | null
+  setToken: (accessToken: string, refreshToken: string) => void
 }>({
   login: () => Promise.resolve(false),
   logout: () => Promise.resolve(),
-  idToken: null,
+  accessToken: null,
   refreshToken: null,
-  user: null
+  user: null,
+  setToken: () => {}
 })
 
 // This hook can be used to access the user info.
@@ -36,16 +38,19 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [idToken, setIdToken] = useState<string | undefined>()
+  const [accessToken, setAccessToken] = useState<string | undefined>()
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
   const [user, setUser] = useState<IUser | undefined>()
   const navigation = useNavigation()
   useEffect(() => {
     ;(async () => {
       try {
-        const storedToken = await Promise.all([AsyncStorage.getItem('idToken'), AsyncStorage.getItem('refreshToken')])
+        const storedToken = await Promise.all([
+          AsyncStorage.getItem('accessToken'),
+          AsyncStorage.getItem('refreshToken')
+        ])
         if (storedToken[0] && storedToken[1]) {
-          setIdToken(storedToken[0])
+          setAccessToken(storedToken[0])
           setRefreshToken(storedToken[1])
           const decodedToken = jwtDecode(storedToken[0]) as IUser
           if (decodedToken.exp && decodedToken.exp * 1000 > Date.now()) {
@@ -74,9 +79,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
         login: async (email, password) => {
           try {
             const { data } = await POST('auth/learner/login', { email, password }, {}, {})
-            setIdToken(data.data.accessToken)
+            setAccessToken(data.data.accessToken)
             setRefreshToken(data.data.refreshToken)
-            await AsyncStorage.setItem('idToken', data.data.accessToken)
+            await AsyncStorage.setItem('accessToken', data.data.accessToken)
             await AsyncStorage.setItem('refreshToken', data.data.refreshToken)
             const decodedToken = jwtDecode(data.data.accessToken) as IUser
             setUser({
@@ -111,15 +116,21 @@ export function SessionProvider({ children }: PropsWithChildren) {
               {},
               { Accept: 'application/json', Authorization: `Bearer ${refreshToken}` }
             )
-            await AsyncStorage.multiRemove(['refreshToken', 'idToken'])
-            setIdToken(undefined)
+            await AsyncStorage.multiRemove(['refreshToken', 'accessToken'])
+            setAccessToken(undefined)
             setRefreshToken(undefined)
             setUser(undefined)
           } catch (error) {
             log.error(error)
           }
         },
-        idToken,
+        setToken: async (accessToken, refreshToken) => {
+          setAccessToken(accessToken)
+          setRefreshToken(refreshToken)
+          await AsyncStorage.setItem('accessToken', accessToken)
+          await AsyncStorage.setItem('refreshToken', refreshToken)
+        },
+        accessToken,
         refreshToken,
         user
       }}

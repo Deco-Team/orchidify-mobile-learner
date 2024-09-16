@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AxiosError } from 'axios'
+import { jwtDecode } from 'jwt-decode'
 import { useCallback } from 'react'
 
 import { DELETE, GET, PATCH, POST, PUT } from '../../utils/api.caller'
 
 import { useSession } from '@/contexts/AuthContext'
+import { IUser } from '@/contracts/interfaces/auth.interface'
 import { CommonErrorResponse } from '@/contracts/types'
 
 export interface IApiOptions {
@@ -15,15 +18,38 @@ export interface IApiOptions {
 }
 
 const useApi = () => {
-  const { idToken, logout } = useSession()
+  const { accessToken, logout, refreshToken, setToken } = useSession()
 
   const handleError = useCallback(
     async (error: unknown) => {
+      const headersDefault = { Accept: 'application/json', Authorization: `Bearer ${refreshToken}` }
       let message = ''
       if (error instanceof AxiosError) {
         const errorStatusCode = error.response?.status
         if (errorStatusCode === 401) {
-          await logout()
+          if (accessToken && refreshToken) {
+            const decodedAccessToken = jwtDecode(accessToken) as IUser
+            const decodedRefreshToken = jwtDecode(refreshToken) as IUser
+
+            const accessTokenExpiration = decodedAccessToken.exp
+            const refreshTokenExpiration = decodedRefreshToken.exp
+
+            const currentTimestamp = Math.floor(new Date().getTime() / 1000)
+            if (currentTimestamp > accessTokenExpiration) {
+              if (currentTimestamp > refreshTokenExpiration) {
+                await logout()
+              } else {
+                try {
+                  const { data } = await POST('auth/learner/refresh', {}, {}, headersDefault)
+                  setToken(data.data.accessToken as string, data.data.refreshToken)
+                } catch (error) {
+                  await logout()
+                }
+              }
+            }
+          } else {
+            await logout()
+          }
         }
         if (errorStatusCode === 403) {
           message = 'Không có quyền truy cập'
@@ -35,7 +61,7 @@ const useApi = () => {
         throw error
       }
     },
-    [logout]
+    [accessToken, logout, refreshToken, setToken]
   )
 
   /**
@@ -62,7 +88,7 @@ const useApi = () => {
       body = {}
     ): Promise<{ data: T | null } & CommonErrorResponse> => {
       try {
-        const headersDefault = { Accept: 'application/json', Authorization: `Bearer ${idToken}`, ...headers }
+        const headersDefault = { Accept: 'application/json', Authorization: `Bearer ${accessToken}`, ...headers }
         let response
         switch (method) {
           case 'post': {
@@ -91,7 +117,7 @@ const useApi = () => {
         return { data: null, error: 'API Error', message }
       }
     },
-    [handleError, idToken]
+    [accessToken, handleError]
   )
 
   return callApi
