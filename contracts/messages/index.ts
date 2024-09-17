@@ -9,7 +9,7 @@ export const errorMessage = {
   ERM021:
     'Mật khẩu phải bao gồm ít nhất một chữ cái viết hoa, một chữ cái viết thường, một chữ số và một ký tự đặc biệt.',
   ERM023: 'Số điện thoại phải có 10 ký tự và bắt đầu bằng số 0.',
-  ERM029: 'Tài khoản chưa được xác thực. Vui lòng xác thực và thử lại.', //Msg đúng: 'Tài khoản chưa được xác thực. Vui lòng xác thực và thử lại.'
+  ERM029: 'Tài khoản chưa được xác thực. Vui lòng xác thực và thử lại.',
   ERM030: 'Mật khẩu không khớp.'
 }
 

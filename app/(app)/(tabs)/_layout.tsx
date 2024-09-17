@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather'
 import { Header } from '@react-navigation/elements'
 import { Tabs } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ImageBackground, Platform, StyleSheet } from 'react-native'
 import { Avatar, View } from 'react-native-ui-lib'
 
