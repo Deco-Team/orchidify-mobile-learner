@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { useNavigation } from 'expo-router'
+import * as SecureStore from 'expo-secure-store'
 import { jwtDecode } from 'jwt-decode'
 import { useContext, createContext, type PropsWithChildren, useState, useEffect } from 'react'
 
@@ -14,18 +14,15 @@ const AuthContext = createContext<{
   logout: () => Promise<void>
   accessToken?: string | null
   refreshToken?: string | null
-  user?: IUser | null
   setToken: (accessToken: string, refreshToken: string) => void
 }>({
   login: () => Promise.resolve(false),
   logout: () => Promise.resolve(),
   accessToken: null,
   refreshToken: null,
-  user: null,
   setToken: () => {}
 })
 
-// This hook can be used to access the user info.
 export function useSession() {
   const value = useContext(AuthContext)
   if (process.env.NODE_ENV !== 'production') {
@@ -40,36 +37,32 @@ export function useSession() {
 export function SessionProvider({ children }: PropsWithChildren) {
   const [accessToken, setAccessToken] = useState<string | undefined>()
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
-  const [user, setUser] = useState<IUser | undefined>()
   const navigation = useNavigation()
   useEffect(() => {
     ;(async () => {
       try {
         const storedToken = await Promise.all([
-          AsyncStorage.getItem('accessToken'),
-          AsyncStorage.getItem('refreshToken')
+          SecureStore.getItemAsync('accessToken'),
+          SecureStore.getItemAsync('refreshToken')
         ])
         if (storedToken[0] && storedToken[1]) {
           setAccessToken(storedToken[0])
           setRefreshToken(storedToken[1])
           const decodedToken = jwtDecode(storedToken[0]) as IUser
           if (decodedToken.exp && decodedToken.exp * 1000 > Date.now()) {
-            setUser({
-              role: decodedToken.role as string,
-              iat: decodedToken.iat as number,
-              exp: decodedToken.exp as number,
-              name: decodedToken.name as string,
-              sub: decodedToken.sub as string
+            navigation.reset({
+              index: 0,
+              routes: [{ name: '(app)' as never }] // Assuming 'home' is your home screen's route name
             })
           }
         }
       } catch (error) {
         log.error(error)
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'welcome' as never }]
+        })
       }
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'welcome' as never }]
-      })
     })()
   }, [])
 
@@ -81,16 +74,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
             const { data } = await POST('auth/learner/login', { email, password }, {}, {})
             setAccessToken(data.data.accessToken)
             setRefreshToken(data.data.refreshToken)
-            await AsyncStorage.setItem('accessToken', data.data.accessToken)
-            await AsyncStorage.setItem('refreshToken', data.data.refreshToken)
-            const decodedToken = jwtDecode(data.data.accessToken) as IUser
-            setUser({
-              role: decodedToken.role as string,
-              iat: decodedToken.iat as number,
-              exp: decodedToken.exp as number,
-              name: decodedToken.name as string,
-              sub: decodedToken.sub as string
-            })
+            await SecureStore.setItemAsync('accessToken', data.data.accessToken)
+            await SecureStore.setItemAsync('refreshToken', data.data.refreshToken)
             if (navigation.canGoBack()) {
               navigation.goBack()
             } else {
@@ -116,10 +101,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
               {},
               { Accept: 'application/json', Authorization: `Bearer ${refreshToken}` }
             )
-            await AsyncStorage.multiRemove(['refreshToken', 'accessToken'])
+            await SecureStore.deleteItemAsync('refreshToken')
+            await SecureStore.deleteItemAsync('accessToken')
             setAccessToken(undefined)
             setRefreshToken(undefined)
-            setUser(undefined)
           } catch (error) {
             log.error(error)
           }
@@ -127,12 +112,11 @@ export function SessionProvider({ children }: PropsWithChildren) {
         setToken: async (accessToken, refreshToken) => {
           setAccessToken(accessToken)
           setRefreshToken(refreshToken)
-          await AsyncStorage.setItem('accessToken', accessToken)
-          await AsyncStorage.setItem('refreshToken', refreshToken)
+          await SecureStore.setItemAsync('accessToken', accessToken)
+          await SecureStore.setItemAsync('refreshToken', refreshToken)
         },
         accessToken,
-        refreshToken,
-        user
+        refreshToken
       }}
     >
       {children}
