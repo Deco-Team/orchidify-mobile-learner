@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback
 } from 'react-native'
-import { Button, DateTimePicker, TextField, View } from 'react-native-ui-lib'
+import { Button, TextField, View } from 'react-native-ui-lib'
 
 import MyLink from '@/components/MyLink'
 import MyText from '@/components/MyText'
@@ -37,23 +37,18 @@ const RegisterScreen = () => {
     reValidateMode: 'onChange',
     defaultValues: {
       email: '',
-      phone: '',
       password: '',
       passwordConfirmation: '',
-      dateOfBirth: new Date(new Date().setFullYear(new Date().getFullYear() - 10)),
       name: ''
     }
   })
 
   const onSubmit = async (data: IRegisterFormPayload) => {
     setIsLoading(true)
-    console.log(data)
     const result = await register({
-      dateOfBirth: data.dateOfBirth,
       email: data.email,
       name: data.name,
-      password: data.password,
-      phone: data.phone
+      password: data.password
     })
     if (typeof result === 'string') {
       setError('root', {
@@ -166,97 +161,6 @@ const RegisterScreen = () => {
               )}
             />
             {errors.email && <MyText text={errors.email.message || ''} styleProps={{ color: 'red' }} />}
-          </View>
-          <View style={{ position: 'relative', marginVertical: 12 }}>
-            <MyText
-              text='Ngày sinh'
-              styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left' }}
-            />
-            <Controller
-              control={control}
-              name='dateOfBirth'
-              render={({ field: { onChange, onBlur, value } }) => (
-                <DateTimePicker
-                  mode='date'
-                  dateFormat='DD/MM/YYYY'
-                  migrateDialog
-                  leadingAccessory={
-                    <Feather
-                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 15 }}
-                      name='calendar'
-                      size={24}
-                      color={myTheme.primary}
-                    />
-                  }
-                  onBlur={onBlur}
-                  onChange={onChange}
-                  value={value}
-                  maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 10))}
-                  placeholder='Ngày sinh'
-                  placeholderTextColor='grey'
-                  fieldStyle={{
-                    paddingVertical: 20
-                  }}
-                  style={{
-                    borderStyle: 'solid',
-                    borderColor: errors.dateOfBirth ? 'red' : myTheme.primary,
-                    borderWidth: 1,
-                    borderRadius: 7,
-                    height: height < myDeviceHeight.sm ? 60 : 70,
-                    paddingLeft: 55,
-                    paddingRight: 15,
-                    fontSize: 16,
-                    overflow: 'hidden',
-                    fontFamily: myFontWeight.regular
-                  }}
-                />
-              )}
-            />
-            {errors.dateOfBirth && <MyText text={errors.dateOfBirth?.message || ''} styleProps={{ color: 'red' }} />}
-          </View>
-          <View style={{ position: 'relative', marginVertical: 12 }}>
-            <MyText
-              text='Số điện thoại'
-              styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left' }}
-            />
-            <Controller
-              control={control}
-              name='phone'
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextField
-                  inputMode='tel'
-                  leadingAccessory={
-                    <Feather
-                      style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 15 }}
-                      name='phone'
-                      size={24}
-                      color={myTheme.primary}
-                    />
-                  }
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder='Số điện thoại'
-                  placeholderTextColor='grey'
-                  fieldStyle={{
-                    paddingVertical: 20
-                  }}
-                  style={{
-                    borderStyle: 'solid',
-                    borderColor: errors.phone ? 'red' : myTheme.primary,
-                    borderWidth: 1,
-                    borderRadius: 7,
-                    height: height < myDeviceHeight.sm ? 60 : 70,
-                    paddingLeft: 55,
-                    paddingRight: 15,
-                    fontSize: 16,
-                    overflow: 'hidden',
-                    fontFamily: myFontWeight.regular
-                  }}
-                />
-              )}
-            />
-            {errors.phone && <MyText text={errors.phone?.message || ''} styleProps={{ color: 'red' }} />}
           </View>
           <View style={{ position: 'relative', marginVertical: 12 }}>
             <MyText

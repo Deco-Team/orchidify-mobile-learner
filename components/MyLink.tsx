@@ -12,7 +12,7 @@ const MyLink = ({
   weight?: string
   text: string
   href: Href
-  styleProps?: StyleProp<TextStyle> // styleProps should be optional
+  styleProps?: StyleProp<TextStyle>
   [key: string]: any
 }) => {
   return (

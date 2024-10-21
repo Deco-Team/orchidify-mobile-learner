@@ -9,7 +9,7 @@ const MyText = ({
 }: {
   weight?: string
   text: string
-  styleProps?: StyleProp<TextStyle> // styleProps should be optional
+  styleProps?: StyleProp<TextStyle>
   [key: string]: any
 }) => {
   return (

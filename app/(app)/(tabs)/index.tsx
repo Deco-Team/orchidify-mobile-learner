@@ -1,27 +1,9 @@
-import { View, Text, StyleSheet, Alert } from 'react-native'
-
-import { useSession } from '@/contexts/AuthContext'
+import { View, Text, StyleSheet } from 'react-native'
 
 export default function HomeScreen() {
-  const { user, logout } = useSession()
-  const handleLogout = () => {
-    Alert.alert('Xác nhận đăng xuất', 'Bạn có muốn đăng xuất khỏi thiết bị này?', [
-      {
-        style: 'destructive',
-        text: 'Đăng xuất',
-        onPress: async () => await logout()
-      },
-      {
-        style: 'cancel',
-        text: 'Hủy'
-      }
-    ])
-  }
-
   return (
     <View style={styles.container}>
-      <Text>Hello {user?.name}</Text>
-      <Text onPress={handleLogout}>Logout</Text>
+      <Text>Hello World</Text>
     </View>
   )
 }

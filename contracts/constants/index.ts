@@ -22,6 +22,8 @@ export const myTheme = {
   primary: '#2ec5b6',
   lighter: '#D5F3F0',
   lightGrey: '#f6faf9',
+  lightPrimary: '#e5f7f7',
+  grey: '#697B7A',
   yellow: '#ff9f25',
   green: '#22c022',
   red: '#f76868'
