@@ -23,11 +23,6 @@ export const registerSchema = yup.object().shape({
     .email(errorMessage.ERM018)
     .max(50, extractMessage(errorMessage.ERM009, ['Email', '50'])),
 
-  phone: yup
-    .string()
-    .required(extractMessage(errorMessage.ERM002, ['Số điện thoại']))
-    .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, errorMessage.ERM023),
-
   password: yup
     .string()
     .required(extractMessage(errorMessage.ERM002, ['Mật khẩu']))
@@ -39,8 +34,6 @@ export const registerSchema = yup.object().shape({
     .string()
     .required(extractMessage(errorMessage.ERM002, ['Xác nhận mật khẩu']))
     .oneOf([yup.ref('password')], errorMessage.ERM030),
-
-  dateOfBirth: yup.date().required(extractMessage(errorMessage.ERM002, ['Ngày sinh'])),
 
   name: yup
     .string()

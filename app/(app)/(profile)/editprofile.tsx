@@ -75,7 +75,6 @@ const EditProfileScreen = () => {
         newImage = result.url
       }
     }
-    console.log(data)
     const result = await editProfile({ ...data, avatar: newImage })
     if (typeof result === 'boolean' && result === true) {
       const data = await getProfile()

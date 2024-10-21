@@ -6,8 +6,6 @@ export interface IRegisterPayload {
   email: string
   name: string
   password: string
-  dateOfBirth: Date
-  phone: string
 }
 
 export interface IResendOtpPayload {

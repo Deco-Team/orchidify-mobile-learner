@@ -15,25 +15,25 @@ interface IMyCourseCard {
   price: string
   chipLabel: string
   chipLabelColor: string
-  startDate?: string
   image: string
   id: string
 }
 
 const MyCourseCard = (props: IMyCourseCard) => {
-  const { title, instructor, price, chipLabel, chipLabelColor, startDate, image, id } = props
+  const { title, instructor, price, chipLabel, chipLabelColor, image, id } = props
   const router = useRouter()
   return (
     <Shadow style={{ minWidth: '100%' }}>
       <TouchableOpacity
         style={{
           minHeight: 125,
-          borderRadius: 15,
-          flexDirection: 'row'
+          borderRadius: 16,
+          flexDirection: 'row',
+          alignItems: 'center'
         }}
         onPress={() =>
           router.push({
-            pathname: '/(app)/(course)/course-detail/[courseId]',
+            pathname: '/(app)/(course)/[courseId]',
             params: {
               courseId: id,
               title
@@ -41,9 +41,14 @@ const MyCourseCard = (props: IMyCourseCard) => {
           })
         }
       >
-        <Image source={image} style={{ width: 100, height: 100, borderRadius: 15, margin: 12.5, marginRight: 7.5 }} />
-        <View style={{ flex: 1, marginTop: 15 }}>
-          <MyText text={title} styleProps={{ fontFamily: myFontWeight.bold, fontSize: 18 }} />
+        <Image source={image} style={{ width: 100, height: 100, borderRadius: 16, margin: 12.5, marginRight: 7.5 }} />
+        <View style={{ flex: 1 }}>
+          <MyText
+            ellipsizeMode='tail'
+            numberOfLines={1}
+            text={title}
+            styleProps={{ fontFamily: myFontWeight.bold, fontSize: 18, paddingRight: 12.5 }}
+          />
           <MyText text={instructor} styleProps={{ color: myTextColor.caption, fontSize: 15 }} />
           <View
             style={{
@@ -54,8 +59,7 @@ const MyCourseCard = (props: IMyCourseCard) => {
               alignItems: 'center',
               justifyContent: 'space-between',
               maxHeight: 25,
-              paddingRight: 12.5,
-              marginBottom: startDate ? 25 : 12.5
+              paddingRight: 12.5
             }}
           >
             <MyText
@@ -63,7 +67,7 @@ const MyCourseCard = (props: IMyCourseCard) => {
               styleProps={{
                 fontFamily: myFontWeight.bold,
                 color: myTextColor.primary,
-                fontSize: 16
+                fontSize: 18
               }}
             />
             <View style={{ alignItems: 'center', gap: 2 }}>
@@ -73,14 +77,6 @@ const MyCourseCard = (props: IMyCourseCard) => {
                 containerStyle={{ borderWidth: 0 }}
                 labelStyle={{ color: '#FFF', fontFamily: myFontWeight.semiBold }}
               />
-              {startDate && (
-                <MyText
-                  text={startDate}
-                  styleProps={{
-                    color: myTextColor.caption
-                  }}
-                />
-              )}
             </View>
           </View>
         </View>
