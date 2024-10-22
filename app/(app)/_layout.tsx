@@ -82,7 +82,7 @@ export default function AppLayout() {
           }}
         />
         <Stack.Screen
-          name='(course)/[courseId]'
+          name='(course)/course-detail/[courseId]'
           options={{
             header: () => (
               <Header
@@ -96,6 +96,31 @@ export default function AppLayout() {
                   />
                 )}
                 title={title}
+                headerStyle={{
+                  height: 60
+                }}
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
+        <Stack.Screen
+          name='(course)/ratinglist'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title='Đánh giá'
                 headerStyle={{
                   height: 60
                 }}
