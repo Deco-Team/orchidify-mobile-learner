@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import { useNavigation } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
@@ -52,7 +51,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
           if (decodedToken.exp && decodedToken.exp * 1000 > Date.now()) {
             navigation.reset({
               index: 0,
-              routes: [{ name: '(app)' as never }] // Assuming 'home' is your home screen's route name
+              routes: [{ name: '(app)' as never }]
             })
           }
         }
@@ -64,7 +63,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         })
       }
     })()
-  }, [])
+  }, [navigation])
 
   return (
     <AuthContext.Provider

@@ -33,7 +33,7 @@ const MyCourseCard = (props: IMyCourseCard) => {
         }}
         onPress={() =>
           router.push({
-            pathname: '/(app)/(course)/[courseId]',
+            pathname: '/(app)/(course)/course-detail/[courseId]',
             params: {
               courseId: id,
               title

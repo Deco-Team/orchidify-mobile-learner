@@ -176,7 +176,7 @@ const CourseDetailScreen = () => {
               }}
             />
             <MyLink
-              href='/'
+              href='/ratinglist'
               text='Xem thêm'
               styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
             />
