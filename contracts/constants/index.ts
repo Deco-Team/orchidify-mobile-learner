@@ -13,6 +13,47 @@ export const myFontWeight = {
   semiBoldItalic: 'Main-Font-SemiBoldItalic'
 }
 
+export const courseType = [
+  {
+    groupName: 'Lan rừng',
+    groupItems: ['Lan phi điệp', 'Lan hải yến']
+  },
+  {
+    groupName: 'Lan công nghiệp',
+    groupItems: ['Dendrobium', 'Cattleya', 'Lan hồ điệp']
+  },
+  {
+    groupName: 'Quá trình',
+    groupItems: ['Cây con', 'Cây trưởng thành', 'Ra hoa', 'Hoa tàn']
+  },
+  {
+    groupName: 'Phương pháp',
+    groupItems: ['Tạo hình', 'Tách chiết', 'Chiết ghép', 'Cấy mô']
+  }
+]
+
+export const courseTypeItems = [
+  'Lan phi điệp',
+  'Lan hải yến',
+  'Dendrobium',
+  'Cattleya',
+  'Lan hồ điệp',
+  'Cây con',
+  'Cây trưởng thành',
+  'Ra hoa',
+  'Hoa tàn',
+  'Tạo hình',
+  'Tách chiết',
+  'Chiết ghép',
+  'Cấy mô'
+]
+
+export enum LEVEL {
+  INTERMEDIATE = 'INTERMEDIATE',
+  BASIC = 'BASIC',
+  ADVANCED = 'ADVANCED'
+}
+
 export const myTextColor = {
   primary: '#2ec5b6',
   caption: '#697B7A'
@@ -37,6 +78,23 @@ export const myDeviceHeight = {
 export const myDeviceWidth = {
   sm: 375.5,
   md: 411.5
+}
+
+export enum WEEKDAY {
+  MONDAY = 'Monday',
+  TUESDAY = 'Tuesday',
+  WEDNESDAY = 'Wednesday',
+  THURSDAY = 'Thursday',
+  FRIDAY = 'Friday',
+  SATURDAY = 'Saturday',
+  SUNDAY = 'Sunday'
+}
+
+export enum SLOT_NUMBER {
+  ONE = 1,
+  TWO = 2,
+  THREE = 3,
+  FOUR = 4
 }
 
 export const height = Dimensions.get('screen').height

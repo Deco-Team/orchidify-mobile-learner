@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { GestureResponderEvent, TouchableOpacity } from 'react-native'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 
 import MyText from '../MyText'
@@ -9,14 +9,17 @@ import { myFontWeight, myTextColor, myTheme } from '@/contracts/constants'
 const RatingFilterButton = ({
   star = false,
   text,
-  isSelected
+  isSelected,
+  onPress
 }: {
   star?: boolean
   text: string
   isSelected: boolean
+  onPress: ((event: GestureResponderEvent) => void) | undefined
 }) => {
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={{
         flexDirection: 'row',
         borderRadius: 99,
