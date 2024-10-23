@@ -1,16 +1,19 @@
-import Octicons from '@expo/vector-icons/Octicons'
 import React, { useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
-import { Button, ProgressBar, TouchableOpacity, View } from 'react-native-ui-lib'
+import { ProgressBar, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/MyText'
-import RatingList from '@/components/course-detail/RatingList'
-import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import RatingFilterButton from '@/components/course-detail/RatingFilterButton'
+import RatingList from '@/components/course-detail/RatingList'
+import { myFontWeight, myTheme, width } from '@/contracts/constants'
 
 const RatingListScreen = () => {
-  const [filterStatus, setFilterStatus] = useState()
+  const [filterStatus, setFilterStatus] = useState<string>('Tất cả')
+
+  const handleFilterRating = (label: string) => {
+    setFilterStatus(label)
+  }
 
   return (
     <KeyboardAvoidingView
@@ -112,12 +115,41 @@ const RatingListScreen = () => {
             </View>
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 15, gap: 7.5 }}>
-            <RatingFilterButton isSelected={false} text='Tất cả' />
-            <RatingFilterButton isSelected text='5' star />
-            <RatingFilterButton isSelected text='4' star />
-            <RatingFilterButton isSelected text='3' star />
-            <RatingFilterButton isSelected text='2' star />
-            <RatingFilterButton isSelected text='1' star />
+            <RatingFilterButton
+              onPress={() => handleFilterRating('Tất cả')}
+              isSelected={filterStatus.includes('Tất cả')}
+              text='Tất cả'
+            />
+            <RatingFilterButton
+              onPress={() => handleFilterRating('5')}
+              isSelected={filterStatus.includes('5')}
+              text='5'
+              star
+            />
+            <RatingFilterButton
+              onPress={() => handleFilterRating('4')}
+              isSelected={filterStatus.includes('4')}
+              text='4'
+              star
+            />
+            <RatingFilterButton
+              onPress={() => handleFilterRating('3')}
+              isSelected={filterStatus.includes('3')}
+              text='3'
+              star
+            />
+            <RatingFilterButton
+              onPress={() => handleFilterRating('2')}
+              isSelected={filterStatus.includes('2')}
+              text='2'
+              star
+            />
+            <RatingFilterButton
+              onPress={() => handleFilterRating('1')}
+              isSelected={filterStatus.includes('1')}
+              text='1'
+              star
+            />
           </View>
           <RatingList />
         </ScrollView>

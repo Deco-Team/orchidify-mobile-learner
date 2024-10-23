@@ -7,20 +7,19 @@ import { Chip, View } from 'react-native-ui-lib'
 
 import MyText from './MyText'
 
-import { myFontWeight, myTextColor } from '@/contracts/constants'
+import { myFontWeight, myTextColor, myTheme } from '@/contracts/constants'
 
 interface IMyCourseCard {
   title: string
   instructor: string
-  price: string
-  chipLabel: string
-  chipLabelColor: string
+  price: number
+  publishStatus?: boolean
   image: string
   id: string
 }
 
 const MyCourseCard = (props: IMyCourseCard) => {
-  const { title, instructor, price, chipLabel, chipLabelColor, image, id } = props
+  const { title, instructor, price, image, id, publishStatus = false } = props
   const router = useRouter()
   return (
     <Shadow style={{ minWidth: '100%' }}>
@@ -63,21 +62,23 @@ const MyCourseCard = (props: IMyCourseCard) => {
             }}
           >
             <MyText
-              text={price}
+              text={`${price.toLocaleString()}đ`}
               styleProps={{
                 fontFamily: myFontWeight.bold,
                 color: myTextColor.primary,
                 fontSize: 18
               }}
             />
-            <View style={{ alignItems: 'center', gap: 2 }}>
-              <Chip
-                label={chipLabel}
-                backgroundColor={chipLabelColor}
-                containerStyle={{ borderWidth: 0 }}
-                labelStyle={{ color: '#FFF', fontFamily: myFontWeight.semiBold }}
-              />
-            </View>
+            {publishStatus && (
+              <View style={{ alignItems: 'center', gap: 2 }}>
+                <Chip
+                  label='Sắp bắt đầu'
+                  backgroundColor={myTheme.yellow}
+                  containerStyle={{ borderWidth: 0 }}
+                  labelStyle={{ color: '#FFF', fontFamily: myFontWeight.semiBold }}
+                />
+              </View>
+            )}
           </View>
         </View>
       </TouchableOpacity>

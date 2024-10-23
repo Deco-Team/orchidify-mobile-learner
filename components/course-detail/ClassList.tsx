@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather'
+import dayjs from 'dayjs'
 import React from 'react'
 import { Shadow } from 'react-native-shadow-2'
 import { Carousel, Chip, View } from 'react-native-ui-lib'
@@ -7,13 +8,16 @@ import MyLink from '../MyLink'
 import MyText from '../MyText'
 
 import { height, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { IClass } from '@/contracts/interfaces/course.interface'
+import { extractSlot, extractWeekday } from '@/utils'
 
-const ClassList = () => {
+const ClassList = ({ classList }: { classList: IClass[] }) => {
   return (
     <>
       <Carousel
         style={{ flexGrow: 0 }}
         pageControlPosition='under'
+        containerStyle={{ height: height / 4.75 }}
         containerPaddingVertical={10}
         containerMarginHorizontal={-5}
         pageControlProps={{
@@ -24,18 +28,19 @@ const ClassList = () => {
         }}
         pageWidth={(width * 4.5) / 6}
       >
-        <Shadow>
-          <View
+        {classList.map((value, i) => (
+          <Shadow
             style={{
               gap: 7.5,
-              padding: 12.5,
-              height: height / 6.5,
-              borderRadius: 16
+              height: height / 6,
+              borderRadius: 16,
+              padding: 12.5
             }}
+            key={i}
           >
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <MyText
-                text='OCP-124'
+                text={value.title}
                 styleProps={{
                   fontFamily: myFontWeight.bold,
                   fontSize: 16,
@@ -51,22 +56,28 @@ const ClassList = () => {
             </View>
             <View style={{ flexDirection: 'row', gap: 5 }}>
               <Feather name='calendar' size={20} color={myTheme.grey} />
-              <MyText text='Ngày bắt đầu: 2/2/2002' styleProps={{ color: myTextColor.caption }} />
+              <MyText
+                text={`Ngày bắt đầu: ${dayjs(value.startDate).format('DD/MM/YYYY')}`}
+                styleProps={{ color: myTextColor.caption }}
+              />
             </View>
-            <View style={{ flexDirection: 'row', gap: 5 }}>
+            <View style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
               <Feather name='clock' size={20} color={myTheme.grey} />
-              <MyText text='Thời gian học: T2, T5 • Tiết 1: 7h - 9h30' styleProps={{ color: myTextColor.caption }} />
+              <MyText
+                text={`Thời gian học: ${value.weekdays.map((value) => extractWeekday(value)).join(', ')} • Tiết ${value.slotNumbers}: ${extractSlot(value.slotNumbers[0]).slotStart} - ${extractSlot(value.slotNumbers[0]).slotEnd}`}
+                styleProps={{ color: myTextColor.caption }}
+              />
             </View>
             <View style={{ flexDirection: 'row', gap: 5 }}>
               <Feather name='map-pin' size={20} color={myTheme.grey} />
               <MyLink
                 href='/'
-                text='Tên nhà vườn 1'
+                text={value.garden.name}
                 styleProps={{ color: myTextColor.caption, textDecorationLine: 'underline' }}
               />
             </View>
-          </View>
-        </Shadow>
+          </Shadow>
+        ))}
       </Carousel>
     </>
   )
