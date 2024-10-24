@@ -68,8 +68,7 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.10",
     "react-timer-hook": "^3.0.7",
-    "yup": "^1.4.0",
-    "zustand": "^5.0.0-rc.2"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

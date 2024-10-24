@@ -1,6 +1,5 @@
-import Feather from '@expo/vector-icons/Feather'
-import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Feather } from '@expo/vector-icons'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -11,11 +10,11 @@ import {
   TouchableWithoutFeedback
 } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Button, LoaderScreen, TextField, View } from 'react-native-ui-lib'
+import { LoaderScreen, TextField, View } from 'react-native-ui-lib'
 
-import MyCourseCard from '@/components/MyCourseCard'
-import MyText from '@/components/MyText'
-import { courseTypeItems, height, myDeviceHeight, myFontWeight, myTextColor, myTheme } from '@/contracts/constants'
+import FilterModal from '@/components/course-list/FilterModal'
+import MyCourseCard from '@/components/course-list/MyCourseCard'
+import { height, myDeviceHeight, myFontWeight, myTheme } from '@/contracts/constants'
 import { ICourseListResponse } from '@/contracts/interfaces/course.interface'
 import { IPagination } from '@/contracts/types'
 import useCourse from '@/hooks/api/useCourse'
@@ -26,9 +25,6 @@ const CourseScreen = () => {
   const { getCourseList } = useCourse()
 
   const [filterModal, setFilterModal] = useState(-1)
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['60%', '60%'], [])
-
   const [filterCourseType, setfilterCourseType] = useState<string[]>([])
   const [sortPrice, setSortPrice] = useState<'price.asc' | 'price.desc' | ''>('')
   const [searchKey, setSearchKey] = useState('')
@@ -64,26 +60,6 @@ const CourseScreen = () => {
       setRefreshing(false)
     })()
   }, [filterCourseType, getCourseList, searchKey, sortPrice])
-
-  const handleSortPrice = (value: 'price.asc' | 'price.desc' | '') => {
-    if (sortPrice === value) {
-      setSortPrice('')
-    } else {
-      setSortPrice(value)
-    }
-  }
-
-  const handleCourseType = (label: string) => {
-    if (filterCourseType.includes(label)) {
-      setfilterCourseType([...filterCourseType.filter((value) => value !== label)])
-    } else {
-      setfilterCourseType([...filterCourseType, label])
-    }
-  }
-
-  useEffect(() => {
-    return filterModal === -1 ? bottomSheetModalRef.current?.close() : bottomSheetModalRef.current?.present()
-  }, [filterModal])
 
   useEffect(() => {
     ;(async () => {
@@ -185,107 +161,15 @@ const CourseScreen = () => {
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </GestureHandlerRootView>
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          enablePanDownToClose
-          backdropComponent={(props) => (
-            <BottomSheetBackdrop
-              {...props}
-              opacity={0.7} // Adjust the opacity here
-              disappearsOnIndex={-1}
-              appearsOnIndex={1}
-            />
-          )}
-          onChange={(index) => setFilterModal(index)}
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-        >
-          <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
-            <View style={{ alignItems: 'flex-start', width: '100%', padding: 12.5, justifyContent: 'space-between' }}>
-              <MyText text='Thể loại' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  columnGap: 15,
-                  rowGap: 7.5,
-                  width: '100%',
-                  padding: 10,
-                  flexWrap: 'wrap',
-                  marginVertical: 10
-                }}
-              >
-                {courseTypeItems.map((value, i) => (
-                  <Button
-                    key={i}
-                    label={value}
-                    outline
-                    size='xSmall'
-                    onPress={() => handleCourseType(value)}
-                    color={filterCourseType.includes(value) ? myTextColor.primary : myTextColor.caption}
-                    style={{
-                      borderWidth: 1,
-                      borderColor: filterCourseType.includes(value) ? myTheme.primary : '#697B7A',
-                      backgroundColor: filterCourseType.includes(value) ? myTheme.lightGrey : '#FFF'
-                    }}
-                    labelStyle={{ fontFamily: myFontWeight.semiBold }}
-                  />
-                ))}
-              </View>
-              <MyText text='Sắp xếp theo' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  columnGap: 15,
-                  rowGap: 7.5,
-                  width: '100%',
-                  padding: 10,
-                  flexWrap: 'wrap',
-                  marginVertical: 10
-                }}
-              >
-                <Button
-                  label='$ Cao đến thấp'
-                  outline
-                  size='xSmall'
-                  color={sortPrice === 'price.desc' ? myTextColor.primary : myTextColor.caption}
-                  onPress={() => handleSortPrice('price.desc')}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: sortPrice === 'price.desc' ? myTheme.primary : '#697B7A',
-                    backgroundColor: sortPrice === 'price.desc' ? myTheme.lightGrey : '#FFF'
-                  }}
-                  labelStyle={{ fontFamily: myFontWeight.semiBold }}
-                />
-                <Button
-                  label='$ Thấp đến cao'
-                  outline
-                  size='xSmall'
-                  color={sortPrice === 'price.asc' ? myTextColor.primary : myTextColor.caption}
-                  onPress={() => handleSortPrice('price.asc')}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: sortPrice === 'price.asc' ? myTheme.primary : '#697B7A',
-                    backgroundColor: sortPrice === 'price.asc' ? myTheme.lightGrey : '#FFF'
-                  }}
-                  labelStyle={{ fontFamily: myFontWeight.semiBold }}
-                />
-              </View>
-              <Button
-                label='Áp dụng'
-                onPress={handleApplyFilter}
-                color='#FFF'
-                style={{
-                  alignSelf: 'center',
-                  backgroundColor: myTheme.primary,
-                  width: '100%'
-                }}
-                labelStyle={{ fontFamily: myFontWeight.semiBold }}
-              />
-            </View>
-          </BottomSheetView>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+      <FilterModal
+        filterModal={filterModal}
+        setFilterModal={setFilterModal}
+        filterCourseType={filterCourseType}
+        setfilterCourseType={setfilterCourseType}
+        sortPrice={sortPrice}
+        setSortPrice={setSortPrice}
+        handleApplyFilter={handleApplyFilter}
+      />
     </>
   )
 }

@@ -5,8 +5,7 @@ import { TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 import { Chip, View } from 'react-native-ui-lib'
 
-import MyText from './MyText'
-
+import MyText from '@/components/MyText'
 import { myFontWeight, myTextColor, myTheme } from '@/contracts/constants'
 
 interface IMyCourseCard {
