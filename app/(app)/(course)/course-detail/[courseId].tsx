@@ -1,21 +1,16 @@
 import Entypo from '@expo/vector-icons/Entypo'
-import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet'
 import { useLocalSearchParams } from 'expo-router'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  LayoutChangeEvent,
-  Platform,
-  ScrollView,
-  TouchableWithoutFeedback
-} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import { Avatar, Button, LoaderScreen, TouchableOpacity, View } from 'react-native-ui-lib'
+import { Button, LoaderScreen, TouchableOpacity, View } from 'react-native-ui-lib'
 
 import MyLink from '@/components/MyLink'
 import MyText from '@/components/MyText'
+import ChooseClassModal from '@/components/course-detail/ChooseClassModal'
 import ClassList from '@/components/course-detail/ClassList'
+import CourseDescription from '@/components/course-detail/CourseDescription'
+import InstructorBio from '@/components/course-detail/InstructorBio'
 import Overview from '@/components/course-detail/Overview'
 import RatingList from '@/components/course-detail/RatingList'
 import SessonList from '@/components/course-detail/SessonList'
@@ -49,7 +44,7 @@ const defaultCourseDetail: ICourseDetail = {
     name: '',
     bio: '',
     idCardPhoto: '',
-    avatar: ''
+    avatar: 'https://picsum.photos/200'
   },
   classes: []
 }
@@ -57,37 +52,15 @@ const defaultCourseDetail: ICourseDetail = {
 const CourseDetailScreen = () => {
   const { courseId } = useLocalSearchParams()
 
-  const [readmoreDescription, setReadmoreDescription] = useState<number | undefined>(4)
-  const [readmoreInstructor, setReadmoreInstructor] = useState<number | undefined>(4)
   const [collapseClass, setCollapseClass] = useState(true)
   const [collapseSesson, setCollapseSesson] = useState(true)
   const [data, setData] = useState<ICourseDetail>(defaultCourseDetail)
-  const [classModal, setClassModal] = useState(-1)
   const [isLoading, setIsLoading] = useState(false)
-  const [numberOfLinesCourseDescription, setNumberOfLinesCourseDescription] = useState(0)
-  const [numberOfLinesInstructor, setNumberOfLinesInstructor] = useState(0)
 
-  const handleCourseDescriptionLayout = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout
-    const lineHeight = 18
-    const calculatedLines = Math.round(height / lineHeight)
-    setNumberOfLinesCourseDescription(calculatedLines)
-  }
-
-  const handleInstructorLayout = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout
-    const lineHeight = 18
-    const calculatedLines = Math.round(height / lineHeight)
-    setNumberOfLinesInstructor(calculatedLines)
-  }
-
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['25%', '50%'], [])
+  const [chooseClassModal, setchooseClassModal] = useState(-1)
+  const [chooseClass, setChooseClass] = useState('')
 
   const { getCourseDetail } = useCourse()
-  useEffect(() => {
-    return classModal === -1 ? bottomSheetModalRef.current?.close() : bottomSheetModalRef.current?.present()
-  }, [classModal])
 
   useEffect(() => {
     ;(async () => {
@@ -99,6 +72,14 @@ const CourseDetailScreen = () => {
       setIsLoading(false)
     })()
   }, [courseId, getCourseDetail])
+
+  const handleChooseClass = (classId: string) => {
+    return classId === chooseClass ? setChooseClass('') : setChooseClass(classId)
+  }
+
+  const handleEnrolClass = () => {
+    console.log(chooseClass)
+  }
 
   return (
     <>
@@ -132,92 +113,8 @@ const CourseDetailScreen = () => {
                 courseTypes={data.type}
                 instructorName={data.instructor.name}
               />
-              <MyText
-                text='Về khóa học'
-                styleProps={{
-                  fontFamily: myFontWeight.bold,
-                  fontSize: 16,
-                  marginTop: 20,
-                  marginBottom: 10,
-                  alignSelf: 'flex-start'
-                }}
-              />
-              <MyText
-                ellipsizeMode='tail'
-                onLayout={handleCourseDescriptionLayout}
-                numberOfLines={readmoreDescription}
-                styleProps={{
-                  textAlign: 'justify',
-                  color: myTextColor.caption,
-                  width: (width * 11) / 12,
-                  alignSelf: 'flex-start'
-                }}
-                text={data.description}
-              />
-              <TouchableOpacity
-                onPress={() => setReadmoreDescription(readmoreDescription ? undefined : 4)}
-                style={{ alignSelf: 'flex-start' }}
-              >
-                {numberOfLinesCourseDescription < 4 ? null : (
-                  <MyText
-                    styleProps={{ color: myTextColor.primary }}
-                    text={!readmoreDescription ? 'Rút gọn' : 'Xem thêm'}
-                  />
-                )}
-              </TouchableOpacity>
-              <MyText
-                text='Về giảng viên'
-                styleProps={{
-                  fontFamily: myFontWeight.bold,
-                  fontSize: 16,
-                  marginTop: 20,
-                  marginBottom: 10,
-                  alignSelf: 'flex-start'
-                }}
-              />
-              <View style={{ alignSelf: 'flex-start', flexDirection: 'row', marginBottom: 10, gap: 10 }}>
-                <Avatar
-                  source={{
-                    uri: 'https://picsum.photos/200'
-                  }}
-                />
-                <View
-                  style={{
-                    alignSelf: 'flex-start',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    gap: 5
-                  }}
-                >
-                  <MyText styleProps={{ fontFamily: myFontWeight.bold }} text='PhongNH' />
-                  <MyText text='Trồng hoa' />
-                </View>
-              </View>
-              <MyText
-                ellipsizeMode='tail'
-                onLayout={handleInstructorLayout}
-                numberOfLines={readmoreInstructor}
-                styleProps={{
-                  textAlign: 'justify',
-                  color: myTextColor.caption,
-                  width: (width * 11) / 12,
-                  alignSelf: 'flex-start'
-                }}
-                text={data.instructor.bio}
-              />
-
-              <TouchableOpacity
-                onPress={() => setReadmoreInstructor(readmoreInstructor ? undefined : 4)}
-                style={{ alignSelf: 'flex-start' }}
-              >
-                {numberOfLinesInstructor < 4 ? null : (
-                  <MyText
-                    styleProps={{ color: myTextColor.primary }}
-                    text={!readmoreInstructor ? 'Rút gọn' : 'Xem thêm'}
-                  />
-                )}
-              </TouchableOpacity>
-
+              <CourseDescription description={data.description} />
+              <InstructorBio instructorInfo={data.instructor} />
               <TouchableOpacity
                 onPress={() => setCollapseClass(!collapseClass)}
                 style={{
@@ -296,6 +193,13 @@ const CourseDetailScreen = () => {
               <RatingList />
             </ScrollView>
           </TouchableWithoutFeedback>
+          <ChooseClassModal
+            classList={data.classes}
+            handleChooseClass={handleChooseClass}
+            chooseClass={chooseClass}
+            chooseClassModal={chooseClassModal}
+            setChooseClassModal={setchooseClassModal}
+          />
           <View
             style={{
               height: height / 10,
@@ -309,7 +213,7 @@ const CourseDetailScreen = () => {
             <View>
               <MyText text='Tổng cộng' />
               <MyText
-                text='145.000đ'
+                text={`${data.price.toLocaleString()}đ`}
                 styleProps={{
                   fontFamily: myFontWeight.bold,
                   color: myTextColor.primary,
@@ -318,33 +222,19 @@ const CourseDetailScreen = () => {
               />
             </View>
             <Button
-              onPress={() => setClassModal(classModal === -1 ? 1 : -1)}
+              onPress={
+                chooseClassModal === -1
+                  ? () => setchooseClassModal(chooseClassModal === -1 ? 1 : -1)
+                  : () => handleEnrolClass()
+              }
               size='large'
               label='Tham gia'
+              disabled={chooseClass === '' && chooseClassModal === 1}
+              backgroundColor={myTheme.primary}
               labelStyle={{ fontFamily: myFontWeight.bold }}
-              style={{ backgroundColor: myTheme.primary, paddingHorizontal: 50 }}
+              style={{ paddingHorizontal: 50 }}
             />
           </View>
-          <BottomSheetModalProvider>
-            <BottomSheetModal
-              backdropComponent={(props) => (
-                <BottomSheetBackdrop
-                  {...props}
-                  opacity={0.7} // Adjust the opacity here
-                  disappearsOnIndex={-1}
-                  appearsOnIndex={1}
-                />
-              )}
-              onChange={(index) => setClassModal(index)}
-              ref={bottomSheetModalRef}
-              index={1}
-              snapPoints={snapPoints}
-            >
-              <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
-                <MyText text='Awesome 🎉' />
-              </BottomSheetView>
-            </BottomSheetModal>
-          </BottomSheetModalProvider>
         </KeyboardAvoidingView>
       )}
     </>

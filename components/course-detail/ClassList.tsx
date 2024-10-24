@@ -40,7 +40,7 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
           >
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <MyText
-                text={value.title}
+                text={value.code}
                 styleProps={{
                   fontFamily: myFontWeight.bold,
                   fontSize: 16,

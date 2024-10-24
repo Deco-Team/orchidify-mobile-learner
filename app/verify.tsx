@@ -111,10 +111,10 @@ const VerifyScreen = () => {
           </View>
           <Button
             label='Xác minh'
+            backgroundColor={myTheme.primary}
             disabled={code.length !== 6 || isLoading}
             size='large'
             style={{
-              backgroundColor: myTheme.primary,
               minWidth: '100%',
               height: 48,
               justifyContent: 'center'

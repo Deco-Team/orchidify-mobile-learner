@@ -47,7 +47,6 @@ const CourseScreen = () => {
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     ;(async () => {
-      setIsLoading(true)
       const data = await getCourseList({
         title: searchKey,
         type: filterCourseType.join(', '),
@@ -56,7 +55,6 @@ const CourseScreen = () => {
       if (data && typeof data !== 'string') {
         setData(data)
       }
-      setIsLoading(false)
       setRefreshing(false)
     })()
   }, [filterCourseType, getCourseList, searchKey, sortPrice])
@@ -84,7 +82,9 @@ const CourseScreen = () => {
         >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <ScrollView
-              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+              refreshControl={
+                <RefreshControl colors={[myTheme.primary]} refreshing={refreshing} onRefresh={onRefresh} />
+              }
               contentContainerStyle={{ justifyContent: 'center' }}
               style={{ paddingHorizontal: 10, backgroundColor: '#FFF' }}
             >
