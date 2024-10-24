@@ -117,6 +117,56 @@ export default function AppLayout() {
             )
           }}
         />
+        <Stack.Screen
+          name='(course)/checkout'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title='Xác nhận thanh toán'
+                headerStyle={{
+                  height: 60
+                }}
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
+        <Stack.Screen
+          name='(course)/gardeninformation'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title={title}
+                headerStyle={{
+                  height: 60
+                }}
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
       </Stack>
     </GestureHandlerRootView>
   )

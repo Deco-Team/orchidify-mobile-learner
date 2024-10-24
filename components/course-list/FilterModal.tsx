@@ -5,7 +5,7 @@ import { Button, View } from 'react-native-ui-lib'
 import MyText from '@/components/MyText'
 import { courseTypeItems, myTextColor, myFontWeight, myTheme } from '@/contracts/constants'
 
-interface FilterModalProps {
+interface IFilterModalProps {
   filterModal: number
   setFilterModal: (index: number) => void
   filterCourseType: string[]
@@ -15,7 +15,7 @@ interface FilterModalProps {
   handleApplyFilter: () => void
 }
 
-const FilterModal: React.FC<FilterModalProps> = ({
+const FilterModal: React.FC<IFilterModalProps> = ({
   filterModal,
   setFilterModal,
   filterCourseType,

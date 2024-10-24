@@ -321,12 +321,11 @@ const EditProfileScreen = () => {
           <View style={{ marginTop: 12, gap: errors.root ? undefined : 24 }}>
             <Button
               disabled={isLoading}
-              disabledBackgroundColor='red'
+              backgroundColor={myTheme.primary}
               onPress={handleSubmit(onSubmit)}
               label='Lưu'
               size='large'
               style={{
-                backgroundColor: myTheme.primary,
                 minWidth: '95%',
                 height: 48,
                 justifyContent: 'center',
