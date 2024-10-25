@@ -1,7 +1,9 @@
+import { LEARNER_STATUS } from '../constants'
+
 export interface IUser extends IEditUserPayload {
   email: string
   _id: string
-  status: string
+  status: LEARNER_STATUS
 }
 
 export interface IEditUserPayload {

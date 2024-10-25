@@ -14,7 +14,7 @@ import InstructorBio from '@/components/course-detail/InstructorBio'
 import Overview from '@/components/course-detail/Overview'
 import RatingList from '@/components/course-detail/RatingList'
 import SessonList from '@/components/course-detail/SessonList'
-import { height, width, myFontWeight, myTextColor, myTheme, LEVEL } from '@/contracts/constants'
+import { height, width, myFontWeight, myTextColor, myTheme, LEVEL, COURSE_STATUS } from '@/contracts/constants'
 import { ICourseDetail } from '@/contracts/interfaces/course.interface'
 import useCourse from '@/hooks/api/useCourse'
 
@@ -29,7 +29,7 @@ const defaultCourseDetail: ICourseDetail = {
   duration: 0,
   thumbnail: '',
   media: [],
-  status: '', // or any default status
+  status: COURSE_STATUS.DRAFT,
   sessions: [],
   learnerLimit: 0,
   rate: 0,

@@ -1,4 +1,5 @@
-import { LEVEL, SLOT_NUMBER, WEEKDAY } from '../constants'
+import { CLASS_STATUS, COURSE_STATUS, LEVEL, SLOT_NUMBER, WEEKDAY } from '../constants'
+import { IMedia } from './index.interface'
 
 export interface ICourseListResponse {
   _id: string
@@ -9,7 +10,7 @@ export interface ICourseListResponse {
   type: string[]
   duration: number
   thumbnail: string
-  status: string
+  status: COURSE_STATUS
   learnerLimit: number
   rate: number
   discount: number
@@ -38,7 +39,7 @@ export interface ICourseDetail {
   duration: number
   thumbnail: string
   media: IMedia[]
-  status: string
+  status: COURSE_STATUS
   sessions: {
     _id: string
     title: string
@@ -63,26 +64,13 @@ export interface IInstructor {
   avatar: string
 }
 
-export interface IMedia {
-  asset_id: string
-  public_id: string
-  format: string
-  resource_type: string
-  created_at: string
-  type: string
-  url: string
-  asset_folder: string
-  original_filename: string
-  original_extension: string
-}
-
 export interface IClass {
   _id: string
   code: string
   title: string
   startDate: string
   duration: number
-  status: string
+  status: CLASS_STATUS
   learnerLimit: number
   learnerQuantity: number
   weekdays: WEEKDAY[]
@@ -101,3 +89,5 @@ export interface ICourseType {
   groupName: string
   groupItems: string[]
 }
+export { IMedia }
+

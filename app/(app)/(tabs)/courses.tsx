@@ -5,16 +5,15 @@ import {
   KeyboardAvoidingView,
   Platform,
   RefreshControl,
-  ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback
 } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { LoaderScreen, TextField, View } from 'react-native-ui-lib'
+import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler'
+import { LoaderScreen, TextField } from 'react-native-ui-lib'
 
 import FilterModal from '@/components/course-list/FilterModal'
 import MyCourseCard from '@/components/course-list/MyCourseCard'
-import { height, myDeviceHeight, myFontWeight, myTheme } from '@/contracts/constants'
+import { COURSE_STATUS, height, myDeviceHeight, myFontWeight, myTheme, width } from '@/contracts/constants'
 import { ICourseListResponse } from '@/contracts/interfaces/course.interface'
 import { IPagination } from '@/contracts/types'
 import useCourse from '@/hooks/api/useCourse'
@@ -81,83 +80,80 @@ const CourseScreen = () => {
           keyboardVerticalOffset={100}
         >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <ScrollView
-              refreshControl={
-                <RefreshControl colors={[myTheme.primary]} refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              contentContainerStyle={{ justifyContent: 'center' }}
-              style={{ paddingHorizontal: 10, backgroundColor: '#FFF' }}
-            >
-              <TextField
-                inputMode='text'
-                value={searchKey}
-                onChangeText={setSearchKey}
-                leadingAccessory={
-                  <Feather
-                    style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 25 }}
-                    name='search'
-                    size={24}
-                    color='grey'
+            {isLoading ? (
+              <LoaderScreen
+                size='large'
+                message='Đang tải...'
+                color={myTheme.primary}
+                messageStyle={{ fontFamily: myFontWeight.regular }}
+              />
+            ) : (
+              <FlatList
+                ListHeaderComponent={
+                  <TextField
+                    inputMode='text'
+                    value={searchKey}
+                    onChangeText={setSearchKey}
+                    leadingAccessory={
+                      <Feather
+                        style={{ position: 'absolute', top: height < myDeviceHeight.sm ? 36 : 43, left: 25 }}
+                        name='search'
+                        size={24}
+                        color='grey'
+                      />
+                    }
+                    trailingAccessory={
+                      <TouchableOpacity
+                        style={{
+                          padding: 10,
+                          position: 'absolute',
+                          top: height < myDeviceHeight.sm ? 26 : 33,
+                          right: 20
+                        }}
+                        onPress={() => setFilterModal(filterModal === -1 ? 1 : -1)}
+                      >
+                        <Feather name='filter' size={24} color='gray' />
+                      </TouchableOpacity>
+                    }
+                    placeholder='Tìm kiếm'
+                    placeholderTextColor='grey'
+                    fieldStyle={{
+                      paddingVertical: 20
+                    }}
+                    style={{
+                      borderStyle: 'solid',
+                      borderWidth: 1,
+                      borderRadius: 7,
+                      width: (width * 11) / 12,
+                      borderColor: 'lightgrey',
+                      height: height < myDeviceHeight.sm ? 60 : 70,
+                      paddingLeft: 55,
+                      paddingRight: 15,
+                      fontSize: 16,
+                      overflow: 'hidden',
+                      fontFamily: myFontWeight.regular,
+                      marginHorizontal: 10
+                    }}
                   />
                 }
-                trailingAccessory={
-                  <TouchableOpacity
-                    style={{
-                      padding: 10,
-                      position: 'absolute',
-                      top: height < myDeviceHeight.sm ? 26 : 33,
-                      right: 20
-                    }}
-                    onPress={() => setFilterModal(filterModal === -1 ? 1 : -1)}
-                  >
-                    <Feather name='filter' size={24} color='gray' />
-                  </TouchableOpacity>
+                data={data?.docs}
+                renderItem={(value) => (
+                  <MyCourseCard
+                    key={value.item._id}
+                    id={value.item._id}
+                    image={value.item.thumbnail}
+                    title={value.item.title}
+                    price={value.item.price}
+                    publishStatus={value.item.status === COURSE_STATUS.ACTIVE}
+                    instructor={value.item.instructor.name}
+                  />
+                )}
+                refreshControl={
+                  <RefreshControl colors={[myTheme.primary]} refreshing={refreshing} onRefresh={onRefresh} />
                 }
-                placeholder='Tìm kiếm'
-                placeholderTextColor='grey'
-                fieldStyle={{
-                  paddingVertical: 20
-                }}
-                style={{
-                  borderStyle: 'solid',
-                  borderWidth: 1,
-                  borderRadius: 7,
-                  borderColor: 'lightgrey',
-                  height: height < myDeviceHeight.sm ? 60 : 70,
-                  paddingLeft: 55,
-                  paddingRight: 15,
-                  fontSize: 16,
-                  overflow: 'hidden',
-                  fontFamily: myFontWeight.regular,
-                  marginHorizontal: 10,
-                  marginBottom: 20
-                }}
+                contentContainerStyle={{ alignItems: 'center', rowGap: 15, height: 'auto', paddingBottom: 50 }}
               />
-              <View style={{ flex: 1 }}>
-                <View style={{ marginBottom: 25, flex: 1, gap: 15, paddingHorizontal: 10 }}>
-                  {isLoading ? (
-                    <LoaderScreen
-                      size='large'
-                      message='Đang tải...'
-                      color={myTheme.primary}
-                      messageStyle={{ fontFamily: myFontWeight.regular }}
-                    />
-                  ) : (
-                    data?.docs.map((value) => (
-                      <MyCourseCard
-                        key={value._id}
-                        id={value._id}
-                        image={value.thumbnail}
-                        title={value.title}
-                        price={value.price}
-                        publishStatus={value.status === 'PUBLISHED'}
-                        instructor={value.instructor.name}
-                      />
-                    ))
-                  )}
-                </View>
-              </View>
-            </ScrollView>
+            )}
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </GestureHandlerRootView>

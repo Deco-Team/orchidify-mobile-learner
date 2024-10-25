@@ -97,5 +97,25 @@ export enum SLOT_NUMBER {
   FOUR = 4
 }
 
+export enum COURSE_STATUS {
+  DRAFT = 'DRAFT',
+  REQUESTING = 'REQUESTING',
+  ACTIVE = 'ACTIVE',
+  DELETED = 'DELETED'
+}
+
+export enum CLASS_STATUS {
+  PUBLISHED = 'PUBLISHED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED'
+}
+
+export enum LEARNER_STATUS {
+  UNVERIFIED = 'UNVERIFIED',
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
+}
+
 export const height = Dimensions.get('screen').height
 export const width = Dimensions.get('screen').width
