@@ -143,7 +143,32 @@ export default function AppLayout() {
           }}
         />
         <Stack.Screen
-          name='(course)/gardeninformation'
+          name='(course)/garden-information/[gardenId]'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title={title}
+                headerStyle={{
+                  height: 60
+                }}
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
+        <Stack.Screen
+          name='(class)/class-detail/[classId]'
           options={{
             header: () => (
               <Header

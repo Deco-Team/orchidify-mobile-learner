@@ -8,7 +8,7 @@ import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableW
 import { Avatar, Button, DateTimePicker, TextField, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/MyText'
-import { height, myDeviceHeight, myFontWeight, myTheme } from '@/contracts/constants'
+import { height, LEARNER_STATUS, myDeviceHeight, myFontWeight, myTheme } from '@/contracts/constants'
 import { IEditUserPayload, IUser } from '@/contracts/interfaces/user.interface'
 import { successMessage } from '@/contracts/messages'
 import { userSchema } from '@/contracts/validations/user.validation'
@@ -28,7 +28,7 @@ const EditProfileScreen = () => {
     avatar: '',
     dateOfBirth: new Date(),
     phone: '',
-    status: ''
+    status: LEARNER_STATUS.UNVERIFIED
   })
   const {
     control,

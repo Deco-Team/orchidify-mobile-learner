@@ -6,7 +6,7 @@ import { Shadow } from 'react-native-shadow-2'
 import { Chip, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/MyText'
-import { myFontWeight, myTextColor, myTheme } from '@/contracts/constants'
+import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 
 interface IMyCourseCard {
   title: string
@@ -21,7 +21,7 @@ const MyCourseCard = (props: IMyCourseCard) => {
   const { title, instructor, price, image, id, publishStatus = false } = props
   const router = useRouter()
   return (
-    <Shadow style={{ minWidth: '100%' }}>
+    <Shadow style={{ width: (width * 11) / 12 }}>
       <TouchableOpacity
         style={{
           minHeight: 125,

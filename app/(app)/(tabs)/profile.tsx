@@ -3,8 +3,8 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Alert, StyleSheet } from 'react-native'
-import { ListItem, View } from 'react-native-ui-lib'
+import { Alert, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
+import { View } from 'react-native-ui-lib'
 
 import MyText from '@/components/MyText'
 import { useSession } from '@/contexts/AuthContext'
@@ -61,21 +61,23 @@ const ProfileScreen = () => {
         styleProps={{
           fontSize: width < myDeviceWidth.sm ? 18 : 20,
           textAlign: 'left',
-          marginVertical: 24,
+          marginTop: 24,
           fontFamily: myFontWeight.bold
         }}
       />
-      {settingMenu.map((value, i) => (
-        <ListItem key={i} onPress={value.onPress}>
-          <ListItem.Part containerStyle={{ flex: 1 }}>
+      <FlatList
+        contentContainerStyle={{ rowGap: 24 }}
+        data={settingMenu}
+        renderItem={(value) => (
+          <TouchableOpacity onPress={value.item.onPress} style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-              {value.icon}
-              <MyText styleProps={{ fontSize: width < myDeviceWidth.sm ? 16 : 18 }} text={value.title} />
+              {value.item.icon}
+              <MyText styleProps={{ fontSize: width < myDeviceWidth.sm ? 16 : 18 }} text={value.item.title} />
             </View>
             <MaterialIcons name='keyboard-arrow-right' size={24} color='black' />
-          </ListItem.Part>
-        </ListItem>
-      ))}
+          </TouchableOpacity>
+        )}
+      />
     </View>
   )
 }

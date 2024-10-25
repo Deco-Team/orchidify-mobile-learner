@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import MyText from '../MyText'
 
 import { myFontWeight, myTextColor, width } from '@/contracts/constants'
+import { View } from 'react-native-ui-lib'
 
 interface ICourseDescription {
   description: string
@@ -22,15 +23,14 @@ const CourseDescription: React.FC<ICourseDescription> = ({ description }) => {
   }
 
   return (
-    <>
+    <View style={{ flexDirection: 'column' }}>
       <MyText
         text='Về khóa học'
         styleProps={{
           fontFamily: myFontWeight.bold,
           fontSize: 16,
           marginTop: 20,
-          marginBottom: 10,
-          alignSelf: 'flex-start'
+          marginBottom: 10
         }}
       />
       <MyText
@@ -40,20 +40,16 @@ const CourseDescription: React.FC<ICourseDescription> = ({ description }) => {
         styleProps={{
           textAlign: 'justify',
           color: myTextColor.caption,
-          width: (width * 11) / 12,
-          alignSelf: 'flex-start'
+          width: (width * 11) / 12
         }}
         text={description || 'Không có mô tả thêm về khóa học này'}
       />
-      <TouchableOpacity
-        onPress={() => setReadmoreDescription(readmoreDescription ? undefined : 4)}
-        style={{ alignSelf: 'flex-start' }}
-      >
+      <TouchableOpacity onPress={() => setReadmoreDescription(readmoreDescription ? undefined : 4)}>
         {numberOfLinesCourseDescription < 4 ? null : (
           <MyText styleProps={{ color: myTextColor.primary }} text={!readmoreDescription ? 'Rút gọn' : 'Xem thêm'} />
         )}
       </TouchableOpacity>
-    </>
+    </View>
   )
 }
 

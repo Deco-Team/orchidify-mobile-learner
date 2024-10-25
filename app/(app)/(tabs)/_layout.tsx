@@ -6,7 +6,7 @@ import { ImageBackground, Platform, StyleSheet } from 'react-native'
 import { Avatar, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/MyText'
-import { myFontWeight, myTheme } from '@/contracts/constants'
+import { LEARNER_STATUS, myFontWeight, myTheme } from '@/contracts/constants'
 import { IUser } from '@/contracts/interfaces/user.interface'
 import useUser from '@/hooks/api/useUser'
 
@@ -19,7 +19,7 @@ export default function TabLayout() {
     avatar: '',
     dateOfBirth: new Date(),
     phone: '',
-    status: ''
+    status: LEARNER_STATUS.INACTIVE
   })
   const style = StyleSheet.create({
     button: {
@@ -42,7 +42,8 @@ export default function TabLayout() {
         },
         tabBarIconStyle: {
           margin: 5
-        }
+        },
+        tabBarHideOnKeyboard: true
       }}
     >
       <Tabs.Screen
@@ -90,11 +91,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='mycourse'
+        name='myclass'
         options={{
           header: () => (
             <Header
-              title='Khóa học'
+              title='Lớp học của tôi'
               headerStyle={{
                 height: 60
               }}
@@ -146,9 +147,9 @@ export default function TabLayout() {
             <ImageBackground
               source={require('@/assets/images/profile-background.jpg')}
               resizeMode='cover'
-              style={{ minHeight: '37.5%' }}
               borderBottomLeftRadius={40}
               borderBottomRightRadius={40}
+              style={{ flexDirection: 'column', paddingBottom: 24, marginTop: -35 }}
             >
               <Header
                 title='Trang cá nhân'
@@ -160,16 +161,13 @@ export default function TabLayout() {
                 headerTitleAlign='left'
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold,
-                  marginTop: Platform.OS === 'ios' ? -25 : -90,
-                  color: '#FFF',
-                  alignSelf: 'flex-start'
+                  color: '#FFF'
                 }}
               />
               <Avatar
                 size={80}
                 containerStyle={{
-                  alignSelf: 'center',
-                  marginBottom: 10
+                  alignSelf: 'center'
                 }}
                 source={{
                   uri: user.avatar ? user.avatar : 'https://avatar.iran.liara.run/public'
@@ -178,7 +176,6 @@ export default function TabLayout() {
               <MyText
                 styleProps={{
                   alignSelf: 'center',
-                  marginVertical: 5,
                   fontSize: 16,
                   fontFamily: myFontWeight.bold,
                   color: '#FFF'
@@ -188,7 +185,6 @@ export default function TabLayout() {
               <MyText
                 styleProps={{
                   alignSelf: 'center',
-                  fontSize: 15,
                   color: '#FFF'
                 }}
                 text={user.email}

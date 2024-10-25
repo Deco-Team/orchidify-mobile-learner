@@ -3,7 +3,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native'
 import { Button, TextField, View } from 'react-native-ui-lib'
 
 import MyLink from '@/components/MyLink'
@@ -55,12 +62,12 @@ const LoginScreen = () => {
       keyboardVerticalOffset={100}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{ paddingHorizontal: 20, gap: 24, backgroundColor: '#FFF' }}>
+        <ScrollView style={{ flexDirection: 'column', paddingHorizontal: 20, backgroundColor: '#FFF' }}>
           <MyText
             text='Xin chào, mừng bạn quay trở lại Orchidify!'
-            styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginTop: 24 }}
+            styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginVertical: 24 }}
           />
-          <View style={{ position: 'relative' }}>
+          <View style={{ position: 'relative', marginVertical: 12 }}>
             <MyText
               text='Email'
               styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left' }}
@@ -106,7 +113,7 @@ const LoginScreen = () => {
             />
             {errors.email && <MyText text={errors.email.message || ''} styleProps={{ color: 'red' }} />}
           </View>
-          <View style={{ position: 'relative' }}>
+          <View style={{ position: 'relative', marginVertical: 12 }}>
             <MyText
               text='Mật khẩu'
               styleProps={{ position: 'absolute', top: -10, left: 1, fontSize: 16, textAlign: 'left' }}
@@ -166,7 +173,7 @@ const LoginScreen = () => {
             />
             {errors.password && <MyText text={errors.password.message || ''} styleProps={{ color: 'red' }} />}
           </View>
-          <View style={{ gap: 20 }}>
+          <View style={{ marginTop: 12, gap: 24 }}>
             <Button
               onPress={handleSubmit(onSubmit)}
               label='Đăng nhập'
@@ -189,13 +196,13 @@ const LoginScreen = () => {
               <MyText styleProps={{ fontSize: 16, color: myTextColor.caption }} text='Chưa có tài khoản?' />
               <MyLink
                 weight={myFontWeight.medium}
-                styleProps={{ color: myTextColor.primary, fontSize: 16 }}
+                styleProps={{ color: myTextColor.primary, fontSize: 16, marginBottom: 40 }}
                 text='Đăng kí'
                 href='/register'
               />
             </View>
           </View>
-        </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   )
