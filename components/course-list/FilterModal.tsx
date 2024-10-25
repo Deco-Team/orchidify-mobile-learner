@@ -1,9 +1,10 @@
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet'
 import React, { useEffect, useMemo, useRef } from 'react'
+import { ScrollView } from 'react-native'
 import { Button, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/MyText'
-import { courseTypeItems, myTextColor, myFontWeight, myTheme } from '@/contracts/constants'
+import { courseTypeItems, myTextColor, myFontWeight, myTheme, width } from '@/contracts/constants'
 
 interface IFilterModalProps {
   filterModal: number
@@ -50,6 +51,7 @@ const FilterModal: React.FC<IFilterModalProps> = ({
   return (
     <BottomSheetModalProvider>
       <BottomSheetModal
+        enableContentPanningGesture={false}
         enablePanDownToClose
         backdropComponent={(props) => (
           <BottomSheetBackdrop {...props} opacity={0.7} disappearsOnIndex={-1} appearsOnIndex={1} />
@@ -60,7 +62,14 @@ const FilterModal: React.FC<IFilterModalProps> = ({
         snapPoints={snapPoints}
       >
         <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
-          <View style={{ alignItems: 'flex-start', width: '100%', padding: 12.5, justifyContent: 'space-between' }}>
+          <ScrollView
+            contentContainerStyle={{
+              alignItems: 'flex-start',
+              width: '100%',
+              justifyContent: 'space-between',
+              paddingBottom: 12
+            }}
+          >
             <MyText text='Thể loại' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
             <View
               style={{
@@ -136,11 +145,11 @@ const FilterModal: React.FC<IFilterModalProps> = ({
               style={{
                 alignSelf: 'center',
                 backgroundColor: myTheme.primary,
-                width: '100%'
+                width: (width * 10) / 12
               }}
               labelStyle={{ fontFamily: myFontWeight.semiBold }}
             />
-          </View>
+          </ScrollView>
         </BottomSheetView>
       </BottomSheetModal>
     </BottomSheetModalProvider>

@@ -26,7 +26,7 @@ interface IClassCard {
 const MyClassCard: React.FC<IClassCard> = ({ classCode, instructorName, title, id, image, progress }) => {
   const router = useRouter()
   return (
-    <Shadow style={{ width: (width * 11) / 12, paddingBottom: 5 }}>
+    <Shadow style={{ width: (width * 11) / 12 }}>
       <TouchableOpacity
         style={{
           minHeight: 125,
@@ -44,18 +44,7 @@ const MyClassCard: React.FC<IClassCard> = ({ classCode, instructorName, title, i
           })
         }
       >
-        <Image
-          source={image}
-          style={{
-            width: 100,
-            height: 100,
-            borderRadius: 16,
-            margin: 12.5,
-            marginRight: 10,
-            marginTop: 17.5,
-            marginLeft: 17.5
-          }}
-        />
+        <Image source={image} style={{ width: 100, height: 100, borderRadius: 16, margin: 12.5, marginRight: 7.5 }} />
         <View style={{ flex: 1 }}>
           <MyText
             ellipsizeMode='tail'

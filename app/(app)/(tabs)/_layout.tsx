@@ -2,11 +2,11 @@ import Feather from '@expo/vector-icons/Feather'
 import { Header } from '@react-navigation/elements'
 import { Tabs } from 'expo-router'
 import { useState } from 'react'
-import { ImageBackground, Platform, StyleSheet } from 'react-native'
+import { ImageBackground, StyleSheet } from 'react-native'
 import { Avatar, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/MyText'
-import { LEARNER_STATUS, myFontWeight, myTheme } from '@/contracts/constants'
+import { height, LEARNER_STATUS, myDeviceHeight, myFontWeight, myTheme } from '@/contracts/constants'
 import { IUser } from '@/contracts/interfaces/user.interface'
 import useUser from '@/hooks/api/useUser'
 
@@ -52,18 +52,19 @@ export default function TabLayout() {
           header: () => (
             <Header
               title='Home'
+              headerLeftContainerStyle={{ backgroundColor: 'pink' }}
               headerStyle={{
                 height: 60
               }}
               headerTitleStyle={{
                 fontFamily: myFontWeight.bold,
-                marginTop: Platform.OS === 'ios' ? -25 : -50
+                marginTop: height < myDeviceHeight.sm ? -height / 25 : -height / 20
               }}
             />
           ),
           tabBarIcon: ({ color, focused }) => (
             <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
-              <Feather size={28} name='home' color={color} />
+              <Feather size={height <= myDeviceHeight.sm ? 24 : 28} name='home' color={color} />
             </View>
           )
         }}
@@ -74,18 +75,19 @@ export default function TabLayout() {
           header: () => (
             <Header
               title='Khóa học'
+              headerLeftContainerStyle={{ backgroundColor: 'pink' }}
               headerStyle={{
                 height: 60
               }}
               headerTitleStyle={{
                 fontFamily: myFontWeight.bold,
-                marginTop: Platform.OS === 'ios' ? -25 : -50
+                marginTop: height < myDeviceHeight.sm ? -height / 25 : -height / 20
               }}
             />
           ),
           tabBarIcon: ({ color, focused }) => (
             <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
-              <Feather size={28} name='book' color={color} />
+              <Feather size={height <= myDeviceHeight.sm ? 24 : 28} name='book' color={color} />
             </View>
           )
         }}
@@ -101,13 +103,13 @@ export default function TabLayout() {
               }}
               headerTitleStyle={{
                 fontFamily: myFontWeight.bold,
-                marginTop: Platform.OS === 'ios' ? -25 : -50
+                marginTop: height < myDeviceHeight.sm ? -height / 25 : -height / 20
               }}
             />
           ),
           tabBarIcon: ({ color, focused }) => (
             <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
-              <Feather size={28} name='play-circle' color={color} />
+              <Feather size={height <= myDeviceHeight.sm ? 24 : 28} name='play-circle' color={color} />
             </View>
           )
         }}
@@ -123,13 +125,13 @@ export default function TabLayout() {
               }}
               headerTitleStyle={{
                 fontFamily: myFontWeight.bold,
-                marginTop: Platform.OS === 'ios' ? -25 : -50
+                marginTop: height < myDeviceHeight.sm ? -height / 25 : -height / 20
               }}
             />
           ),
           tabBarIcon: ({ color, focused }) => (
             <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
-              <Feather size={28} name='calendar' color={color} />
+              <Feather size={height <= myDeviceHeight.sm ? 24 : 28} name='calendar' color={color} />
             </View>
           )
         }}
@@ -156,12 +158,17 @@ export default function TabLayout() {
                 headerStyle={{
                   borderBottomLeftRadius: 40,
                   borderBottomRightRadius: 40,
-                  backgroundColor: 'transparent'
+                  backgroundColor: 'transparent',
+                  height: 100
                 }}
                 headerTitleAlign='left'
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold,
-                  color: '#FFF'
+                  color: '#FFF',
+                  marginTop: height < myDeviceHeight.sm ? undefined : -height / 20
+                }}
+                headerTitleContainerStyle={{
+                  minHeight: 80
                 }}
               />
               <Avatar
@@ -193,7 +200,7 @@ export default function TabLayout() {
           ),
           tabBarIcon: ({ color, focused }) => (
             <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
-              <Feather size={28} name='user' color={color} />
+              <Feather size={height <= myDeviceHeight.sm ? 24 : 28} name='user' color={color} />
             </View>
           )
         }}
