@@ -71,7 +71,7 @@ const Overview = ({
         ))}
       </View>
       <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-        <MyText text={'0'} styleProps={{ fontFamily: myFontWeight.bold, marginRight: 5 }} />
+        <MyText text='0' styleProps={{ fontFamily: myFontWeight.bold, marginRight: 5 }} />
         <StarRatingDisplay starSize={20} color={myTheme.yellow} starStyle={{ marginHorizontal: 0 }} rating={rate} />
         <MyText text='(445)' styleProps={{ marginRight: 5, color: myTextColor.caption }} />
       </View>
