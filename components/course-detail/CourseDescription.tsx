@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { LayoutChangeEvent } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { View } from 'react-native-ui-lib'
 
 import MyText from '../MyText'
 
 import { myFontWeight, myTextColor, width } from '@/contracts/constants'
-import { View } from 'react-native-ui-lib'
 
 interface ICourseDescription {
   description: string
@@ -45,7 +45,7 @@ const CourseDescription: React.FC<ICourseDescription> = ({ description }) => {
         text={description || 'Không có mô tả thêm về khóa học này'}
       />
       <TouchableOpacity onPress={() => setReadmoreDescription(readmoreDescription ? undefined : 4)}>
-        {numberOfLinesCourseDescription < 4 ? null : (
+        {numberOfLinesCourseDescription <= 4 ? null : (
           <MyText styleProps={{ color: myTextColor.primary }} text={!readmoreDescription ? 'Rút gọn' : 'Xem thêm'} />
         )}
       </TouchableOpacity>
