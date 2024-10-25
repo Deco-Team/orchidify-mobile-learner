@@ -58,7 +58,7 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo }) => {
         onPress={() => setReadmoreInstructor(readmoreInstructor ? undefined : 4)}
         style={{ alignSelf: 'flex-start' }}
       >
-        {numberOfLinesInstructor < 4 ? null : (
+        {numberOfLinesInstructor <= 4 ? null : (
           <MyText styleProps={{ color: myTextColor.primary }} text={!readmoreInstructor ? 'Rút gọn' : 'Xem thêm'} />
         )}
       </TouchableOpacity>

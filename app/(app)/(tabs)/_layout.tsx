@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Header } from '@react-navigation/elements'
 import { Tabs } from 'expo-router'
 import { useState } from 'react'
@@ -26,6 +27,13 @@ export default function TabLayout() {
       borderRadius: 15,
       paddingVertical: 7.5,
       paddingHorizontal: 18
+    },
+    classButton: {
+      borderRadius: 15,
+      paddingVertical: 7.5,
+      paddingHorizontal: 18,
+      borderWidth: 1,
+      borderColor: myTheme.primary
     }
   })
 
@@ -42,6 +50,9 @@ export default function TabLayout() {
         },
         tabBarIconStyle: {
           margin: 5
+        },
+        tabBarItemStyle: {
+          borderRadius: 15
         },
         tabBarHideOnKeyboard: true
       }}
@@ -108,8 +119,8 @@ export default function TabLayout() {
             />
           ),
           tabBarIcon: ({ color, focused }) => (
-            <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
-              <Feather size={height <= myDeviceHeight.sm ? 24 : 28} name='play-circle' color={color} />
+            <View style={style.classButton} backgroundColor={focused ? myTheme.lighter : undefined}>
+              <FontAwesome size={height <= myDeviceHeight.sm ? 28 : 32} name='play-circle' color={myTheme.primary} />
             </View>
           )
         }}

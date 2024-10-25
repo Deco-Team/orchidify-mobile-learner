@@ -61,7 +61,7 @@ const FilterModal: React.FC<IFilterModalProps> = ({
         index={1}
         snapPoints={snapPoints}
       >
-        <BottomSheetView style={{ flex: 1, alignItems: 'center' }}>
+        <BottomSheetView style={{ flex: 1, alignItems: 'center', paddingHorizontal: 1 }}>
           <ScrollView
             contentContainerStyle={{
               alignItems: 'flex-start',

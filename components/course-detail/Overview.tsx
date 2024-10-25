@@ -70,11 +70,13 @@ const Overview = ({
           />
         ))}
       </View>
-      <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-        <MyText text='0' styleProps={{ fontFamily: myFontWeight.bold, marginRight: 5 }} />
-        <StarRatingDisplay starSize={20} color={myTheme.yellow} starStyle={{ marginHorizontal: 0 }} rating={rate} />
-        <MyText text='(445)' styleProps={{ marginRight: 5, color: myTextColor.caption }} />
-      </View>
+      {!rate ? undefined : (
+        <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
+          <MyText text={'0'} styleProps={{ fontFamily: myFontWeight.bold, marginRight: 5 }} />
+          <StarRatingDisplay starSize={20} color={myTheme.yellow} starStyle={{ marginHorizontal: 0 }} rating={rate} />
+          <MyText text='(445)' styleProps={{ marginRight: 5, color: myTextColor.caption }} />
+        </View>
+      )}
       <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
         <MyText text='Tạo bởi' styleProps={{ fontSize: 14, marginRight: 5 }} />
         <MyText
