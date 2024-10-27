@@ -1,11 +1,10 @@
-import axios from 'axios'
 import { useCallback } from 'react'
 
 import useApi from './useApi'
 
 import { IClass, IClassDetail, IMomoResponse } from '@/contracts/interfaces/class.interface'
-import { errorMessage } from '@/contracts/messages'
-import { CommonErrorResponse, IPagination } from '@/contracts/types'
+import { IPagination } from '@/contracts/types'
+import { resolveError } from '@/utils'
 
 const useClass = () => {
   const callApi = useApi()
@@ -26,12 +25,7 @@ const useClass = () => {
         )
         return result.data
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const response = error.response?.data as CommonErrorResponse
-          return response.message
-        } else {
-          return errorMessage.ERM033
-        }
+        resolveError(error)
       }
     },
     [callApi]
@@ -49,7 +43,7 @@ const useClass = () => {
       type?: string
       level?: string[]
       status?: string[]
-      sort?: string[]
+      sort?: string
     }) => {
       try {
         const result = await callApi<IPagination<IClass>>(
@@ -66,12 +60,7 @@ const useClass = () => {
         )
         return result.data
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const response = error.response?.data as CommonErrorResponse
-          return response.message
-        } else {
-          return errorMessage.ERM033
-        }
+        resolveError(error)
       }
     },
     [callApi]
@@ -83,12 +72,7 @@ const useClass = () => {
         const result = await callApi<IClassDetail>('get', `${rootEndpoint}my-classes/${classId}`)
         return result.data
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const response = error.response?.data as CommonErrorResponse
-          return response.message
-        } else {
-          return errorMessage.ERM033
-        }
+        resolveError(error)
       }
     },
     [callApi]

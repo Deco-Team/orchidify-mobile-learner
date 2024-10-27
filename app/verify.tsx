@@ -7,7 +7,7 @@ import OTPTextInput from 'react-native-otp-textinput'
 import { Button, View } from 'react-native-ui-lib'
 import { useTimer } from 'react-timer-hook'
 
-import MyText from '@/components/MyText'
+import MyText from '@/components/common/MyText'
 import { useSession } from '@/contexts/AuthContext'
 import { myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import useAuth from '@/hooks/api/useAuth'

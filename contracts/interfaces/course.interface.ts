@@ -33,7 +33,7 @@ export interface ICourseDetail {
   code: string
   title: string
   description: string
-  price: 500000
+  price: number
   level: LEVEL
   type: string[]
   duration: number
@@ -54,6 +54,7 @@ export interface ICourseDetail {
   updatedAt: string
   instructor: IInstructor
   classes: IClass[]
+  learnerClass: null
 }
 
 export interface IInstructor {
@@ -89,5 +90,3 @@ export interface ICourseType {
   groupName: string
   groupItems: string[]
 }
-export { IMedia }
-

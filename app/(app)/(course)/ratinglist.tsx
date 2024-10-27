@@ -3,7 +3,7 @@ import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutF
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 import { ProgressBar, View } from 'react-native-ui-lib'
 
-import MyText from '@/components/MyText'
+import MyText from '@/components/common/MyText'
 import RatingFilterButton from '@/components/course-detail/RatingFilterButton'
 import RatingList from '@/components/course-detail/RatingList'
 import { myFontWeight, myTheme, width } from '@/contracts/constants'

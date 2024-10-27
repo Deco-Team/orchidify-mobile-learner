@@ -2,7 +2,7 @@ import React from 'react'
 import { Shadow } from 'react-native-shadow-2'
 import { Badge, View } from 'react-native-ui-lib'
 
-import MyText from '../MyText'
+import MyText from '../common/MyText'
 
 import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 

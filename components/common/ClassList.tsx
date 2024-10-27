@@ -4,8 +4,8 @@ import React from 'react'
 import { Shadow } from 'react-native-shadow-2'
 import { Carousel, Chip, View } from 'react-native-ui-lib'
 
-import MyLink from '../MyLink'
-import MyText from '../MyText'
+import MyLink from './MyLink'
+import MyText from './MyText'
 
 import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IClass } from '@/contracts/interfaces/course.interface'
@@ -58,7 +58,13 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
               <View style={{ flexDirection: 'row', gap: 5 }}>
                 <Feather name='map-pin' size={20} color={myTheme.grey} />
                 <MyLink
-                  href='/'
+                  href={{
+                    pathname: '/(app)/(course)/garden-information/[gardenId]',
+                    params: {
+                      gardenId: value.gardenId,
+                      title: value.garden.name
+                    }
+                  }}
                   text={value.garden.name}
                   styleProps={{ color: myTextColor.caption, textDecorationLine: 'underline' }}
                 />
@@ -119,7 +125,13 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
               <View style={{ flexDirection: 'row', gap: 5 }}>
                 <Feather name='map-pin' size={20} color={myTheme.grey} />
                 <MyLink
-                  href='/'
+                  href={{
+                    pathname: '/(app)/(course)/garden-information/[gardenId]',
+                    params: {
+                      gardenId: value.gardenId,
+                      title: value.garden.name
+                    }
+                  }}
                   text={value.garden.name}
                   styleProps={{ color: myTextColor.caption, textDecorationLine: 'underline' }}
                 />

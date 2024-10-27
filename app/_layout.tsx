@@ -2,7 +2,7 @@ import { Header, HeaderBackButton } from '@react-navigation/elements'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack, useRouter } from 'expo-router'
 import { useEffect } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { Appearance, Platform, StatusBar, StyleSheet } from 'react-native'
 import { View } from 'react-native-ui-lib'
 
 import { SessionProvider } from '@/contexts/AuthContext'
@@ -37,13 +37,16 @@ export default function Root() {
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      paddingTop: 50
+      flex: 1
     }
   })
 
   return (
-    <View useSafeArea={Platform.OS === 'ios'} style={styles.container}>
+    <View useSafeArea={Platform.OS === 'ios' || Platform.OS === 'android'} style={styles.container}>
+      <StatusBar
+        translucent={false}
+        backgroundColor={Appearance.getColorScheme() === 'dark' ? 'black' : 'transparent'}
+      />
       <SessionProvider>
         <Stack>
           <Stack.Screen
@@ -74,9 +77,6 @@ export default function Root() {
                     />
                   )}
                   title='Đăng nhập'
-                  headerStyle={{
-                    height: 60
-                  }}
                   headerTitleStyle={{
                     fontFamily: myFontWeight.bold
                   }}
@@ -99,9 +99,6 @@ export default function Root() {
                       onPress={() => router.back()}
                     />
                   )}
-                  headerStyle={{
-                    height: 60
-                  }}
                   headerTitleStyle={{
                     fontFamily: myFontWeight.bold
                   }}
@@ -115,9 +112,6 @@ export default function Root() {
               header: () => (
                 <Header
                   title='Xác minh tài khoản'
-                  headerStyle={{
-                    height: 60
-                  }}
                   headerTitleStyle={{
                     fontFamily: myFontWeight.bold
                   }}

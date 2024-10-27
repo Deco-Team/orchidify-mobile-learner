@@ -6,7 +6,7 @@ import React from 'react'
 import { Alert, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { View } from 'react-native-ui-lib'
 
-import MyText from '@/components/MyText'
+import MyText from '@/components/common/MyText'
 import { useSession } from '@/contexts/AuthContext'
 import { myDeviceWidth, myFontWeight, myTheme, width } from '@/contracts/constants'
 const ProfileScreen = () => {

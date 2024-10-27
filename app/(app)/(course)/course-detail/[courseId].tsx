@@ -1,17 +1,17 @@
 import Entypo from '@expo/vector-icons/Entypo'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import { Button, LoaderScreen, TouchableOpacity, View } from 'react-native-ui-lib'
 
-import MyLink from '@/components/MyLink'
-import MyText from '@/components/MyText'
+import ClassList from '@/components/common/ClassList'
+import CourseDescription from '@/components/common/CourseDescription'
+import InstructorBio from '@/components/common/InstructorBio'
+import MyLink from '@/components/common/MyLink'
+import MyText from '@/components/common/MyText'
+import Overview from '@/components/common/Overview'
 import ChooseClassModal from '@/components/course-detail/ChooseClassModal'
-import ClassList from '@/components/course-detail/ClassList'
-import CourseDescription from '@/components/course-detail/CourseDescription'
-import InstructorBio from '@/components/course-detail/InstructorBio'
-import Overview from '@/components/course-detail/Overview'
 import RatingList from '@/components/course-detail/RatingList'
 import SessonList from '@/components/course-detail/SessonList'
 import { height, width, myFontWeight, myTextColor, myTheme, LEVEL, COURSE_STATUS } from '@/contracts/constants'
@@ -23,8 +23,8 @@ const defaultCourseDetail: ICourseDetail = {
   code: '',
   title: '',
   description: '',
-  price: 500000,
-  level: LEVEL.BASIC, // Assuming LEVEL is an enum or string
+  price: 0,
+  level: LEVEL.BASIC,
   type: [],
   duration: 0,
   thumbnail: '',
@@ -46,12 +46,13 @@ const defaultCourseDetail: ICourseDetail = {
     idCardPhoto: '',
     avatar: 'https://picsum.photos/200'
   },
+  learnerClass: null,
   classes: []
 }
 
 const CourseDetailScreen = () => {
   const { courseId } = useLocalSearchParams()
-
+  const router = useRouter()
   const [collapseClass, setCollapseClass] = useState(true)
   const [collapseSesson, setCollapseSesson] = useState(true)
   const [data, setData] = useState<ICourseDetail>(defaultCourseDetail)
@@ -78,7 +79,17 @@ const CourseDetailScreen = () => {
   }
 
   const handleEnrolClass = () => {
-    console.log(chooseClass)
+    router.push({
+      pathname: '/(app)/(course)/checkout',
+      params: {
+        classId: chooseClass,
+        instructorName: data.instructor.name,
+        title: data.title,
+        image: data.thumbnail,
+        price: data.price,
+        discount: data.discount
+      }
+    })
   }
 
   return (
@@ -97,10 +108,7 @@ const CourseDetailScreen = () => {
           keyboardVerticalOffset={100}
         >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <ScrollView
-              contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}
-              style={{ paddingHorizontal: 15, flex: 1 }}
-            >
+            <ScrollView contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }} style={{ flex: 1 }}>
               <Overview
                 rate={data.rate}
                 media={data.media}
@@ -113,84 +121,86 @@ const CourseDetailScreen = () => {
                 courseTypes={data.type}
                 instructorName={data.instructor.name}
               />
-              <CourseDescription description={data.description} />
-              <InstructorBio instructorInfo={data.instructor} />
-              <TouchableOpacity
-                onPress={() => setCollapseClass(!collapseClass)}
-                style={{
-                  alignSelf: 'flex-start',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: (width * 11) / 12,
-                  justifyContent: 'space-between',
-                  marginTop: 20,
-                  marginBottom: 10
-                }}
-              >
-                <MyText
-                  text='Lớp học'
-                  styleProps={{
-                    fontFamily: myFontWeight.bold,
-                    fontSize: 16,
-                    alignSelf: 'flex-start'
+              <View style={{ paddingHorizontal: 15 }}>
+                <CourseDescription description={data.description} />
+                <InstructorBio contactButton={false} instructorInfo={data.instructor} />
+                <TouchableOpacity
+                  onPress={() => setCollapseClass(!collapseClass)}
+                  style={{
+                    alignSelf: 'flex-start',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: (width * 11) / 12,
+                    justifyContent: 'space-between',
+                    marginTop: 20,
+                    marginBottom: 10
                   }}
-                />
-                <Entypo name={collapseClass ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
-              </TouchableOpacity>
-              <Collapsible collapsed={collapseClass}>
-                <ClassList classList={data.classes} />
-              </Collapsible>
-              <TouchableOpacity
-                onPress={() => setCollapseSesson(!collapseSesson)}
-                style={{
-                  alignSelf: 'flex-start',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: (width * 11) / 12,
-                  justifyContent: 'space-between',
-                  marginTop: 20,
-                  marginBottom: 10
-                }}
-              >
-                <MyText
-                  text='Nội dung buổi học'
-                  styleProps={{
-                    fontFamily: myFontWeight.bold,
-                    fontSize: 16,
-                    alignSelf: 'flex-start'
+                >
+                  <MyText
+                    text='Lớp học'
+                    styleProps={{
+                      fontFamily: myFontWeight.bold,
+                      fontSize: 16,
+                      alignSelf: 'flex-start'
+                    }}
+                  />
+                  <Entypo name={collapseClass ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+                </TouchableOpacity>
+                <Collapsible collapsed={collapseClass}>
+                  <ClassList classList={data.classes} />
+                </Collapsible>
+                <TouchableOpacity
+                  onPress={() => setCollapseSesson(!collapseSesson)}
+                  style={{
+                    alignSelf: 'flex-start',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: (width * 11) / 12,
+                    justifyContent: 'space-between',
+                    marginTop: 20,
+                    marginBottom: 10
                   }}
-                />
-                <Entypo name={collapseSesson ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
-              </TouchableOpacity>
-              <Collapsible collapsed={collapseSesson}>
-                <SessonList sessonList={data.sessions} />
-              </Collapsible>
-              <View
-                style={{
-                  alignSelf: 'flex-start',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: (width * 11) / 12,
-                  justifyContent: 'space-between',
-                  marginTop: 20,
-                  marginBottom: 10
-                }}
-              >
-                <MyText
-                  text='Đánh giá'
-                  styleProps={{
-                    fontFamily: myFontWeight.bold,
-                    fontSize: 16,
-                    alignSelf: 'flex-start'
+                >
+                  <MyText
+                    text='Nội dung buổi học'
+                    styleProps={{
+                      fontFamily: myFontWeight.bold,
+                      fontSize: 16,
+                      alignSelf: 'flex-start'
+                    }}
+                  />
+                  <Entypo name={collapseSesson ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+                </TouchableOpacity>
+                <Collapsible collapsed={collapseSesson}>
+                  <SessonList sessonList={data.sessions} />
+                </Collapsible>
+                <View
+                  style={{
+                    alignSelf: 'flex-start',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: (width * 11) / 12,
+                    justifyContent: 'space-between',
+                    marginTop: 20,
+                    marginBottom: 10
                   }}
-                />
-                <MyLink
-                  href='/ratinglist'
-                  text='Xem thêm'
-                  styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
-                />
+                >
+                  <MyText
+                    text='Đánh giá'
+                    styleProps={{
+                      fontFamily: myFontWeight.bold,
+                      fontSize: 16,
+                      alignSelf: 'flex-start'
+                    }}
+                  />
+                  <MyLink
+                    href='/ratinglist'
+                    text='Xem thêm'
+                    styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
+                  />
+                </View>
+                <RatingList />
               </View>
-              <RatingList />
             </ScrollView>
           </TouchableWithoutFeedback>
           <ChooseClassModal

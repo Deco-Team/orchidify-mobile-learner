@@ -1,5 +1,6 @@
 import { Header, HeaderBackButton } from '@react-navigation/elements'
 import { Redirect, Stack, useGlobalSearchParams, useRouter } from 'expo-router'
+import { Appearance, StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { useSession } from '@/contexts/AuthContext'
@@ -15,6 +16,10 @@ export default function AppLayout() {
   }
   return (
     <GestureHandlerRootView>
+      <StatusBar
+        translucent={false}
+        backgroundColor={Appearance.getColorScheme() === 'dark' ? 'black' : 'transparent'}
+      />
       <Stack>
         <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         <Stack.Screen
@@ -32,9 +37,6 @@ export default function AppLayout() {
                   />
                 )}
                 title='Cập nhật tài khoản'
-                headerStyle={{
-                  height: 60
-                }}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
@@ -57,9 +59,6 @@ export default function AppLayout() {
                   />
                 )}
                 title='Chứng chỉ của tôi'
-                headerStyle={{
-                  height: 60
-                }}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
@@ -82,9 +81,6 @@ export default function AppLayout() {
                   />
                 )}
                 title={title}
-                headerStyle={{
-                  height: 60
-                }}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
@@ -107,9 +103,6 @@ export default function AppLayout() {
                   />
                 )}
                 title='Đánh giá'
-                headerStyle={{
-                  height: 60
-                }}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
@@ -132,9 +125,6 @@ export default function AppLayout() {
                   />
                 )}
                 title='Xác nhận thanh toán'
-                headerStyle={{
-                  height: 60
-                }}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
@@ -157,9 +147,6 @@ export default function AppLayout() {
                   />
                 )}
                 title={title}
-                headerStyle={{
-                  height: 60
-                }}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
@@ -182,9 +169,6 @@ export default function AppLayout() {
                   />
                 )}
                 title={title}
-                headerStyle={{
-                  height: 60
-                }}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}

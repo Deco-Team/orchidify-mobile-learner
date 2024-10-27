@@ -13,8 +13,8 @@ import {
 } from 'react-native'
 import { Button, TextField, View } from 'react-native-ui-lib'
 
-import MyLink from '@/components/MyLink'
-import MyText from '@/components/MyText'
+import MyLink from '@/components/common/MyLink'
+import MyText from '@/components/common/MyText'
 import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IRegisterFormPayload } from '@/contracts/interfaces/register.interface'
 import { errorMessage } from '@/contracts/messages'

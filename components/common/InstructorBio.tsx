@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { LayoutChangeEvent, TouchableOpacity, View } from 'react-native'
-import { Avatar } from 'react-native-ui-lib'
+import { Avatar, Button } from 'react-native-ui-lib'
 
-import MyText from '../MyText'
+import MyText from './MyText'
 
-import { myFontWeight, myTextColor, width } from '@/contracts/constants'
+import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IInstructor } from '@/contracts/interfaces/course.interface'
 
 interface IInstructorBio {
   instructorInfo: IInstructor
+  contactButton: boolean
 }
 
-const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo }) => {
+const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton }) => {
   const [readmoreInstructor, setReadmoreInstructor] = useState<number | undefined>(4)
   const [numberOfLinesInstructor, setNumberOfLinesInstructor] = useState(0)
 
@@ -33,13 +34,32 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo }) => {
           alignSelf: 'flex-start'
         }}
       />
-      <View style={{ alignSelf: 'flex-start', flexDirection: 'row', marginBottom: 10, gap: 10, alignItems: 'center' }}>
-        <Avatar
-          source={{
-            uri: instructorInfo.avatar
-          }}
-        />
-        <MyText styleProps={{ fontFamily: myFontWeight.bold }} text={instructorInfo.name} />
+      <View
+        style={{
+          alignSelf: 'flex-start',
+          flexDirection: 'row',
+          marginBottom: 10,
+          alignItems: 'center',
+          width: (width * 11) / 12,
+          justifyContent: 'space-between'
+        }}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <Avatar
+            source={{
+              uri: instructorInfo.avatar
+            }}
+          />
+          <MyText styleProps={{ fontFamily: myFontWeight.bold }} text={instructorInfo.name} />
+        </View>
+        {contactButton ? (
+          <Button
+            label='Trao đổi'
+            labelStyle={{ fontFamily: myFontWeight.semiBold }}
+            size='medium'
+            backgroundColor={myTheme.primary}
+          />
+        ) : undefined}
       </View>
       <MyText
         ellipsizeMode='tail'

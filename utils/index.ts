@@ -76,3 +76,7 @@ export const extractSlot = (slotNumber: SLOT_NUMBER) => {
       return { slotStart: '15:00', slotEnd: '17:00' }
   }
 }
+
+export const resolveError = (error: unknown) => {
+  resolveError(error)
+}

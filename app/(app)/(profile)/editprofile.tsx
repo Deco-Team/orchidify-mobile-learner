@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import { Avatar, Button, DateTimePicker, TextField, View } from 'react-native-ui-lib'
 
-import MyText from '@/components/MyText'
+import MyText from '@/components/common/MyText'
 import { height, LEARNER_STATUS, myDeviceHeight, myFontWeight, myTheme } from '@/contracts/constants'
 import { IEditUserPayload, IUser } from '@/contracts/interfaces/user.interface'
 import { successMessage } from '@/contracts/messages'
@@ -88,7 +88,7 @@ const EditProfileScreen = () => {
       }
     } else {
       setError('root', {
-        message: result as string
+        message: result as unknown as string
       })
     }
     setIsLoading(false)

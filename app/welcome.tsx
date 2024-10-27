@@ -2,8 +2,8 @@ import { useRouter } from 'expo-router'
 import { Button, Carousel, View } from 'react-native-ui-lib'
 
 import Banner from '@/assets/images/login-banner.svg'
-import MyLink from '@/components/MyLink'
-import MyText from '@/components/MyText'
+import MyLink from '@/components/common/MyLink'
+import MyText from '@/components/common/MyText'
 import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 
 export default function Welcome() {

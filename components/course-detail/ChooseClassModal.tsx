@@ -6,7 +6,7 @@ import { FlatList } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Chip, View } from 'react-native-ui-lib'
 
-import MyText from '@/components/MyText'
+import MyText from '@/components/common/MyText'
 import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IClass } from '@/contracts/interfaces/course.interface'
 import { extractWeekday, extractSlot } from '@/utils'
