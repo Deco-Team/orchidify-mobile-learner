@@ -1,4 +1,4 @@
-import { CLASS_STATUS, LEVEL } from '../constants'
+import { CLASS_STATUS, LEVEL, SLOT_NUMBER, WEEKDAY } from '../constants'
 import { IInstructor, IMedia } from './course.interface'
 
 export interface IMomoResponse {
@@ -55,8 +55,8 @@ export interface IClassDetail {
   }[]
   learnerLimit: number
   learnerQuantity: number
-  weekdays: string[]
-  slotNumbers: number[]
+  weekdays: WEEKDAY[]
+  slotNumbers: SLOT_NUMBER[]
   gardenRequiredToolkits: string
   instructorId: string
   gardenId: string

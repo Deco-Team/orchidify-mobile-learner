@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import { Carousel, LoaderScreen, View } from 'react-native-ui-lib'
 
+import MyLink from '@/components/common/MyLink'
 import MyText from '@/components/common/MyText'
 import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IGardenDetail } from '@/contracts/interfaces/garden.interface'
@@ -97,11 +98,12 @@ const GardenDetailScreen = () => {
                   />
                 ) : undefined}
               </Carousel>
-              <View style={{ paddingHorizontal: 15, alignSelf: 'flex-start', gap: 20 }}>
+              <View style={{ paddingHorizontal: 15, alignSelf: 'flex-start', gap: 10 }}>
                 <MyText text='Tên nhà vườn' weight={myFontWeight.bold} styleProps={{ fontSize: 20 }} />
                 <View style={{ flexDirection: 'row', gap: 5 }}>
                   <Feather name='map-pin' size={20} color={myTheme.grey} />
-                  <MyText
+                  <MyLink
+                    href={{ pathname: data.address as any }}
                     text={data.name}
                     styleProps={{ color: myTextColor.caption, textDecorationLine: 'underline' }}
                   />

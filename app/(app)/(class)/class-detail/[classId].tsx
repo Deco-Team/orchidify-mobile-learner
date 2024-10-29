@@ -1,4 +1,5 @@
-import { Entypo } from '@expo/vector-icons'
+import { Entypo, Feather } from '@expo/vector-icons'
+import dayjs from 'dayjs'
 import { useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import {
@@ -10,16 +11,18 @@ import {
   TouchableOpacity
 } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import { LoaderScreen, View } from 'react-native-ui-lib'
+import { Chip, LoaderScreen, View } from 'react-native-ui-lib'
 
 import CourseDescription from '@/components/common/CourseDescription'
 import InstructorBio from '@/components/common/InstructorBio'
+import MyLink from '@/components/common/MyLink'
 import MyText from '@/components/common/MyText'
 import Overview from '@/components/common/Overview'
-import SessonList from '@/components/course-detail/SessonList'
-import { myTheme, myFontWeight, LEVEL, CLASS_STATUS, width } from '@/contracts/constants'
+import SessionList from '@/components/course-detail/SessionList'
+import { myTheme, myFontWeight, LEVEL, CLASS_STATUS, width, myTextColor } from '@/contracts/constants'
 import { IClassDetail } from '@/contracts/interfaces/class.interface'
 import useClass from '@/hooks/api/useClass'
+import { extractSlot, extractWeekday } from '@/utils'
 
 const defaultClassDetail: IClassDetail = {
   _id: '',
@@ -71,8 +74,7 @@ const ClassDetailScreen = () => {
   const { getClassDetail } = useClass()
   const [data, setData] = useState<IClassDetail>(defaultClassDetail)
   const { classId } = useLocalSearchParams()
-  const [collapseSesson, setCollapseSesson] = useState(true)
-
+  const [collapseSession, setCollapseSession] = useState(true)
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
@@ -111,12 +113,63 @@ const ClassDetailScreen = () => {
                 courseTypes={data.type}
                 instructorName={data.instructor.name}
               />
-              <View style={{ paddingHorizontal: 15 }}>
+              <View style={{ paddingHorizontal: 15, marginTop: 15 }}>
+                <View
+                  style={{
+                    gap: 7.5,
+                    borderRadius: 16
+                  }}
+                >
+                  <View style={{ flexDirection: 'row', gap: 10 }}>
+                    <MyText
+                      text={data.code}
+                      styleProps={{
+                        fontFamily: myFontWeight.bold,
+                        fontSize: 16,
+                        alignSelf: 'flex-start'
+                      }}
+                    />
+                    <Chip
+                      label='Sắp bắt đầu'
+                      backgroundColor={myTheme.yellow}
+                      containerStyle={{ borderWidth: 0 }}
+                      labelStyle={{ color: '#FFF', fontFamily: myFontWeight.bold, fontSize: 10, margin: -2.5 }}
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'row', gap: 5 }}>
+                    <Feather name='calendar' size={20} color={myTheme.grey} />
+                    <MyText
+                      text={`Ngày bắt đầu: ${dayjs(data.startDate).format('DD/MM/YYYY')}`}
+                      styleProps={{ color: myTextColor.caption }}
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+                    <Feather name='clock' size={20} color={myTheme.grey} />
+                    <MyText
+                      text={`Thời gian học: ${data.weekdays.map((value) => extractWeekday(value)).join(', ')} • Tiết ${data.slotNumbers[0]}: ${extractSlot(data.slotNumbers[0]).slotStart} - ${extractSlot(data.slotNumbers[0]).slotEnd}`}
+                      styleProps={{ color: myTextColor.caption }}
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'row', gap: 5 }}>
+                    <Feather name='map-pin' size={20} color={myTheme.grey} />
+                    <MyLink
+                      href={{
+                        pathname: '/(app)/(course)/garden-information/[gardenId]',
+                        params: {
+                          gardenId: data.gardenId,
+                          title: data.garden.name
+                        }
+                      }}
+                      text={data.garden.name}
+                      styleProps={{ color: myTextColor.caption, textDecorationLine: 'underline' }}
+                    />
+                  </View>
+                </View>
                 <CourseDescription description={data.description} />
                 <InstructorBio contactButton instructorInfo={data.instructor} />
                 <View style={{ marginBottom: 20 }}>
                   <TouchableOpacity
-                    onPress={() => setCollapseSesson(!collapseSesson)}
+                    onPress={() => setCollapseSession(!collapseSession)}
                     style={{
                       alignSelf: 'flex-start',
                       flexDirection: 'row',
@@ -135,10 +188,14 @@ const ClassDetailScreen = () => {
                         alignSelf: 'flex-start'
                       }}
                     />
-                    <Entypo name={collapseSesson ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+                    <Entypo
+                      name={collapseSession ? 'chevron-small-up' : 'chevron-small-down'}
+                      size={26}
+                      color='black'
+                    />
                   </TouchableOpacity>
-                  <Collapsible collapsed={collapseSesson}>
-                    <SessonList sessonList={data.sessions} />
+                  <Collapsible collapsed={collapseSession}>
+                    <SessionList onPressHandleEvent sessionList={data.sessions} />
                   </Collapsible>
                 </View>
               </View>

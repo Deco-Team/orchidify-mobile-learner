@@ -13,7 +13,7 @@ import MyText from '@/components/common/MyText'
 import Overview from '@/components/common/Overview'
 import ChooseClassModal from '@/components/course-detail/ChooseClassModal'
 import RatingList from '@/components/course-detail/RatingList'
-import SessonList from '@/components/course-detail/SessonList'
+import SessionList from '@/components/course-detail/SessionList'
 import { height, width, myFontWeight, myTextColor, myTheme, LEVEL, COURSE_STATUS } from '@/contracts/constants'
 import { ICourseDetail } from '@/contracts/interfaces/course.interface'
 import useCourse from '@/hooks/api/useCourse'
@@ -54,7 +54,7 @@ const CourseDetailScreen = () => {
   const { courseId } = useLocalSearchParams()
   const router = useRouter()
   const [collapseClass, setCollapseClass] = useState(true)
-  const [collapseSesson, setCollapseSesson] = useState(true)
+  const [collapseSession, setCollapseSession] = useState(true)
   const [data, setData] = useState<ICourseDetail>(defaultCourseDetail)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -150,7 +150,7 @@ const CourseDetailScreen = () => {
                   <ClassList classList={data.classes} />
                 </Collapsible>
                 <TouchableOpacity
-                  onPress={() => setCollapseSesson(!collapseSesson)}
+                  onPress={() => setCollapseSession(!collapseSession)}
                   style={{
                     alignSelf: 'flex-start',
                     flexDirection: 'row',
@@ -169,10 +169,10 @@ const CourseDetailScreen = () => {
                       alignSelf: 'flex-start'
                     }}
                   />
-                  <Entypo name={collapseSesson ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+                  <Entypo name={collapseSession ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
                 </TouchableOpacity>
-                <Collapsible collapsed={collapseSesson}>
-                  <SessonList sessonList={data.sessions} />
+                <Collapsible collapsed={collapseSession}>
+                  <SessionList sessionList={data.sessions} />
                 </Collapsible>
                 <View
                   style={{

@@ -44,6 +44,7 @@ const CourseScreen = () => {
     const data = await getCourseList({
       title: searchKey,
       type: filterCourseType.join(', '),
+      level: filterLevel,
       sort: sort.join('_')
     })
     if (data && typeof data !== 'string') {
@@ -59,6 +60,7 @@ const CourseScreen = () => {
     ;(async () => {
       const data = await getCourseList({
         title: searchKey,
+        level: filterLevel,
         type: filterCourseType.join(', '),
         sort: sort.join('_')
       })
@@ -67,20 +69,18 @@ const CourseScreen = () => {
       }
       setRefreshing(false)
     })()
-  }, [filterCourseType, getCourseList, searchKey, sort, sortPrice, sortTitle])
+  }, [filterCourseType, filterLevel, getCourseList, searchKey, sort, sortPrice, sortTitle])
 
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      const data = await getCourseList({
-        title: searchKey
-      })
+      const data = await getCourseList({})
       if (data && typeof data !== 'string') {
         setData(data)
       }
       setIsLoading(false)
     })()
-  }, [getCourseList, searchKey])
+  }, [getCourseList])
 
   const handleClearFilter = () => {
     setFilterCourseType([])
@@ -118,6 +118,7 @@ const CourseScreen = () => {
                 )}
                 ListHeaderComponent={
                   <TextField
+                    onSubmitEditing={() => handleApplyFilter()}
                     inputMode='text'
                     value={searchKey}
                     onChangeText={setSearchKey}

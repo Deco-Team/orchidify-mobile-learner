@@ -90,3 +90,5 @@ export interface ICourseType {
   groupName: string
   groupItems: string[]
 }
+
+export { IMedia }

@@ -146,7 +146,7 @@ export default function AppLayout() {
                     onPress={() => router.back()}
                   />
                 )}
-                title={title}
+                title='Thông tin nhà vườn'
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
@@ -156,6 +156,28 @@ export default function AppLayout() {
         />
         <Stack.Screen
           name='(class)/class-detail/[classId]'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title={title}
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
+        <Stack.Screen
+          name='(class)/session-detail/[sessionId]'
           options={{
             header: () => (
               <Header

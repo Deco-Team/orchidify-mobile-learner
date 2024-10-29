@@ -78,7 +78,31 @@ const useClass = () => {
     [callApi]
   )
 
-  return { enrolClass, getClassDetail, getClassList }
+  const getAssignmentDetail = useCallback(
+    async (assignmentId: string) => {
+      try {
+        const result = await callApi<IClassDetail>('get', `${rootEndpoint}my-classes/assignments/${assignmentId}`)
+        return result.data
+      } catch (error) {
+        resolveError(error)
+      }
+    },
+    [callApi]
+  )
+
+  const getSessionDetail = useCallback(
+    async (sessionId: string) => {
+      try {
+        const result = await callApi<IClassDetail>('get', `${rootEndpoint}my-classes/sessions/${sessionId}`)
+        return result.data
+      } catch (error) {
+        resolveError(error)
+      }
+    },
+    [callApi]
+  )
+
+  return { enrolClass, getClassDetail, getClassList, getAssignmentDetail, getSessionDetail }
 }
 
 export default useClass

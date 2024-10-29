@@ -48,6 +48,7 @@ const MyClassScreen = () => {
       title: searchKey,
       type: filterCourseType.join(', '),
       sort: sortTitle,
+      level: filterLevel,
       status: [classStatus]
     })
     if (data && typeof data !== 'string') {
@@ -63,6 +64,7 @@ const MyClassScreen = () => {
       const data = await getClassList({
         title: searchKey,
         status: [classStatus],
+        level: filterLevel,
         type: filterCourseType.join(', '),
         sort: sortTitle
       })
@@ -71,13 +73,12 @@ const MyClassScreen = () => {
       }
       setRefreshing(false)
     })()
-  }, [classStatus, filterCourseType, getClassList, searchKey, sortTitle])
+  }, [classStatus, filterCourseType, filterLevel, getClassList, searchKey, sortTitle])
 
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
       const data = await getClassList({
-        title: searchKey,
         status: [classStatus]
       })
       if (data && typeof data !== 'string') {
@@ -85,7 +86,7 @@ const MyClassScreen = () => {
       }
       setIsLoading(false)
     })()
-  }, [classStatus, getClassList, searchKey])
+  }, [classStatus, getClassList])
 
   const handleClearFilter = () => {
     setFilterCourseType([])
@@ -102,7 +103,11 @@ const MyClassScreen = () => {
           style={{ flex: 1, backgroundColor: '#FFF' }}
           keyboardVerticalOffset={100}
         >
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              Keyboard.dismiss()
+            }}
+          >
             {isLoading ? (
               <LoaderScreen
                 size='large'
@@ -115,6 +120,7 @@ const MyClassScreen = () => {
                 ListHeaderComponent={
                   <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                     <TextField
+                      onSubmitEditing={() => handleApplyFilter()}
                       inputMode='text'
                       value={searchKey}
                       onChangeText={setSearchKey}

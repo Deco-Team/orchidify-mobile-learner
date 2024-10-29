@@ -88,7 +88,6 @@ const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, 
                     fill={progress.percentage}
                     rotation={0}
                     tintColor={myTheme.primary}
-                    onAnimationComplete={() => console.log('onAnimationComplete')}
                     backgroundColor='#f6faf9'
                   >
                     {() => (
