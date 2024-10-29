@@ -1,19 +1,16 @@
-import { View, StyleSheet } from 'react-native'
-
-import MyLink from '@/components/common/MyLink'
+import { KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
+import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <MyLink href='/_sitemap' text='Sitemap' />
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1, backgroundColor: '#FFF' }}
+        keyboardVerticalOffset={100}
+      >
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} />
+      </KeyboardAvoidingView>
+    </GestureHandlerRootView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})

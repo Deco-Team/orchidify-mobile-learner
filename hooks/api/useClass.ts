@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import useApi from './useApi'
 
-import { IClass, IClassDetail, IMomoResponse } from '@/contracts/interfaces/class.interface'
+import { IAssignment, IClass, IClassDetail, IStripeResponse, ISession } from '@/contracts/interfaces/class.interface'
 import { IPagination } from '@/contracts/types'
 import { resolveError } from '@/utils'
 
@@ -14,13 +14,13 @@ const useClass = () => {
   const enrolClass = useCallback(
     async (classId: string) => {
       try {
-        const result = await callApi<IMomoResponse>(
+        const result = await callApi<IStripeResponse>(
           'post',
           `${rootEndpoint}enroll/${classId}`,
           {},
           {},
           {
-            requestType: 'captureWallet'
+            paymentMethod: 'STRIPE'
           }
         )
         return result.data
@@ -79,9 +79,12 @@ const useClass = () => {
   )
 
   const getAssignmentDetail = useCallback(
-    async (assignmentId: string) => {
+    async (assignmentId: string, classId: string) => {
       try {
-        const result = await callApi<IClassDetail>('get', `${rootEndpoint}my-classes/assignments/${assignmentId}`)
+        const result = await callApi<IAssignment>(
+          'get',
+          `${rootEndpoint}my-classes/${classId}/assignments/${assignmentId}`
+        )
         return result.data
       } catch (error) {
         resolveError(error)
@@ -91,9 +94,9 @@ const useClass = () => {
   )
 
   const getSessionDetail = useCallback(
-    async (sessionId: string) => {
+    async (sessionId: string, classId: string) => {
       try {
-        const result = await callApi<IClassDetail>('get', `${rootEndpoint}my-classes/sessions/${sessionId}`)
+        const result = await callApi<ISession>('get', `${rootEndpoint}my-classes/${classId}/sessions/${sessionId}`)
         return result.data
       } catch (error) {
         resolveError(error)

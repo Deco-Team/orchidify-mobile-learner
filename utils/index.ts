@@ -25,6 +25,22 @@ export const pickImage = async () => {
   return null
 }
 
+export const takePhoto = async () => {
+  const result = await ImagePicker.launchCameraAsync({
+    base64: true,
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 1,
+    cameraType: ImagePicker.CameraType.back
+  })
+  if (!result.canceled) {
+    return result.assets
+  }
+
+  return null
+}
+
 export const extractLevel = (value: LEVEL) => {
   switch (value) {
     case LEVEL.BASIC:

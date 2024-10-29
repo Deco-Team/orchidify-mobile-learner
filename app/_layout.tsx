@@ -1,4 +1,6 @@
+import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import { Header, HeaderBackButton } from '@react-navigation/elements'
+import { StripeProvider } from '@stripe/stripe-react-native'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack, useRouter } from 'expo-router'
 import { useEffect } from 'react'
@@ -42,85 +44,94 @@ export default function Root() {
   })
 
   return (
-    <View useSafeArea={Platform.OS === 'ios' || Platform.OS === 'android'} style={styles.container}>
-      <StatusBar
-        translucent={false}
-        backgroundColor={Appearance.getColorScheme() === 'dark' ? 'black' : 'transparent'}
-      />
-      <SessionProvider>
-        <Stack>
-          <Stack.Screen
-            name='(app)'
-            options={{
-              headerShown: false
-            }}
+    <StripeProvider
+      publishableKey={
+        process.env.STRIPE_PUBLISHABLE_KEY ||
+        'pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4'
+      }
+    >
+      <ActionSheetProvider>
+        <View useSafeArea={Platform.OS === 'ios' || Platform.OS === 'android'} style={styles.container}>
+          <StatusBar
+            translucent={false}
+            backgroundColor={Appearance.getColorScheme() === 'dark' ? 'black' : 'transparent'}
           />
-          <Stack.Screen
-            name='welcome'
-            options={{
-              title: '',
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name='login'
-            options={{
-              header: () => (
-                <Header
-                  headerLeft={() => (
-                    <HeaderBackButton
-                      label='Quay lại'
-                      labelStyle={{
-                        fontFamily: myFontWeight.regular
+          <SessionProvider>
+            <Stack>
+              <Stack.Screen
+                name='(app)'
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name='welcome'
+                options={{
+                  title: '',
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name='login'
+                options={{
+                  header: () => (
+                    <Header
+                      headerLeft={() => (
+                        <HeaderBackButton
+                          label='Quay lại'
+                          labelStyle={{
+                            fontFamily: myFontWeight.regular
+                          }}
+                          onPress={() => router.back()}
+                        />
+                      )}
+                      title='Đăng nhập'
+                      headerTitleStyle={{
+                        fontFamily: myFontWeight.bold
                       }}
-                      onPress={() => router.back()}
                     />
-                  )}
-                  title='Đăng nhập'
-                  headerTitleStyle={{
-                    fontFamily: myFontWeight.bold
-                  }}
-                />
-              )
-            }}
-          />
-          <Stack.Screen
-            name='register'
-            options={{
-              header: () => (
-                <Header
-                  title='Tạo tài khoản'
-                  headerLeft={() => (
-                    <HeaderBackButton
-                      label='Quay lại'
-                      labelStyle={{
-                        fontFamily: myFontWeight.regular
+                  )
+                }}
+              />
+              <Stack.Screen
+                name='register'
+                options={{
+                  header: () => (
+                    <Header
+                      title='Tạo tài khoản'
+                      headerLeft={() => (
+                        <HeaderBackButton
+                          label='Quay lại'
+                          labelStyle={{
+                            fontFamily: myFontWeight.regular
+                          }}
+                          onPress={() => router.back()}
+                        />
+                      )}
+                      headerTitleStyle={{
+                        fontFamily: myFontWeight.bold
                       }}
-                      onPress={() => router.back()}
                     />
-                  )}
-                  headerTitleStyle={{
-                    fontFamily: myFontWeight.bold
-                  }}
-                />
-              )
-            }}
-          />
-          <Stack.Screen
-            name='verify'
-            options={{
-              header: () => (
-                <Header
-                  title='Xác minh tài khoản'
-                  headerTitleStyle={{
-                    fontFamily: myFontWeight.bold
-                  }}
-                />
-              )
-            }}
-          />
-        </Stack>
-      </SessionProvider>
-    </View>
+                  )
+                }}
+              />
+              <Stack.Screen
+                name='verify'
+                options={{
+                  header: () => (
+                    <Header
+                      title='Xác minh tài khoản'
+                      headerTitleStyle={{
+                        fontFamily: myFontWeight.bold
+                      }}
+                    />
+                  )
+                }}
+              />
+            </Stack>
+          </SessionProvider>
+        </View>
+      </ActionSheetProvider>
+    </StripeProvider>
   )
 }

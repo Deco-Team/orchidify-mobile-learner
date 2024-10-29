@@ -24,6 +24,7 @@ import { authSchema } from '@/contracts/validations/auth.validation'
 const LoginScreen = () => {
   const { login } = useSession()
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
   const [isShowPassword, setIsShowPassword] = useState(false)
   const {
     control,
@@ -40,6 +41,7 @@ const LoginScreen = () => {
   })
 
   const onSubmit = async (data: ILoginPayload) => {
+    setIsLoading(true)
     const result = await login(data.email, data.password)
     if (typeof result === 'string') {
       if (result.includes(errorMessage.ERM029)) {
@@ -50,7 +52,9 @@ const LoginScreen = () => {
           message: result
         })
       }
+      setIsLoading(false)
     } else {
+      setIsLoading(false)
       router.replace('/')
     }
   }
@@ -178,8 +182,9 @@ const LoginScreen = () => {
               onPress={handleSubmit(onSubmit)}
               label='Đăng nhập'
               size='large'
+              disabled={isLoading}
+              backgroundColor={myTheme.primary}
               style={{
-                backgroundColor: myTheme.primary,
                 minWidth: '95%',
                 height: 48,
                 justifyContent: 'center'

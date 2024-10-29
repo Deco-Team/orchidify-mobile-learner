@@ -23,7 +23,7 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
     setNumberOfLinesInstructor(calculatedLines)
   }
   return (
-    <>
+    <View style={{ marginHorizontal: 15 }}>
       <MyText
         text='Về giảng viên'
         styleProps={{
@@ -82,7 +82,7 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
           <MyText styleProps={{ color: myTextColor.primary }} text={!readmoreInstructor ? 'Rút gọn' : 'Xem thêm'} />
         )}
       </TouchableOpacity>
-    </>
+    </View>
   )
 }
 

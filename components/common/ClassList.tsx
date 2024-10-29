@@ -74,7 +74,7 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
         </View>
       ) : (
         <Carousel
-          style={{ flexGrow: 0, width }}
+          style={{ flexGrow: 0, marginTop: 15, marginBottom: classList.length === 1 ? 15 : undefined }}
           containerPaddingVertical={10}
           containerMarginHorizontal={7.5}
           pageControlProps={{

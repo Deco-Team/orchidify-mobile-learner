@@ -9,10 +9,12 @@ export const errorMessage = {
   ERM021:
     'Mật khẩu phải bao gồm ít nhất một chữ cái viết hoa, một chữ cái viết thường, một chữ số và một ký tự đặc biệt.',
   ERM023: 'Số điện thoại phải có 10 ký tự và bắt đầu bằng số 0.',
+  ERM025: 'Đã xảy ra lỗi khi <>. Vui lòng thử lại sau.',
   ERM029: 'Tài khoản chưa được xác thực. Vui lòng xác thực và thử lại.',
   ERM030: 'Mật khẩu không khớp.'
 }
 
 export const successMessage = {
-  SSM032: '<> thành công'
+  SSM032: '<> thành công',
+  SSM033: 'Đơn hàng của bạn đã được thanh toán'
 }

@@ -94,7 +94,7 @@ const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, 
                       <MyText
                         text={`${progress.percentage}%`}
                         weight={myFontWeight.semiBold}
-                        styleProps={{ color: myTextColor.primary, fontSize: 15 }}
+                        styleProps={{ color: myTextColor.primary, fontSize: 10 }}
                       />
                     )}
                   </AnimatedCircularProgress>

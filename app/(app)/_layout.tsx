@@ -176,8 +176,9 @@ export default function AppLayout() {
             )
           }}
         />
+        <Stack.Screen name='(class)/session-detail/[sessionId]' options={{ headerShown: false }} />
         <Stack.Screen
-          name='(class)/session-detail/[sessionId]'
+          name='(class)/assignment-detail/[assignmentId]'
           options={{
             header: () => (
               <Header
@@ -190,7 +191,7 @@ export default function AppLayout() {
                     onPress={() => router.back()}
                   />
                 )}
-                title={title}
+                title='Thông tin bài tập'
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}
