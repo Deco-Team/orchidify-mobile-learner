@@ -2,7 +2,7 @@ export interface IGardenDetail {
   _id: string
   name: string
   description: string
-  address: string
+  addressLink: string
   images: string[]
   status: string
   maxClass: number

@@ -1,18 +1,12 @@
 import { CLASS_STATUS, LEVEL, SLOT_NUMBER, WEEKDAY } from '../constants'
 import { IInstructor, IMedia } from './course.interface'
 
-export interface IMomoResponse {
-  partnerCode: string
-  requestId: string
-  orderId: string
-  amount: number
-  responseTime: number
-  message: string
-  resultCode: number
-  payUrl: string
-  shortLink: string
-  deeplink: string
-  qrCodeUrl: string
+export interface IStripeResponse {
+  id: string
+  paymentIntent: string
+  ephemeralKey: string
+  customer: string
+  publishableKey: string
 }
 
 export interface IClass {
@@ -91,4 +85,5 @@ export interface IAssignment {
   title: string
   description: string
   attachments: IMedia[]
+  sessionNumber?: number
 }

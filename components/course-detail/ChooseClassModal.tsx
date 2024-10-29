@@ -47,13 +47,10 @@ const ChooseClassModal: React.FC<ChooseClassModalProps> = ({
         snapPoints={snapPoints}
       >
         <BottomSheetView style={{ alignItems: 'flex-start', rowGap: 10 }}>
-          <MyText
-            text='Chọn lớp học'
-            weight={myFontWeight.bold}
-            styleProps={{ fontSize: 16, marginBottom: 10, marginLeft: 15 }}
-          />
+          <MyText text='Chọn lớp học' weight={myFontWeight.bold} styleProps={{ fontSize: 16, marginLeft: 15 }} />
           <FlatList
             data={classList}
+            contentContainerStyle={{ paddingBottom: 100, paddingTop: 15 }}
             renderItem={(value) => (
               <TouchableOpacity
                 onPress={() => handleChooseClass(value.item._id)}
@@ -66,7 +63,8 @@ const ChooseClassModal: React.FC<ChooseClassModalProps> = ({
                   marginLeft: 15,
                   paddingBottom: 10,
                   borderBottomColor: '#e8ebf0',
-                  borderBottomWidth: 0.75
+                  borderBottomWidth: 0.75,
+                  marginBottom: 15
                 }}
               >
                 <View style={{ rowGap: 7.5 }}>

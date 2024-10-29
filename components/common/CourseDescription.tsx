@@ -23,7 +23,7 @@ const CourseDescription: React.FC<ICourseDescription> = ({ description }) => {
   }
 
   return (
-    <View style={{ flexDirection: 'column' }}>
+    <View style={{ flexDirection: 'column', marginHorizontal: 15 }}>
       <MyText
         text='Về khóa học'
         styleProps={{

@@ -1,28 +1,46 @@
-import * as Linking from 'expo-linking'
-import { useLocalSearchParams } from 'expo-router'
+import { useStripe } from '@stripe/stripe-react-native'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
+import { Alert } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 import { Button, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
 import MyCheckoutCard from '@/components/course-detail/MyCheckoutCard'
 import { myFontWeight, myTheme, width } from '@/contracts/constants'
+import { errorMessage, successMessage } from '@/contracts/messages'
 import useClass from '@/hooks/api/useClass'
+import { extractMessage } from '@/utils'
 
 const CheckOutScreen = () => {
   const { classId, instructorName, title, image, price, discount } = useLocalSearchParams()
   const { enrolClass } = useClass()
-  const [isLoading, setIsLoading] = useState(false)
+  const { initPaymentSheet, presentPaymentSheet } = useStripe()
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleEnrolClass = async () => {
-    setIsLoading(true)
+    setLoading(true)
     const data = await enrolClass(classId as string)
     if (data && typeof data !== 'string') {
-      await Linking.openURL('https://test-payment.momo.vn/shortlink/WSHBcacmBj')
+      await initPaymentSheet({
+        merchantDisplayName: 'Orchidify',
+        customerId: data.customer,
+        customerEphemeralKeySecret: data.ephemeralKey,
+        paymentIntentClientSecret: data.paymentIntent,
+        allowsDelayedPaymentMethods: true
+      })
+      const { error } = await presentPaymentSheet()
+      if (error) {
+        Alert.alert('Lỗi', extractMessage(errorMessage.ERM025, ['thanh toán']))
+      } else {
+        Alert.alert('Thành công', successMessage.SSM033)
+        router.push('/(tabs)/myclass')
+      }
     } else {
-      console.log('Fail')
+      Alert.alert(errorMessage.ERM033)
     }
-    setIsLoading(false)
+    setLoading(false)
   }
 
   return (
@@ -70,6 +88,7 @@ const CheckOutScreen = () => {
           onPress={() => handleEnrolClass()}
           size='large'
           label='Thanh toán'
+          disabled={loading}
           backgroundColor={myTheme.primary}
           labelStyle={{ fontFamily: myFontWeight.bold }}
           style={{ marginVertical: 16, width: '90%' }}

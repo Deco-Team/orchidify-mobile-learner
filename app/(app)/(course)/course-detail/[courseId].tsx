@@ -1,7 +1,7 @@
 import Entypo from '@expo/vector-icons/Entypo'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import { Button, LoaderScreen, TouchableOpacity, View } from 'react-native-ui-lib'
 
@@ -107,144 +107,146 @@ const CourseDetailScreen = () => {
           style={{ flex: 1, backgroundColor: '#FFF' }}
           keyboardVerticalOffset={100}
         >
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <ScrollView contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }} style={{ flex: 1 }}>
-              <Overview
-                rate={data.rate}
-                media={data.media}
-                duration={data.duration}
-                classCount={data.classes.length}
-                sessionCount={data.sessions.length}
-                level={data.level}
-                learnerLimit={data.learnerLimit}
-                title={data.title}
-                courseTypes={data.type}
-                instructorName={data.instructor.name}
+          <ScrollView contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }} style={{ flex: 1 }}>
+            <Overview
+              rate={data.rate}
+              media={data.media}
+              duration={data.duration}
+              classCount={data.classes.length}
+              sessionCount={data.sessions.length}
+              level={data.level}
+              learnerLimit={data.learnerLimit}
+              title={data.title}
+              courseTypes={data.type}
+              instructorName={data.instructor.name}
+            />
+            <CourseDescription description={data.description} />
+            <InstructorBio contactButton={false} instructorInfo={data.instructor} />
+            <TouchableOpacity
+              onPress={() => setCollapseClass(!collapseClass)}
+              style={{
+                alignSelf: 'flex-start',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: (width * 11) / 12,
+                justifyContent: 'space-between',
+                marginTop: 20,
+                marginBottom: 10,
+                marginHorizontal: 15
+              }}
+            >
+              <MyText
+                text='Lớp học'
+                styleProps={{
+                  fontFamily: myFontWeight.bold,
+                  fontSize: 16,
+                  alignSelf: 'flex-start'
+                }}
               />
-              <View style={{ paddingHorizontal: 15 }}>
-                <CourseDescription description={data.description} />
-                <InstructorBio contactButton={false} instructorInfo={data.instructor} />
-                <TouchableOpacity
-                  onPress={() => setCollapseClass(!collapseClass)}
-                  style={{
-                    alignSelf: 'flex-start',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    width: (width * 11) / 12,
-                    justifyContent: 'space-between',
-                    marginTop: 20,
-                    marginBottom: 10
-                  }}
-                >
-                  <MyText
-                    text='Lớp học'
-                    styleProps={{
-                      fontFamily: myFontWeight.bold,
-                      fontSize: 16,
-                      alignSelf: 'flex-start'
-                    }}
-                  />
-                  <Entypo name={collapseClass ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
-                </TouchableOpacity>
-                <Collapsible collapsed={collapseClass}>
-                  <ClassList classList={data.classes} />
-                </Collapsible>
-                <TouchableOpacity
-                  onPress={() => setCollapseSession(!collapseSession)}
-                  style={{
-                    alignSelf: 'flex-start',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    width: (width * 11) / 12,
-                    justifyContent: 'space-between',
-                    marginTop: 20,
-                    marginBottom: 10
-                  }}
-                >
-                  <MyText
-                    text='Nội dung buổi học'
-                    styleProps={{
-                      fontFamily: myFontWeight.bold,
-                      fontSize: 16,
-                      alignSelf: 'flex-start'
-                    }}
-                  />
-                  <Entypo name={collapseSession ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
-                </TouchableOpacity>
-                <Collapsible collapsed={collapseSession}>
-                  <SessionList sessionList={data.sessions} />
-                </Collapsible>
-                <View
-                  style={{
-                    alignSelf: 'flex-start',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    width: (width * 11) / 12,
-                    justifyContent: 'space-between',
-                    marginTop: 20,
-                    marginBottom: 10
-                  }}
-                >
-                  <MyText
-                    text='Đánh giá'
-                    styleProps={{
-                      fontFamily: myFontWeight.bold,
-                      fontSize: 16,
-                      alignSelf: 'flex-start'
-                    }}
-                  />
-                  <MyLink
-                    href='/ratinglist'
-                    text='Xem thêm'
-                    styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
-                  />
-                </View>
-                <RatingList />
-              </View>
-            </ScrollView>
-          </TouchableWithoutFeedback>
+              <Entypo name={collapseClass ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+            </TouchableOpacity>
+            <Collapsible collapsed={collapseClass}>
+              <ClassList classList={data.classes} />
+            </Collapsible>
+            <TouchableOpacity
+              onPress={() => setCollapseSession(!collapseSession)}
+              style={{
+                alignSelf: 'flex-start',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: (width * 11) / 12,
+                justifyContent: 'space-between',
+                marginTop: 20,
+                marginBottom: 10,
+                marginHorizontal: 15
+              }}
+            >
+              <MyText
+                text='Nội dung buổi học'
+                styleProps={{
+                  fontFamily: myFontWeight.bold,
+                  fontSize: 16,
+                  alignSelf: 'flex-start'
+                }}
+              />
+              <Entypo name={collapseSession ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+            </TouchableOpacity>
+            <Collapsible collapsed={collapseSession}>
+              <SessionList sessionList={data.sessions} />
+            </Collapsible>
+            <View
+              style={{
+                alignSelf: 'flex-start',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: (width * 11) / 12,
+                justifyContent: 'space-between',
+                marginTop: 20,
+                marginBottom: 10,
+                marginHorizontal: 15
+              }}
+            >
+              <MyText
+                text='Đánh giá'
+                styleProps={{
+                  fontFamily: myFontWeight.bold,
+                  fontSize: 16,
+                  alignSelf: 'flex-start'
+                }}
+              />
+              <MyLink
+                href='/ratinglist'
+                text='Xem thêm'
+                styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
+              />
+            </View>
+            <RatingList />
+          </ScrollView>
           <ChooseClassModal
-            classList={data.classes}
+            classList={data.classes.filter((value) => value.learnerClass === null)}
             handleChooseClass={handleChooseClass}
             chooseClass={chooseClass}
             chooseClassModal={chooseClassModal}
             setChooseClassModal={setchooseClassModal}
           />
-          <View
-            style={{
-              height: height / 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingHorizontal: 15,
-              justifyContent: 'space-between',
-              paddingVertical: 5
-            }}
-          >
-            <View>
-              <MyText text='Tổng cộng' />
-              <MyText
-                text={`${data.price.toLocaleString()}đ`}
-                styleProps={{
-                  fontFamily: myFontWeight.bold,
-                  color: myTextColor.primary,
-                  fontSize: 18
-                }}
+          {data.classes.filter((value) => value.learnerClass === null).length === 0 ? undefined : (
+            <View
+              style={{
+                height: height / 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingHorizontal: 15,
+                justifyContent: 'space-between',
+                paddingVertical: 5,
+                backgroundColor: '#FFF'
+              }}
+            >
+              <View>
+                <MyText text='Tổng cộng' />
+                <MyText
+                  text={`${data.price.toLocaleString()}đ`}
+                  styleProps={{
+                    fontFamily: myFontWeight.bold,
+                    color: myTextColor.primary,
+                    fontSize: 18
+                  }}
+                />
+              </View>
+              <Button
+                onPress={
+                  chooseClassModal === -1
+                    ? () => setchooseClassModal(chooseClassModal === -1 ? 1 : -1)
+                    : () => handleEnrolClass()
+                }
+                size='large'
+                label='Tham gia'
+                disabled={chooseClass === '' && chooseClassModal === 1}
+                backgroundColor={myTheme.primary}
+                labelStyle={{ fontFamily: myFontWeight.bold }}
+                style={{ paddingHorizontal: 50 }}
               />
             </View>
-            <Button
-              onPress={
-                chooseClassModal === -1
-                  ? () => setchooseClassModal(chooseClassModal === -1 ? 1 : -1)
-                  : () => handleEnrolClass()
-              }
-              size='large'
-              label='Tham gia'
-              disabled={chooseClass === '' && chooseClassModal === 1}
-              backgroundColor={myTheme.primary}
-              labelStyle={{ fontFamily: myFontWeight.bold }}
-              style={{ paddingHorizontal: 50 }}
-            />
-          </View>
+          )}
         </KeyboardAvoidingView>
       )}
     </>

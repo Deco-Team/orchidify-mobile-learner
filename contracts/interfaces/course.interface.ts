@@ -83,7 +83,7 @@ export interface IClass {
   }
   learnerClass: {
     _id: string
-  }
+  } | null
 }
 
 export interface ICourseType {

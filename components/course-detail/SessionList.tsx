@@ -10,13 +10,15 @@ import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants
 
 const SessionList = ({
   sessionList,
-  onPressHandleEvent
+  onPressHandleEvent,
+  classId
 }: {
   sessionList: {
     _id: string
     title: string
   }[]
   onPressHandleEvent?: boolean
+  classId?: string
 }) => {
   const router = useRouter()
 
@@ -28,8 +30,8 @@ const SessionList = ({
             router.push({
               pathname: '/(app)/(class)/session-detail/[sessionId]',
               params: {
-                title: value.title,
-                sessionId: value._id
+                sessionId: value._id,
+                classId
               }
             })
           }
