@@ -13,8 +13,8 @@ import {
 } from 'react-native'
 import { Button, TextField, View } from 'react-native-ui-lib'
 
-import MyLink from '@/components/MyLink'
-import MyText from '@/components/MyText'
+import MyLink from '@/components/common/MyLink'
+import MyText from '@/components/common/MyText'
 import { useSession } from '@/contexts/AuthContext'
 import { height, myDeviceHeight, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { ILoginPayload } from '@/contracts/interfaces/auth.interface'
@@ -58,11 +58,11 @@ const LoginScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1, backgroundColor: '#FFF' }}
+      style={{ flex: 1 }}
       keyboardVerticalOffset={100}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <ScrollView style={{ flexDirection: 'column', paddingHorizontal: 20, backgroundColor: '#FFF' }}>
+        <ScrollView style={{ flexDirection: 'column', paddingHorizontal: 20 }}>
           <MyText
             text='Xin chào, mừng bạn quay trở lại Orchidify!'
             styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginVertical: 24 }}

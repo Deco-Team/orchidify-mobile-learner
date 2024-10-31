@@ -4,11 +4,11 @@ import React from 'react'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Shadow } from 'react-native-shadow-2'
-import { View } from 'react-native-ui-lib'
+import { Chip, View } from 'react-native-ui-lib'
 
-import MyText from '../MyText'
+import MyText from '../common/MyText'
 
-import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { CLASS_STATUS, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 
 interface IClassCard {
   title: string
@@ -21,9 +21,10 @@ interface IClassCard {
     completed: number
     percentage: number
   }
+  status: CLASS_STATUS
 }
 
-const MyClassCard: React.FC<IClassCard> = ({ classCode, instructorName, title, id, image, progress }) => {
+const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, title, id, image, progress }) => {
   const router = useRouter()
   return (
     <Shadow style={{ width: (width * 11) / 12 }}>
@@ -67,34 +68,38 @@ const MyClassCard: React.FC<IClassCard> = ({ classCode, instructorName, title, i
           >
             <MyText text={classCode} styleProps={{ color: myTextColor.caption, fontSize: 15 }} />
             <View style={{ alignItems: 'center', gap: 10, flexDirection: 'row' }}>
-              {/* <Chip
-                label='Sắp bắt đầu'
-                backgroundColor={myTheme.yellow}
-                containerStyle={{ borderWidth: 0 }}
-                labelStyle={{ color: '#FFF', fontFamily: myFontWeight.semiBold }}
-              /> */}
-              <MyText
-                text={`${progress.completed}/${progress.total}`}
-                weight={myFontWeight.semiBold}
-                styleProps={{ color: myTextColor.primary, fontSize: 15 }}
-              />
-              <AnimatedCircularProgress
-                size={45}
-                width={6}
-                fill={(progress.completed / progress.total) * 100}
-                rotation={0}
-                tintColor={myTheme.primary}
-                onAnimationComplete={() => console.log('onAnimationComplete')}
-                backgroundColor='#f6faf9'
-              >
-                {() => (
+              {status === CLASS_STATUS.PUBLISHED ? (
+                <Chip
+                  label='Sắp bắt đầu'
+                  backgroundColor={myTheme.yellow}
+                  containerStyle={{ borderWidth: 0 }}
+                  labelStyle={{ color: '#FFF', fontFamily: myFontWeight.semiBold }}
+                />
+              ) : (
+                <>
                   <MyText
-                    text={`${(progress.completed / progress.total) * 100}%`}
+                    text={`${progress.completed}/${progress.total}`}
                     weight={myFontWeight.semiBold}
                     styleProps={{ color: myTextColor.primary, fontSize: 15 }}
                   />
-                )}
-              </AnimatedCircularProgress>
+                  <AnimatedCircularProgress
+                    size={45}
+                    width={6}
+                    fill={progress.percentage}
+                    rotation={0}
+                    tintColor={myTheme.primary}
+                    backgroundColor='#f6faf9'
+                  >
+                    {() => (
+                      <MyText
+                        text={`${progress.percentage}%`}
+                        weight={myFontWeight.semiBold}
+                        styleProps={{ color: myTextColor.primary, fontSize: 15 }}
+                      />
+                    )}
+                  </AnimatedCircularProgress>
+                </>
+              )}
             </View>
           </View>
         </View>

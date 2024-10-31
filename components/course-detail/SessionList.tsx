@@ -1,24 +1,42 @@
+import { useRouter } from 'expo-router'
 import React from 'react'
+import { TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 import { Badge, View } from 'react-native-ui-lib'
 
-import MyText from '../MyText'
+import MyText from '../common/MyText'
 
 import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 
-const SessonList = ({
-  sessonList
+const SessionList = ({
+  sessionList,
+  onPressHandleEvent
 }: {
-  sessonList: {
+  sessionList: {
     _id: string
     title: string
   }[]
+  onPressHandleEvent?: boolean
 }) => {
+  const router = useRouter()
+
   return (
     <View style={{ width: (width * 11) / 12, padding: 10, flexDirection: 'column', rowGap: 12.5 }}>
-      {sessonList.map((value, i) => (
-        <Shadow key={i}>
-          <View
+      {sessionList.map((value, i) => (
+        <TouchableOpacity
+          onPress={() =>
+            router.push({
+              pathname: '/(app)/(class)/session-detail/[sessionId]',
+              params: {
+                title: value.title,
+                sessionId: value._id
+              }
+            })
+          }
+          disabled={!onPressHandleEvent}
+          key={i}
+        >
+          <Shadow
             style={{
               width: '100%',
               borderRadius: 16,
@@ -37,11 +55,11 @@ const SessonList = ({
               borderRadius={999}
             />
             <MyText text={value.title} weight={myFontWeight.semiBold} styleProps={{ fontSize: 14 }} />
-          </View>
-        </Shadow>
+          </Shadow>
+        </TouchableOpacity>
       ))}
     </View>
   )
 }
 
-export default SessonList
+export default SessionList

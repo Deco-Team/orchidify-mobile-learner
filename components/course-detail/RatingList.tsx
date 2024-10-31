@@ -2,7 +2,7 @@ import React from 'react'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 import { Avatar, View } from 'react-native-ui-lib'
 
-import MyText from '../MyText'
+import MyText from '../common/MyText'
 
 import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 

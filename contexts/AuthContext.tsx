@@ -1,15 +1,15 @@
-import axios from 'axios'
 import { useNavigation } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 import { jwtDecode } from 'jwt-decode'
 import { useContext, createContext, type PropsWithChildren, useState, useEffect } from 'react'
 
 import { IUser } from '@/contracts/interfaces/auth.interface'
+import { resolveError } from '@/utils'
 import { POST } from '@/utils/api.caller'
 import { log } from '@/utils/logger'
 
 const AuthContext = createContext<{
-  login: (email: string, password: string) => Promise<boolean | string>
+  login: (email: string, password: string) => Promise<boolean | string | undefined>
   logout: () => Promise<void>
   accessToken?: string | null
   refreshToken?: string | null
@@ -85,11 +85,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
             }
             return true
           } catch (error) {
-            if (axios.isAxiosError(error)) {
-              return error.response?.data.message
-            } else {
-              return 'Có lỗi xảy ra, vui lòng thử lại sau!'
-            }
+            resolveError(error)
           }
         },
         logout: async () => {
@@ -105,7 +101,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
             setAccessToken(undefined)
             setRefreshToken(undefined)
           } catch (error) {
-            log.error(error)
+            resolveError(error)
           }
         },
         setToken: async (accessToken, refreshToken) => {

@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+
+import MyLink from '@/components/common/MyLink'
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text>Hello World</Text>
+      <MyLink href='/_sitemap' text='Sitemap' />
     </View>
   )
 }

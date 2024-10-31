@@ -1,11 +1,9 @@
-import axios from 'axios'
 import { useCallback } from 'react'
 
 import useApi from './useApi'
 
 import { IEditUserPayload, IUser } from '@/contracts/interfaces/user.interface'
-import { errorMessage } from '@/contracts/messages'
-import { CommonErrorResponse } from '@/contracts/types'
+import { resolveError } from '@/utils'
 
 const useUser = () => {
   const callApi = useApi()
@@ -17,12 +15,7 @@ const useUser = () => {
       const result = await callApi<IUser>('get', rootEndpoint)
       return result.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const response = error.response?.data as CommonErrorResponse
-        return response.message
-      } else {
-        return errorMessage.ERM033
-      }
+      resolveError(error)
     }
   }, [callApi])
 
@@ -32,12 +25,7 @@ const useUser = () => {
         const result = await callApi<{ success: boolean }>('put', rootEndpoint, {}, {}, data)
         return result.data?.success
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const response = error.response?.data as CommonErrorResponse
-          return response.message
-        } else {
-          return errorMessage.ERM033
-        }
+        resolveError(error)
       }
     },
     [callApi]

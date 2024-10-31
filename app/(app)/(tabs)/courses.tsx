@@ -11,30 +11,41 @@ import {
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler'
 import { LoaderScreen, TextField } from 'react-native-ui-lib'
 
+import MyText from '@/components/common/MyText'
 import FilterModal from '@/components/course-list/FilterModal'
 import MyCourseCard from '@/components/course-list/MyCourseCard'
-import { COURSE_STATUS, height, myDeviceHeight, myFontWeight, myTheme, width } from '@/contracts/constants'
+import { COURSE_STATUS, height, myDeviceHeight, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { ICourseListResponse } from '@/contracts/interfaces/course.interface'
 import { IPagination } from '@/contracts/types'
 import useCourse from '@/hooks/api/useCourse'
 
 const CourseScreen = () => {
+  //#region state variable
   const [data, setData] = useState<IPagination<ICourseListResponse> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const { getCourseList } = useCourse()
 
   const [filterModal, setFilterModal] = useState(-1)
-  const [filterCourseType, setfilterCourseType] = useState<string[]>([])
+  const [filterCourseType, setFilterCourseType] = useState<string[]>([])
+  const [filterLevel, setFilterLevel] = useState<string[]>([])
+  const [sort, setSort] = useState<string[]>([])
+  const [sortTitle, setSortTitle] = useState<'title.asc' | 'title.desc' | ''>('')
   const [sortPrice, setSortPrice] = useState<'price.asc' | 'price.desc' | ''>('')
-  const [searchKey, setSearchKey] = useState('')
-  const [refreshing, setRefreshing] = useState(false)
 
+  const [searchKey, setSearchKey] = useState('')
+
+  const [refreshing, setRefreshing] = useState(false)
+  //#endregion
+
+  //#region event function
   const handleApplyFilter = async () => {
+    setSort([sortPrice, sortTitle].filter((value) => value === ''))
     setIsLoading(true)
     const data = await getCourseList({
       title: searchKey,
       type: filterCourseType.join(', '),
-      sort: sortPrice
+      level: filterLevel,
+      sort: sort.join('_')
     })
     if (data && typeof data !== 'string') {
       setData(data)
@@ -44,32 +55,42 @@ const CourseScreen = () => {
   }
 
   const onRefresh = useCallback(() => {
+    setSort([sortPrice, sortTitle].filter((value) => value === ''))
     setRefreshing(true)
     ;(async () => {
       const data = await getCourseList({
         title: searchKey,
+        level: filterLevel,
         type: filterCourseType.join(', '),
-        sort: sortPrice
+        sort: sort.join('_')
       })
       if (data && typeof data !== 'string') {
         setData(data)
       }
       setRefreshing(false)
     })()
-  }, [filterCourseType, getCourseList, searchKey, sortPrice])
+  }, [filterCourseType, filterLevel, getCourseList, searchKey, sort, sortPrice, sortTitle])
 
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      const data = await getCourseList({
-        title: searchKey
-      })
+      const data = await getCourseList({})
       if (data && typeof data !== 'string') {
         setData(data)
       }
       setIsLoading(false)
     })()
-  }, [getCourseList, searchKey])
+  }, [getCourseList])
+
+  const handleClearFilter = () => {
+    setFilterCourseType([])
+    setFilterLevel([])
+    setSortTitle('')
+    setSortPrice('')
+    setSort([])
+  }
+
+  //#endregion
 
   return (
     <>
@@ -89,8 +110,15 @@ const CourseScreen = () => {
               />
             ) : (
               <FlatList
+                ListEmptyComponent={() => (
+                  <MyText
+                    styleProps={{ fontFamily: myFontWeight.semiBold, color: myTextColor.caption }}
+                    text='Không có dữ liệu'
+                  />
+                )}
                 ListHeaderComponent={
                   <TextField
+                    onSubmitEditing={() => handleApplyFilter()}
                     inputMode='text'
                     value={searchKey}
                     onChangeText={setSearchKey}
@@ -158,13 +186,19 @@ const CourseScreen = () => {
         </KeyboardAvoidingView>
       </GestureHandlerRootView>
       <FilterModal
+        handleClearFilter={handleClearFilter}
         filterModal={filterModal}
         setFilterModal={setFilterModal}
         filterCourseType={filterCourseType}
-        setfilterCourseType={setfilterCourseType}
-        sortPrice={sortPrice}
-        setSortPrice={setSortPrice}
+        filterLevel={filterLevel}
+        setFilterLevel={setFilterLevel}
+        setFilterCourseType={setFilterCourseType}
         handleApplyFilter={handleApplyFilter}
+        setSortPrice={setSortPrice}
+        setSortTitle={setSortTitle}
+        sortPrice={sortPrice}
+        sortTitle={sortTitle}
+        isLoading={isLoading}
       />
     </>
   )

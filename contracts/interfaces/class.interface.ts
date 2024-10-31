@@ -1,5 +1,5 @@
-import { CLASS_STATUS, LEVEL } from '../constants'
-import { IMedia } from './course.interface'
+import { CLASS_STATUS, LEVEL, SLOT_NUMBER, WEEKDAY } from '../constants'
+import { IInstructor, IMedia } from './course.interface'
 
 export interface IMomoResponse {
   partnerCode: string
@@ -47,18 +47,16 @@ export interface IClassDetail {
   media: IMedia[]
   sessions: ISession[]
   status: CLASS_STATUS
-  histories: [
-    {
-      status: CLASS_STATUS
-      timestamp: string
-      userId: string
-      userRole: string
-    }
-  ]
+  histories: {
+    status: CLASS_STATUS
+    timestamp: string
+    userId: string
+    userRole: string
+  }[]
   learnerLimit: number
   learnerQuantity: number
-  weekdays: string[]
-  slotNumbers: number[]
+  weekdays: WEEKDAY[]
+  slotNumbers: SLOT_NUMBER[]
   gardenRequiredToolkits: string
   instructorId: string
   gardenId: string
@@ -66,19 +64,16 @@ export interface IClassDetail {
   createdAt: string
   updatedAt: string
   progress: {
-    total: 2
-    completed: 0
-    percentage: 0
+    total: number
+    completed: number
+    percentage: number
   }
   garden: {
     _id: string
     name: string
     id: string
   }
-  instructor: {
-    _id: string
-    name: string
-  }
+  instructor: IInstructor
   id: string
 }
 

@@ -3,7 +3,7 @@ import { LayoutChangeEvent } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { View } from 'react-native-ui-lib'
 
-import MyText from '../MyText'
+import MyText from './MyText'
 
 import { myFontWeight, myTextColor, width } from '@/contracts/constants'
 

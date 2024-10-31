@@ -61,6 +61,8 @@ export const extractWeekday = (value: WEEKDAY) => {
       return 'T7'
     case WEEKDAY.SUNDAY:
       return 'CN'
+    default:
+      return 'N/A'
   }
 }
 
@@ -74,5 +76,11 @@ export const extractSlot = (slotNumber: SLOT_NUMBER) => {
       return { slotStart: '12:30', slotEnd: '14:30' }
     case SLOT_NUMBER.FOUR:
       return { slotStart: '15:00', slotEnd: '17:00' }
+    default:
+      return { slotStart: 'N/A', slotEnd: 'N/A' }
   }
+}
+
+export const resolveError = (error: unknown) => {
+  resolveError(error)
 }

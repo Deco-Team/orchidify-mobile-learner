@@ -2,7 +2,7 @@ import React from 'react'
 import { GestureResponderEvent, TouchableOpacity } from 'react-native'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 
-import MyText from '../MyText'
+import MyText from '../common/MyText'
 
 import { myFontWeight, myTextColor, myTheme } from '@/contracts/constants'
 

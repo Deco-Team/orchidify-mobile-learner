@@ -1,11 +1,9 @@
-import axios from 'axios'
 import { useCallback } from 'react'
 
 import useApi from './useApi'
 
 import { IRegisterPayload, IResendOtpPayload, IVerifyOtpPayload } from '@/contracts/interfaces/register.interface'
-import { errorMessage } from '@/contracts/messages'
-import { CommonErrorResponse } from '@/contracts/types'
+import { resolveError } from '@/utils'
 
 const useAuth = () => {
   const callApi = useApi()
@@ -18,12 +16,7 @@ const useAuth = () => {
         await callApi('post', rootEndpoint + 'register', {}, {}, data)
         return true
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const response = error.response?.data as CommonErrorResponse
-          return response.message
-        } else {
-          return errorMessage.ERM033
-        }
+        resolveError(error)
       }
     },
     [callApi]
@@ -35,12 +28,7 @@ const useAuth = () => {
         await callApi('post', rootEndpoint + 'verify-otp', {}, {}, data)
         return true
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const response = error.response?.data as CommonErrorResponse
-          return response.message
-        } else {
-          return errorMessage.ERM033
-        }
+        resolveError(error)
       }
     },
     [callApi]
@@ -52,12 +40,7 @@ const useAuth = () => {
         await callApi('post', rootEndpoint + 'resend-otp', {}, {}, data)
         return true
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const response = error.response?.data as CommonErrorResponse
-          return response.message
-        } else {
-          return errorMessage.ERM033
-        }
+        resolveError(error)
       }
     },
     [callApi]
