@@ -16,7 +16,7 @@ const useGarden = () => {
         const result = await callApi<IGardenDetail>('get', `${rootEndpoint}${gardenId}`)
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]

@@ -1,8 +1,9 @@
 import Feather from '@expo/vector-icons/Feather'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import { Video, ResizeMode } from 'expo-av'
 import { Image } from 'expo-image'
-import React from 'react'
+import React, { useRef } from 'react'
 import { View } from 'react-native'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 import { Carousel, Chip } from 'react-native-ui-lib'
@@ -36,12 +37,12 @@ const Overview = ({
   media: IMedia[]
   rate?: number
 }) => {
+  const video = useRef<any>(null)
+
   return (
     <>
       <Carousel
         style={{ flexGrow: 0, marginTop: 15, marginBottom: media.length === 1 ? 15 : undefined }}
-        autoplay
-        autoplayInterval={3000}
         pageControlPosition={media.length === 1 ? undefined : 'under'}
         containerMarginHorizontal={2.5}
         pageControlProps={{
@@ -49,9 +50,39 @@ const Overview = ({
         }}
         pageWidth={media.length === 1 ? (width * 19) / 20 : (width * 4.5) / 6}
       >
-        {media.map((value, i) => (
-          <Image key={i} source={value.url} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
-        ))}
+        {media.map((value, i) => {
+          switch (value.resource_type) {
+            case 'image':
+              return <Image key={i} source={value.url} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
+            case 'video':
+              return (
+                <View
+                  key={i}
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    borderRadius: 16,
+                    aspectRatio: '16/9'
+                  }}
+                >
+                  <Video
+                    ref={video}
+                    style={{
+                      alignSelf: 'center',
+                      width: '100%',
+                      borderRadius: 16,
+                      height: '100%'
+                    }}
+                    source={{
+                      uri: value.url
+                    }}
+                    useNativeControls
+                    resizeMode={ResizeMode.CONTAIN}
+                  />
+                </View>
+              )
+          }
+        })}
         {media.length === 0 ? (
           <Image
             source={require('@/assets/images/no_image_placeholder.png')}

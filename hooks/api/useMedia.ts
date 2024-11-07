@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import useApi from './useApi'
 
+import { IMedia } from '@/contracts/interfaces/index.interface'
 import { IBase64Request, IBase64Response } from '@/contracts/interfaces/media.interface'
 import { resolveError } from '@/utils'
 
@@ -13,10 +14,10 @@ const useMedia = () => {
   const uploadViaBase64 = useCallback(
     async (data: IBase64Request) => {
       try {
-        const result = await callApi<IBase64Response>('post', rootEndpoint + 'upload/base64', {}, {}, data)
+        const result = await callApi<IMedia>('post', rootEndpoint + 'upload/base64', {}, {}, data)
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]

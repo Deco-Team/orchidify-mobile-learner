@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { LayoutChangeEvent, TouchableOpacity, View } from 'react-native'
 import { Avatar, Button } from 'react-native-ui-lib'
@@ -15,7 +16,7 @@ interface IInstructorBio {
 const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton }) => {
   const [readmoreInstructor, setReadmoreInstructor] = useState<number | undefined>(4)
   const [numberOfLinesInstructor, setNumberOfLinesInstructor] = useState(0)
-
+  const router = useRouter()
   const handleInstructorLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout
     const lineHeight = 18
@@ -34,7 +35,15 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
           alignSelf: 'flex-start'
         }}
       />
-      <View
+      <TouchableOpacity
+        onPress={() =>
+          router.push({
+            pathname: '/(app)/(course)/instructor/[instructorId]',
+            params: {
+              instructorId: instructorInfo._id
+            }
+          })
+        }
         style={{
           alignSelf: 'flex-start',
           flexDirection: 'row',
@@ -60,7 +69,7 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
             backgroundColor={myTheme.primary}
           />
         ) : undefined}
-      </View>
+      </TouchableOpacity>
       <MyText
         ellipsizeMode='tail'
         onLayout={handleInstructorLayout}

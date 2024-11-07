@@ -43,7 +43,7 @@ const useCourse = () => {
         )
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
@@ -55,7 +55,7 @@ const useCourse = () => {
         const result = await callApi<ICourseDetail>('get', `${rootEndpoint}${courseId}`)
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]

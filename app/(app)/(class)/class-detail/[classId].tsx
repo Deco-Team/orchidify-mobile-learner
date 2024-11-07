@@ -121,12 +121,14 @@ const ClassDetailScreen = () => {
                       alignSelf: 'flex-start'
                     }}
                   />
-                  <Chip
-                    label='Sắp bắt đầu'
-                    backgroundColor={myTheme.yellow}
-                    containerStyle={{ borderWidth: 0 }}
-                    labelStyle={{ color: '#FFF', fontFamily: myFontWeight.bold, fontSize: 10, margin: -2.5 }}
-                  />
+                  {data.status === CLASS_STATUS.PUBLISHED ? (
+                    <Chip
+                      label='Sắp bắt đầu'
+                      backgroundColor={myTheme.yellow}
+                      containerStyle={{ borderWidth: 0 }}
+                      labelStyle={{ color: '#FFF', fontFamily: myFontWeight.bold, fontSize: 10, margin: -2.5 }}
+                    />
+                  ) : undefined}
                 </View>
                 <View style={{ flexDirection: 'row', gap: 5 }}>
                   <Feather name='calendar' size={20} color={myTheme.grey} />
@@ -180,10 +182,15 @@ const ClassDetailScreen = () => {
                       alignSelf: 'flex-start'
                     }}
                   />
-                  <Entypo name={collapseSession ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+                  <Entypo name={!collapseSession ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseSession}>
-                  <SessionList onPressHandleEvent classId={classId as string} sessionList={data.sessions} />
+                  <SessionList
+                    classStatus={data.status}
+                    onPressHandleEvent
+                    classId={classId as string}
+                    sessionList={data.sessions}
+                  />
                 </Collapsible>
               </View>
             </View>

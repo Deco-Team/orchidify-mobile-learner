@@ -1,8 +1,9 @@
 import Feather from '@expo/vector-icons/Feather'
 import { HeaderBackButton } from '@react-navigation/elements'
+import { ResizeMode, Video } from 'expo-av'
 import { Image } from 'expo-image'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 import { Badge, Carousel, LoaderScreen, View } from 'react-native-ui-lib'
@@ -24,9 +25,9 @@ const SessionDetailScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const { getSessionDetail } = useClass()
-  const { sessionId, classId } = useLocalSearchParams()
+  const { sessionId, classId, classStatus } = useLocalSearchParams()
   const [data, setData] = useState<ISession>(defaultSessionDetail)
-
+  const video = useRef<any>(null)
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
@@ -57,7 +58,8 @@ const SessionDetailScreen = () => {
             contentContainerStyle={{
               alignItems: 'center',
               flexGrow: 1,
-              position: 'relative'
+              position: 'relative',
+              paddingBottom: 32
             }}
           >
             <HeaderBackButton
@@ -80,9 +82,37 @@ const SessionDetailScreen = () => {
               }}
               pageWidth={width}
             >
-              {data.media.map((value, i) => (
-                <Image key={i} source={value.url} style={{ aspectRatio: '16/9' }} />
-              ))}
+              {data.media.map((value, i) => {
+                switch (value.resource_type) {
+                  case 'image':
+                    return <Image key={i} source={value.url} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
+                  case 'video':
+                    return (
+                      <View
+                        key={i}
+                        style={{
+                          flex: 1,
+                          justifyContent: 'center',
+                          aspectRatio: '16/9'
+                        }}
+                      >
+                        <Video
+                          ref={video}
+                          style={{
+                            alignSelf: 'center',
+                            width: '100%',
+                            height: '100%'
+                          }}
+                          source={{
+                            uri: value.url
+                          }}
+                          useNativeControls
+                          resizeMode={ResizeMode.CONTAIN}
+                        />
+                      </View>
+                    )
+                }
+              })}
             </Carousel>
             <View style={{ paddingHorizontal: 15, alignSelf: 'flex-start', gap: 10 }}>
               <MyText text={data.title} weight={myFontWeight.bold} styleProps={{ fontSize: 20 }} />
@@ -101,7 +131,8 @@ const SessionDetailScreen = () => {
                         assignmentId: value._id,
                         classId,
                         sessionNumber: data.sessionNumber,
-                        sessionTitle: data.title
+                        sessionTitle: data.title,
+                        classStatus
                       }
                     })
                   }
