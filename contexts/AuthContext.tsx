@@ -85,7 +85,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
             }
             return true
           } catch (error) {
-            resolveError(error)
+            return resolveError(error)
           }
         },
         logout: async () => {
@@ -101,7 +101,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
             setAccessToken(undefined)
             setRefreshToken(undefined)
           } catch (error) {
-            resolveError(error)
+            return resolveError(error)
           }
         },
         setToken: async (accessToken, refreshToken) => {

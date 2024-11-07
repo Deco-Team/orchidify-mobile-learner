@@ -8,19 +8,22 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/"
+        "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
+        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/"
+        "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
+        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/"
+        "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
+        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4"
       }
     }
   },

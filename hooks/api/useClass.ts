@@ -2,7 +2,14 @@ import { useCallback } from 'react'
 
 import useApi from './useApi'
 
-import { IAssignment, IClass, IClassDetail, IStripeResponse, ISession } from '@/contracts/interfaces/class.interface'
+import {
+  IAssignment,
+  IClass,
+  IClassDetail,
+  IStripeResponse,
+  ISession,
+  IAssignmentSubmissionPayload
+} from '@/contracts/interfaces/class.interface'
 import { IPagination } from '@/contracts/types'
 import { resolveError } from '@/utils'
 
@@ -25,7 +32,7 @@ const useClass = () => {
         )
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
@@ -60,7 +67,7 @@ const useClass = () => {
         )
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
@@ -72,7 +79,7 @@ const useClass = () => {
         const result = await callApi<IClassDetail>('get', `${rootEndpoint}my-classes/${classId}`)
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
@@ -87,7 +94,7 @@ const useClass = () => {
         )
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
@@ -99,13 +106,25 @@ const useClass = () => {
         const result = await callApi<ISession>('get', `${rootEndpoint}my-classes/${classId}/sessions/${sessionId}`)
         return result.data
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
   )
 
-  return { enrolClass, getClassDetail, getClassList, getAssignmentDetail, getSessionDetail }
+  const submitAssignment = useCallback(
+    async (submitAssignmentPayload: IAssignmentSubmissionPayload, classId: string) => {
+      try {
+        await callApi('post', `${rootEndpoint}${classId}/submit-assignment`, {}, {}, submitAssignmentPayload)
+        return true
+      } catch (error) {
+        return resolveError(error)
+      }
+    },
+    [callApi]
+  )
+
+  return { enrolClass, getClassDetail, getClassList, getAssignmentDetail, getSessionDetail, submitAssignment }
 }
 
 export default useClass

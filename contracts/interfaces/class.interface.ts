@@ -83,7 +83,26 @@ export interface ISession {
 export interface IAssignment {
   _id: string
   title: string
+  submission: {
+    _id: string
+    attachments: IMedia[]
+    assignmentId: string
+    classId: string
+    createdAt: string
+    id: string
+    learnerId: string
+    status: string
+    updatedAt: string
+    point?: number
+    feedback?: string
+  } | null
   description: string
   attachments: IMedia[]
   sessionNumber?: number
+  deadline?: string
+}
+
+export interface IAssignmentSubmissionPayload {
+  attachments: IMedia[]
+  assignmentId: string
 }

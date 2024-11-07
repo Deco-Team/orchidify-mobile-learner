@@ -1,41 +1,52 @@
 import { useActionSheet } from '@expo/react-native-action-sheet'
+import { Feather } from '@expo/vector-icons'
 import Entypo from '@expo/vector-icons/Entypo'
+import dayjs from 'dayjs'
 import { Image } from 'expo-image'
 import { ImagePickerAsset } from 'expo-image-picker'
 import { useLocalSearchParams } from 'expo-router'
+import * as WebBrowser from 'expo-web-browser'
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native'
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
-import { Button, LoaderScreen } from 'react-native-ui-lib'
+import { Avatar, Badge, Button, LoaderScreen } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
-import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { CLASS_STATUS, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IAssignment } from '@/contracts/interfaces/class.interface'
+import { successMessage } from '@/contracts/messages'
 import useClass from '@/hooks/api/useClass'
-import { pickImage, takePhoto } from '@/utils'
+import useMedia from '@/hooks/api/useMedia'
+import { extractMessage, pickImage, takePhoto } from '@/utils'
 
 const defaultAssignmentDetail: IAssignment = {
   _id: '',
   attachments: [],
   description: '',
+  submission: null,
   title: ''
 }
 
 const AssignmentDetailScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { getAssignmentDetail } = useClass()
-  const { assignmentId, classId, sessionNumber, sessionTitle } = useLocalSearchParams()
+  const { assignmentId, classId, sessionNumber, sessionTitle, classStatus } = useLocalSearchParams()
   const [data, setData] = useState<IAssignment>(defaultAssignmentDetail)
   const [assignmentSubmission, setAssignmentSubmission] = useState(true)
   const [image, setImage] = useState<ImagePickerAsset[]>([])
-
+  const { uploadViaBase64 } = useMedia()
+  const { submitAssignment } = useClass()
   const { showActionSheetWithOptions } = useActionSheet()
-
   const handlePickImage = async () => {
     const result = await pickImage()
     if (result) {
       setImage(result)
     }
+  }
+
+  const handleOpenBrowser = async (url: string, isMedia = false) => {
+    if (isMedia) return await WebBrowser.openBrowserAsync(url)
+    return await WebBrowser.openBrowserAsync(`https://docs.google.com/viewerng/viewer?embedded=true&url=${url}`)
   }
 
   const handleTakePhoto = async () => {
@@ -75,14 +86,40 @@ const AssignmentDetailScreen = () => {
       setIsLoading(true)
       const assignmentDetail = await getAssignmentDetail(assignmentId as string, classId as string)
       if (assignmentDetail && typeof assignmentDetail !== 'string') {
-        console.log(assignmentDetail.attachments[0].resource_type)
         setData(assignmentDetail)
       }
       setIsLoading(false)
     })()
   }, [classId, getAssignmentDetail, assignmentId])
 
-  const handleSubmitAssignment = () => {
+  const handleSubmitAssignment = async () => {
+    setIsLoading(true)
+    if (image.length !== 0 && image[0].base64 && image[0].fileName) {
+      const media = await uploadViaBase64({
+        contents: image[0].base64,
+        folder: 'assignments',
+        public_id: image[0].fileName,
+        type: 'upload'
+      })
+      if (typeof media !== 'string' && media?.url) {
+        const result = await submitAssignment(
+          {
+            assignmentId: assignmentId as string,
+            attachments: [media]
+          },
+          classId as string
+        )
+        if (typeof result === 'boolean' && result === true) {
+          Alert.alert('Thành công', extractMessage(successMessage.SSM032, ['Nộp bài']))
+        } else if (typeof result === 'string') {
+          Alert.alert('Đã xảy ra lỗi', result)
+        }
+      }
+    }
+    setIsLoading(false)
+  }
+
+  const handleOpenSubmission = () => {
     setAssignmentSubmission(false)
   }
 
@@ -107,7 +144,7 @@ const AssignmentDetailScreen = () => {
               flexGrow: 1,
               paddingHorizontal: 15,
               position: 'relative',
-              gap: 10,
+              gap: 16,
               paddingTop: 10,
               paddingBottom: 32
             }}
@@ -118,21 +155,120 @@ const AssignmentDetailScreen = () => {
               styleProps={{ fontSize: 16 }}
             />
             <MyText text={data.title} weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
-            <MyText text={data.description} styleProps={{ color: myTextColor.caption, marginBottom: 16 }} />
+            <MyText text={data.description} styleProps={{ color: myTextColor.caption }} />
+            {data.deadline ? (
+              <MyText
+                text={`Thời hạn: ${dayjs(data.deadline).format('HH:mm DD/MM/YYYY')}`}
+                styleProps={{ color: myTheme.red }}
+              />
+            ) : undefined}
             <MyText text='Tệp đính kèm' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
             {data.attachments.length > 0
-              ? data.attachments.map((value) => (
-                  <Image
-                    style={{ aspectRatio: '16/9', borderRadius: 16, width: (width * 11) / 12, marginBottom: 16 }}
-                    source={value.url}
-                  />
-                ))
+              ? data.attachments.map((value, i) => {
+                  switch (value.resource_type) {
+                    case 'image':
+                      return (
+                        <TouchableOpacity key={i} onPress={() => handleOpenBrowser(value.url, true)}>
+                          <Shadow
+                            style={{
+                              width: (width * 11) / 12,
+                              borderRadius: 16,
+                              paddingHorizontal: 15,
+                              flexDirection: 'row',
+                              columnGap: 10,
+                              alignItems: 'center',
+                              paddingVertical: 15
+                            }}
+                          >
+                            <Badge
+                              customElement={<Feather name='image' size={20} color={myTheme.primary} />}
+                              backgroundColor={myTheme.lightPrimary}
+                              size={35}
+                              borderRadius={999}
+                            />
+                            <MyText
+                              text={value.original_filename}
+                              weight={myFontWeight.semiBold}
+                              styleProps={{ fontSize: 14 }}
+                            />
+                          </Shadow>
+                        </TouchableOpacity>
+                      )
+                    case 'video':
+                      return (
+                        <TouchableOpacity onPress={() => handleOpenBrowser(value.url, true)}>
+                          <Shadow
+                            style={{
+                              width: (width * 11) / 12,
+                              borderRadius: 16,
+                              paddingHorizontal: 15,
+                              flexDirection: 'row',
+                              columnGap: 10,
+                              alignItems: 'center',
+                              paddingVertical: 15
+                            }}
+                          >
+                            <Badge
+                              customElement={<Feather name='video' size={20} color={myTheme.primary} />}
+                              backgroundColor={myTheme.lightPrimary}
+                              size={35}
+                              borderRadius={999}
+                            />
+                            <MyText
+                              text={value.original_filename}
+                              weight={myFontWeight.semiBold}
+                              styleProps={{ fontSize: 14 }}
+                            />
+                          </Shadow>
+                        </TouchableOpacity>
+                      )
+                    case 'raw':
+                      return (
+                        <TouchableOpacity onPress={() => handleOpenBrowser(value.url)}>
+                          <Shadow
+                            style={{
+                              width: (width * 11) / 12,
+                              borderRadius: 16,
+                              paddingHorizontal: 15,
+                              flexDirection: 'row',
+                              columnGap: 10,
+                              alignItems: 'center',
+                              paddingVertical: 15
+                            }}
+                          >
+                            <Badge
+                              customElement={<Feather name='file-text' size={20} color={myTheme.primary} />}
+                              backgroundColor={myTheme.lightPrimary}
+                              size={35}
+                              borderRadius={999}
+                            />
+                            <MyText
+                              text={value.original_filename}
+                              weight={myFontWeight.semiBold}
+                              styleProps={{ fontSize: 14 }}
+                            />
+                          </Shadow>
+                        </TouchableOpacity>
+                      )
+                  }
+                })
               : undefined}
-            <MyText text='Tải ảnh' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
+            {image[0]?.uri ? (
+              <MyText text='Tải ảnh' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
+            ) : undefined}
             {image[0]?.uri ? (
               <Image
-                style={{ aspectRatio: '16/9', borderRadius: 16, width: (width * 11) / 12, marginBottom: 8 }}
+                style={{ aspectRatio: '16/9', borderRadius: 16, width: (width * 11) / 12 }}
                 source={image[0]?.uri}
+              />
+            ) : undefined}
+            {data.submission ? (
+              <MyText text='Bài làm đã nộp' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
+            ) : undefined}
+            {data.submission ? (
+              <Image
+                style={{ aspectRatio: '16/9', borderRadius: 16, width: (width * 11) / 12 }}
+                source={data.submission.attachments[0].url}
               />
             ) : undefined}
             {!assignmentSubmission ? (
@@ -155,15 +291,40 @@ const AssignmentDetailScreen = () => {
                 </Shadow>
               </TouchableOpacity>
             ) : undefined}
+            {data.submission?.point && data.submission?.feedback ? (
+              <View style={{ gap: 10, width: '100%' }}>
+                <MyText text='Nhận xét của giảng viên' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                  <Avatar
+                    source={{
+                      uri: 'https://picsum.photos/200'
+                    }}
+                  />
+                  <MyText styleProps={{ fontFamily: myFontWeight.bold }} text='PhongNH' />
+                </View>
+                <MyText
+                  text={`Điểm: ${data.submission?.point}/10`}
+                  weight={myFontWeight.bold}
+                  styleProps={{ fontSize: 14 }}
+                />
+                <MyText text='Nhận xét:' weight={myFontWeight.bold} styleProps={{ fontSize: 14 }} />
+                <MyText text={data.submission.feedback} styleProps={{ fontSize: 14, color: myTextColor.caption }} />
+                <MyText
+                  text={dayjs(data.submission.updatedAt).format('DD/MM/YYYY HH:MM:ss')}
+                  styleProps={{ fontSize: 12, color: myTextColor.caption, alignSelf: 'flex-end' }}
+                />
+              </View>
+            ) : undefined}
           </ScrollView>
-          {assignmentSubmission ? (
+          {(assignmentSubmission && classStatus === CLASS_STATUS.IN_PROGRESS && !data.submission) || image[0]?.uri ? (
             <Shadow style={{ width, alignItems: 'center', paddingVertical: 10 }}>
               <Button
-                onPress={handleSubmitAssignment}
+                disabled={isLoading}
+                onPress={image[0]?.uri ? handleSubmitAssignment : handleOpenSubmission}
                 labelStyle={{ fontFamily: myFontWeight.bold }}
                 backgroundColor={myTheme.primary}
                 style={{ width: (width * 11) / 12 }}
-                label='Bài làm'
+                label={image[0]?.uri ? 'Nộp bài' : 'Bài làm'}
               />
             </Shadow>
           ) : undefined}

@@ -16,7 +16,7 @@ const useAuth = () => {
         await callApi('post', rootEndpoint + 'register', {}, {}, data)
         return true
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
@@ -28,7 +28,7 @@ const useAuth = () => {
         await callApi('post', rootEndpoint + 'verify-otp', {}, {}, data)
         return true
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]
@@ -40,7 +40,7 @@ const useAuth = () => {
         await callApi('post', rootEndpoint + 'resend-otp', {}, {}, data)
         return true
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]

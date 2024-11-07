@@ -15,7 +15,7 @@ const useUser = () => {
       const result = await callApi<IUser>('get', rootEndpoint)
       return result.data
     } catch (error) {
-      resolveError(error)
+      return resolveError(error)
     }
   }, [callApi])
 
@@ -25,7 +25,7 @@ const useUser = () => {
         const result = await callApi<{ success: boolean }>('put', rootEndpoint, {}, {}, data)
         return result.data?.success
       } catch (error) {
-        resolveError(error)
+        return resolveError(error)
       }
     },
     [callApi]

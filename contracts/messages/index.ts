@@ -11,7 +11,8 @@ export const errorMessage = {
   ERM023: 'Số điện thoại phải có 10 ký tự và bắt đầu bằng số 0.',
   ERM025: 'Đã xảy ra lỗi khi <>. Vui lòng thử lại sau.',
   ERM029: 'Tài khoản chưa được xác thực. Vui lòng xác thực và thử lại.',
-  ERM030: 'Mật khẩu không khớp.'
+  ERM030: 'Mật khẩu không khớp.',
+  ERM034: '<> không thành công. Vui lòng thử lại.'
 }
 
 export const successMessage = {

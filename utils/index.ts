@@ -1,6 +1,9 @@
+import axios from 'axios'
 import * as ImagePicker from 'expo-image-picker'
 
 import { LEVEL, SLOT_NUMBER, WEEKDAY } from '@/contracts/constants'
+import { errorMessage } from '@/contracts/messages'
+import { CommonErrorResponse } from '@/contracts/types'
 
 export const extractMessage = (message: string, replace: string[]) => {
   let temp = message
@@ -98,5 +101,10 @@ export const extractSlot = (slotNumber: SLOT_NUMBER) => {
 }
 
 export const resolveError = (error: unknown) => {
-  resolveError(error)
+  if (axios.isAxiosError(error)) {
+    const response = error.response?.data as CommonErrorResponse
+    return response.message as string
+  } else {
+    return errorMessage.ERM033
+  }
 }

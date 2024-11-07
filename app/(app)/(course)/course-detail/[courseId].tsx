@@ -143,7 +143,7 @@ const CourseDetailScreen = () => {
                   alignSelf: 'flex-start'
                 }}
               />
-              <Entypo name={collapseClass ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+              <Entypo name={!collapseClass ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
             </TouchableOpacity>
             <Collapsible collapsed={collapseClass}>
               <ClassList classList={data.classes} />
@@ -169,7 +169,7 @@ const CourseDetailScreen = () => {
                   alignSelf: 'flex-start'
                 }}
               />
-              <Entypo name={collapseSession ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
+              <Entypo name={!collapseSession ? 'chevron-small-up' : 'chevron-small-down'} size={26} color='black' />
             </TouchableOpacity>
             <Collapsible collapsed={collapseSession}>
               <SessionList sessionList={data.sessions} />

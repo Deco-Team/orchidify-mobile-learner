@@ -6,12 +6,13 @@ import { Badge, View } from 'react-native-ui-lib'
 
 import MyText from '../common/MyText'
 
-import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { CLASS_STATUS, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 
 const SessionList = ({
   sessionList,
   onPressHandleEvent,
-  classId
+  classId,
+  classStatus
 }: {
   sessionList: {
     _id: string
@@ -19,6 +20,7 @@ const SessionList = ({
   }[]
   onPressHandleEvent?: boolean
   classId?: string
+  classStatus?: CLASS_STATUS
 }) => {
   const router = useRouter()
 
@@ -31,7 +33,8 @@ const SessionList = ({
               pathname: '/(app)/(class)/session-detail/[sessionId]',
               params: {
                 sessionId: value._id,
-                classId
+                classId,
+                classStatus
               }
             })
           }
