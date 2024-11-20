@@ -104,7 +104,11 @@ const InstructorDetailScreen = () => {
               borderRadius: 16
             }}
           >
-            <Avatar size={75} containerStyle={{ marginTop: -35 }} source={{ uri: data.avatar }} />
+            <Avatar
+              size={75}
+              containerStyle={{ marginTop: -35 }}
+              source={data.avatar ? { uri: data.avatar } : require('@/assets/images/no_avatar.png')}
+            />
             <MyText text={data.name} styleProps={{ marginTop: 15, fontSize: 20, fontFamily: myFontWeight.bold }} />
           </View>
           <TabView

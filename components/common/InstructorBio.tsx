@@ -6,14 +6,16 @@ import { Avatar, Button } from 'react-native-ui-lib'
 import MyText from './MyText'
 
 import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { IClassDetail } from '@/contracts/interfaces/class.interface'
 import { IInstructor } from '@/contracts/interfaces/course.interface'
 
 interface IInstructorBio {
   instructorInfo: IInstructor
   contactButton: boolean
+  classInfo: IClassDetail
 }
 
-const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton }) => {
+const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton, classInfo }) => {
   const [readmoreInstructor, setReadmoreInstructor] = useState<number | undefined>(4)
   const [numberOfLinesInstructor, setNumberOfLinesInstructor] = useState(0)
   const router = useRouter()
@@ -55,9 +57,8 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Avatar
-            source={{
-              uri: instructorInfo.avatar
-            }}
+            source={instructorInfo.avatar ? { uri: instructorInfo.avatar } : require('@/assets/images/no_avatar.png')}
+            name={instructorInfo.name}
           />
           <MyText styleProps={{ fontFamily: myFontWeight.bold }} text={instructorInfo.name} />
         </View>
@@ -67,6 +68,16 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
             labelStyle={{ fontFamily: myFontWeight.semiBold }}
             size='medium'
             backgroundColor={myTheme.primary}
+            onPress={() => {
+              router.push({
+                pathname: '/(app)/(class)/class-detail/[classId]/chat-box/[instructorId]',
+                params: {
+                  instructorId: instructorInfo._id,
+                  classId: classInfo._id,
+                  title: classInfo.code + ' - ' + instructorInfo.name
+                }
+              })
+            }}
           />
         ) : undefined}
       </TouchableOpacity>
