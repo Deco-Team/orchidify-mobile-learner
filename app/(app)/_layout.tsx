@@ -155,7 +155,7 @@ export default function AppLayout() {
           }}
         />
         <Stack.Screen
-          name='(class)/class-detail/[classId]'
+          name='(class)/class-detail/[classId]/index'
           options={{
             header: () => (
               <Header
@@ -236,6 +236,28 @@ export default function AppLayout() {
                   />
                 )}
                 title='Thông tin chứng chỉ'
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
+        <Stack.Screen
+          name='(class)/class-detail/[classId]/chat-box/[instructorId]'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title={title}
                 headerTitleStyle={{
                   fontFamily: myFontWeight.bold
                 }}

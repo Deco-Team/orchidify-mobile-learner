@@ -9,21 +9,42 @@
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
-        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4"
+        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyAFKFQ8M0ATQTRQRdAaBVFUpRv0xDjfjzs",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "orchidify-824d3.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "orchidify-824d3",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "orchidify-824d3.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "193742300055",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:193742300055:web:79e9846cab38b56746dad2",
+        "EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID": "G-9HM3L77F3W"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
-        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4"
+        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyAFKFQ8M0ATQTRQRdAaBVFUpRv0xDjfjzs",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "orchidify-824d3.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "orchidify-824d3",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "orchidify-824d3.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "193742300055",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:193742300055:web:79e9846cab38b56746dad2",
+        "EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID": "G-9HM3L77F3W"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
         "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
-        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4"
+        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyAFKFQ8M0ATQTRQRdAaBVFUpRv0xDjfjzs",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "orchidify-824d3.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "orchidify-824d3",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "orchidify-824d3.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "193742300055",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:193742300055:web:79e9846cab38b56746dad2",
+        "EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID": "G-9HM3L77F3W"
       }
     }
   },
