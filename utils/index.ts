@@ -1,9 +1,57 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+import isoWeek from 'dayjs/plugin/isoWeek'
 import * as ImagePicker from 'expo-image-picker'
 
 import { LEVEL, SLOT_NUMBER, WEEKDAY } from '@/contracts/constants'
 import { errorMessage } from '@/contracts/messages'
 import { CommonErrorResponse } from '@/contracts/types'
+dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
+dayjs.extend(isoWeek)
+
+export const isFutureDate = (inputDate: string) => {
+  // Chuyển đổi ngày đầu vào thành đối tượng Date
+  const date = new Date(inputDate)
+
+  // Lấy ngày hiện tại (không tính thời gian)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  // So sánh ngày
+  return date > today
+}
+
+export const calculateDateList = (startDate: string, duration: number, weekdays: WEEKDAY[]) => {
+  const isoWeekday = {
+    [WEEKDAY.MONDAY]: 1,
+    [WEEKDAY.TUESDAY]: 2,
+    [WEEKDAY.WEDNESDAY]: 3,
+    [WEEKDAY.THURSDAY]: 4,
+    [WEEKDAY.FRIDAY]: 5,
+    [WEEKDAY.SATURDAY]: 6,
+    [WEEKDAY.SUNDAY]: 7
+  }
+  const startOfDate = dayjs(startDate).startOf('date')
+  const endOfDate = startOfDate.add(duration, 'week').startOf('date')
+
+  const classDates: dayjs.Dayjs[] = []
+  let currentDate = startOfDate.clone()
+  while (currentDate.isSameOrBefore(endOfDate)) {
+    weekdays.forEach((weekday) => {
+      const classDate = currentDate.isoWeekday(isoWeekday[weekday])
+      if (classDate.isSameOrAfter(startOfDate) && classDate.isBefore(endOfDate)) {
+        classDates.push(classDate)
+      }
+    })
+
+    currentDate = currentDate.add(1, 'week')
+  }
+
+  return classDates
+}
 
 export const extractMessage = (message: string, replace: string[]) => {
   let temp = message

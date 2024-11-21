@@ -16,7 +16,10 @@ import RatingList from '@/components/course-detail/RatingList'
 import SessionList from '@/components/course-detail/SessionList'
 import { height, width, myFontWeight, myTextColor, myTheme, LEVEL, COURSE_STATUS } from '@/contracts/constants'
 import { ICourseDetail } from '@/contracts/interfaces/course.interface'
+import { ICourseFeedbackListResponse } from '@/contracts/interfaces/feedback.interface'
+import { IPagination } from '@/contracts/types'
 import useCourse from '@/hooks/api/useCourse'
+import useFeedback from '@/hooks/api/useFeedback'
 
 const defaultCourseDetail: ICourseDetail = {
   _id: '',
@@ -56,23 +59,27 @@ const CourseDetailScreen = () => {
   const [collapseClass, setCollapseClass] = useState(true)
   const [collapseSession, setCollapseSession] = useState(true)
   const [data, setData] = useState<ICourseDetail>(defaultCourseDetail)
+  const [feedbackData, setFeedbackData] = useState<IPagination<ICourseFeedbackListResponse> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-
   const [chooseClassModal, setchooseClassModal] = useState(-1)
   const [chooseClass, setChooseClass] = useState('')
 
   const { getCourseDetail } = useCourse()
-
+  const { getCourseFeedbackList } = useFeedback()
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      const courseDetail = await getCourseDetail(courseId as string)
-      if (courseDetail && typeof courseDetail !== 'string') {
+      const [courseDetail, feedbackList] = await Promise.all([
+        getCourseDetail(courseId as string),
+        getCourseFeedbackList(courseId as string)
+      ])
+      if (courseDetail && typeof courseDetail !== 'string' && feedbackList && typeof feedbackList !== 'string') {
+        setFeedbackData(feedbackList)
         setData(courseDetail)
       }
       setIsLoading(false)
     })()
-  }, [courseId, getCourseDetail])
+  }, [courseId, getCourseDetail, getCourseFeedbackList])
 
   const handleChooseClass = (classId: string) => {
     return classId === chooseClass ? setChooseClass('') : setChooseClass(classId)
@@ -194,13 +201,32 @@ const CourseDetailScreen = () => {
                   alignSelf: 'flex-start'
                 }}
               />
-              <MyLink
-                href='/ratinglist'
-                text='Xem thêm'
-                styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
-              />
+              {feedbackData?.docs.length !== 0 ? (
+                <MyLink
+                  href={{
+                    pathname: '/ratinglist',
+                    params: {
+                      courseId
+                    }
+                  }}
+                  text='Xem thêm'
+                  styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
+                />
+              ) : undefined}
             </View>
-            <RatingList />
+            {feedbackData?.docs.length !== 0 ? (
+              <RatingList feedbackList={feedbackData?.docs || []} />
+            ) : (
+              <MyText
+                text='Khóa học này chưa có đánh giá'
+                styleProps={{
+                  color: myTextColor.caption,
+                  alignSelf: 'center',
+                  paddingBottom: 22.5,
+                  paddingTop: 10
+                }}
+              />
+            )}
           </ScrollView>
           <ChooseClassModal
             classList={data.classes.filter((value) => value.learnerClass === null)}

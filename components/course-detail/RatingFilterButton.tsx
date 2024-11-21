@@ -26,7 +26,7 @@ const RatingFilterButton = ({
         borderColor: myTheme.primary,
         borderWidth: 1,
         paddingVertical: 2.5,
-        paddingHorizontal: 10,
+        paddingHorizontal: 7.5,
         backgroundColor: isSelected ? myTheme.primary : undefined
       }}
     >
