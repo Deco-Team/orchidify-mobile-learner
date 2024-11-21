@@ -14,6 +14,17 @@ export interface ICourseListResponse {
   learnerLimit: number
   rate: number
   discount: number
+  ratingSummary: {
+    totalSum: number
+    totalCount: number
+    totalCountByRate: {
+      '1': number
+      '2': number
+      '3': number
+      '4': number
+      '5': number
+    }
+  }
   instructorId: string
   isPublished: true
   createdAt: string
@@ -38,6 +49,17 @@ export interface ICourseDetail {
   type: string[]
   duration: number
   thumbnail: string
+  ratingSummary?: {
+    totalSum: number
+    totalCount: number
+    totalCountByRate: {
+      '1': number
+      '2': number
+      '3': number
+      '4': number
+      '5': number
+    }
+  }
   media: IMedia[]
   status: COURSE_STATUS
   sessions: {

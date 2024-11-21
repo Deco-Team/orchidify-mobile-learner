@@ -47,6 +47,17 @@ export interface IClassDetail {
     userId: string
     userRole: string
   }[]
+  ratingSummary?: {
+    totalSum: number
+    totalCount: number
+    totalCountByRate: {
+      '1': number
+      '2': number
+      '3': number
+      '4': number
+      '5': number
+    }
+  }
   learnerLimit: number
   learnerQuantity: number
   weekdays: WEEKDAY[]

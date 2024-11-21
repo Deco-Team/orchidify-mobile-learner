@@ -2,20 +2,25 @@ import { Entypo, Feather } from '@expo/vector-icons'
 import dayjs from 'dayjs'
 import { useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, TouchableOpacity } from 'react-native'
+import { Alert, ScrollView, TouchableOpacity } from 'react-native'
 import Collapsible from 'react-native-collapsible'
-import { Chip, LoaderScreen, View } from 'react-native-ui-lib'
+import { Button, Chip, LoaderScreen, View } from 'react-native-ui-lib'
 
+import FeedbackModal from '@/components/class-detail/FeedbackModal'
 import CourseDescription from '@/components/common/CourseDescription'
 import InstructorBio from '@/components/common/InstructorBio'
 import MyLink from '@/components/common/MyLink'
 import MyText from '@/components/common/MyText'
 import Overview from '@/components/common/Overview'
+import RatingList from '@/components/course-detail/RatingList'
 import SessionList from '@/components/course-detail/SessionList'
 import { myTheme, myFontWeight, LEVEL, CLASS_STATUS, width, myTextColor } from '@/contracts/constants'
 import { IClassDetail } from '@/contracts/interfaces/class.interface'
+import { IClassFeedbackListResponse } from '@/contracts/interfaces/feedback.interface'
+import { IPagination } from '@/contracts/types'
 import useClass from '@/hooks/api/useClass'
-import { extractSlot, extractWeekday } from '@/utils'
+import useFeedback from '@/hooks/api/useFeedback'
+import { calculateDateList, extractSlot, extractWeekday } from '@/utils'
 
 const defaultClassDetail: IClassDetail = {
   _id: '',
@@ -68,16 +73,57 @@ const ClassDetailScreen = () => {
   const [data, setData] = useState<IClassDetail>(defaultClassDetail)
   const { classId } = useLocalSearchParams()
   const [collapseSession, setCollapseSession] = useState(true)
+  const [feedbackData, setFeedbackData] = useState<IPagination<IClassFeedbackListResponse> | null>(null)
+  const { getClassFeedbackList } = useFeedback()
+  const [openFeedback, setOpenFeedback] = useState(false)
+  const [feedbackModalVisible, setFeedbackModalVisible] = useState(false)
+  const [rate, setRate] = useState(0)
+  const [comment, setComment] = useState('')
+  const { sendFeedback } = useFeedback()
+  const handleSubmitFeedback = async () => {
+    const result = await sendFeedback(data._id, {
+      rate,
+      comment
+    })
+    if (typeof result === 'string') {
+      Alert.alert('Đã xảy ra lỗi', result)
+    } else {
+      setIsLoading(true)
+      const [courseDetail, feedbackList] = await Promise.all([
+        getClassDetail(classId as string),
+        getClassFeedbackList(classId as string)
+      ])
+      if (courseDetail && typeof courseDetail !== 'string' && feedbackList && typeof feedbackList !== 'string') {
+        const lastDates = calculateDateList(courseDetail.startDate, courseDetail.duration, courseDetail.weekdays)
+        const lastSessionDate = dayjs(lastDates[1]).add(7, 'hour')
+        setOpenFeedback(dayjs().startOf('day').add(7, 'hour').isSameOrAfter(lastSessionDate))
+        setData(courseDetail)
+        setFeedbackData(feedbackList)
+      }
+      setIsLoading(false)
+    }
+    setComment('')
+    setRate(0)
+    setFeedbackModalVisible(false)
+  }
+
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      const courseDetail = await getClassDetail(classId as string)
-      if (courseDetail && typeof courseDetail !== 'string') {
+      const [courseDetail, feedbackList] = await Promise.all([
+        getClassDetail(classId as string),
+        getClassFeedbackList(classId as string)
+      ])
+      if (courseDetail && typeof courseDetail !== 'string' && feedbackList && typeof feedbackList !== 'string') {
+        const lastDates = calculateDateList(courseDetail.startDate, courseDetail.duration, courseDetail.weekdays)
+        const lastSessionDate = dayjs(lastDates[1]).add(7, 'hour')
+        setOpenFeedback(dayjs().startOf('day').add(7, 'hour').isSameOrAfter(lastSessionDate))
         setData(courseDetail)
+        setFeedbackData(feedbackList)
       }
       setIsLoading(false)
     })()
-  }, [classId, getClassDetail])
+  }, [classId, getClassDetail, getClassFeedbackList])
 
   return (
     <>
@@ -89,11 +135,6 @@ const ClassDetailScreen = () => {
           messageStyle={{ fontFamily: myFontWeight.regular }}
         />
       ) : (
-        // <KeyboardAvoidingView
-        //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        //   style={{ flex: 1, backgroundColor: '#FFF' }}
-        //   keyboardVerticalOffset={100}
-        // >
         <ScrollView contentContainerStyle={{ alignItems: 'center', flexGrow: 1, backgroundColor: '#FFF' }}>
           <Overview
             media={data.media}
@@ -193,9 +234,76 @@ const ClassDetailScreen = () => {
                 />
               </Collapsible>
             </View>
+            <View
+              style={{
+                alignSelf: 'flex-start',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: (width * 11) / 12,
+                justifyContent: 'space-between',
+                marginTop: 20,
+                marginBottom: 10,
+                marginHorizontal: 15
+              }}
+            >
+              <MyText
+                text='Đánh giá'
+                styleProps={{
+                  fontFamily: myFontWeight.bold,
+                  fontSize: 16,
+                  alignSelf: 'flex-start'
+                }}
+              />
+              {feedbackData?.docs.length !== 0 ? (
+                <MyLink
+                  href={{
+                    pathname: '/ratinglist',
+                    params: {
+                      classId
+                    }
+                  }}
+                  text='Xem thêm'
+                  styleProps={{ color: myTextColor.primary, fontFamily: myFontWeight.semiBold }}
+                />
+              ) : undefined}
+            </View>
+            {feedbackData?.docs.length !== 0 ? (
+              <RatingList feedbackList={feedbackData?.docs || []} />
+            ) : (
+              <MyText
+                text='Lớp học này chưa có đánh giá'
+                styleProps={{
+                  color: myTextColor.caption,
+                  alignSelf: 'center',
+                  paddingBottom: 22.5,
+                  paddingTop: 10
+                }}
+              />
+            )}
           </View>
+          {openFeedback ? (
+            <Button
+              backgroundColor={myTheme.primary}
+              labelStyle={{ fontFamily: myFontWeight.semiBold }}
+              style={{ marginBottom: 22.5, width: '90%' }}
+              label='Viết nhận xét  '
+              iconOnRight
+              iconSource={() => <Feather name='edit' size={15} color='white' />}
+              onPress={() => setFeedbackModalVisible(true)}
+            />
+          ) : undefined}
+          <FeedbackModal
+            comment={comment}
+            rate={rate}
+            handleSubmitFeedback={handleSubmitFeedback}
+            setComment={setComment}
+            setRate={setRate}
+            data={data}
+            feedbackModalVisible={feedbackModalVisible}
+            setFeedbackModalVisible={setFeedbackModalVisible}
+          />
         </ScrollView>
-        // </KeyboardAvoidingView>
+        //
       )}
     </>
   )
