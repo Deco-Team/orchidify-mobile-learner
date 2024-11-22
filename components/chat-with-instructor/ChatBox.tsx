@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons'
-import dayjs from 'dayjs'
 import {
   addDoc,
   and,
@@ -11,15 +10,16 @@ import {
   query,
   serverTimestamp,
   where
-} from 'firebase/firestore'
+} from '@react-native-firebase/firestore'
+import dayjs from 'dayjs'
 import { useCallback, useLayoutEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { Bubble, GiftedChat, IMessage, Send } from 'react-native-gifted-chat'
 import 'dayjs/locale/vi'
 import { LoaderScreen, Text, View } from 'react-native-ui-lib'
 
 import { myTheme, width } from '@/contracts/constants'
-import { auth, database } from '@/utils/firebase-config'
+import useUserAuth from '@/hooks/firebase/useUserAuth'
+import { firebaseFirestore } from '@/utils/firebase'
 
 interface ChatBoxProps {
   classId: string
@@ -31,11 +31,11 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
   const [messages, setMessages] = useState<IMessage[]>([])
   const [chatRoomId, setChatRoomId] = useState('')
 
-  const [user] = useAuthState(auth)
+  const { user } = useUserAuth()
 
   const checkExistChatRoom = async () => {
     const q = query(
-      collection(database, 'chat-room'),
+      collection(firebaseFirestore, 'chat-room'),
       and(
         where('classId', '==', classId),
         where('learnerId', '==', learnerId),
@@ -46,7 +46,7 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
     const querySnapshot = await getDocs(q)
 
     if (querySnapshot.empty) {
-      await addDoc(collection(database, 'chat-room'), {
+      await addDoc(collection(firebaseFirestore, 'chat-room'), {
         classId,
         learnerId,
         instructorId,
@@ -55,7 +55,7 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
     } else {
       setChatRoomId(querySnapshot.docs[0].id)
       const messageQuery = query(
-        collection(database, 'message'),
+        collection(firebaseFirestore, 'message'),
         where('chatRoomId', '==', querySnapshot.docs[0].id),
         limit(500),
         orderBy('createdAt', 'desc')
@@ -115,7 +115,7 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
         senderId: user._id,
         senderRole: 'LEARNER'
       }
-      addDoc(collection(database, 'message'), newMessage)
+      addDoc(collection(firebaseFirestore, 'message'), newMessage)
     },
     [chatRoomId]
   )
