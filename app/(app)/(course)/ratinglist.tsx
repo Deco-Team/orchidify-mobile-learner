@@ -103,7 +103,7 @@ const RatingListScreen = () => {
                 starSize={50}
                 color={myTheme.yellow}
                 starStyle={{ marginHorizontal: 0 }}
-                rating={3.5}
+                rating={feedbackStat?.ratingSummary?.totalSum || 0}
               />
               <MyText
                 text={`${feedbackStat?.ratingSummary?.totalCount.toString() || ''} đánh giá`}

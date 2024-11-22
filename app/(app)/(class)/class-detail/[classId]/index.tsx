@@ -2,7 +2,7 @@ import { Entypo, Feather } from '@expo/vector-icons'
 import dayjs from 'dayjs'
 import { useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, TouchableOpacity } from 'react-native'
+import { Alert, ScrollView, TouchableOpacity } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import { Button, Chip, LoaderScreen, View } from 'react-native-ui-lib'
 
@@ -77,6 +77,35 @@ const ClassDetailScreen = () => {
   const { getClassFeedbackList } = useFeedback()
   const [openFeedback, setOpenFeedback] = useState(false)
   const [feedbackModalVisible, setFeedbackModalVisible] = useState(false)
+  const [rate, setRate] = useState(0)
+  const [comment, setComment] = useState('')
+  const { sendFeedback } = useFeedback()
+  const handleSubmitFeedback = async () => {
+    const result = await sendFeedback(data._id, {
+      rate,
+      comment
+    })
+    if (typeof result === 'string') {
+      Alert.alert('Đã xảy ra lỗi', result)
+    } else {
+      setIsLoading(true)
+      const [courseDetail, feedbackList] = await Promise.all([
+        getClassDetail(classId as string),
+        getClassFeedbackList(classId as string)
+      ])
+      if (courseDetail && typeof courseDetail !== 'string' && feedbackList && typeof feedbackList !== 'string') {
+        const lastDates = calculateDateList(courseDetail.startDate, courseDetail.duration, courseDetail.weekdays)
+        const lastSessionDate = dayjs(lastDates[1]).add(7, 'hour')
+        setOpenFeedback(dayjs().startOf('day').add(7, 'hour').isSameOrAfter(lastSessionDate))
+        setData(courseDetail)
+        setFeedbackData(feedbackList)
+      }
+      setIsLoading(false)
+    }
+    setComment('')
+    setRate(0)
+    setFeedbackModalVisible(false)
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -256,12 +285,19 @@ const ClassDetailScreen = () => {
             <Button
               backgroundColor={myTheme.primary}
               labelStyle={{ fontFamily: myFontWeight.semiBold }}
-              style={{ marginBottom: 22.5 }}
-              label='Viết nhận xét'
+              style={{ marginBottom: 22.5, width: '90%' }}
+              label='Viết nhận xét  '
+              iconOnRight
+              iconSource={() => <Feather name='edit' size={15} color='white' />}
               onPress={() => setFeedbackModalVisible(true)}
             />
           ) : undefined}
           <FeedbackModal
+            comment={comment}
+            rate={rate}
+            handleSubmitFeedback={handleSubmitFeedback}
+            setComment={setComment}
+            setRate={setRate}
             data={data}
             feedbackModalVisible={feedbackModalVisible}
             setFeedbackModalVisible={setFeedbackModalVisible}
