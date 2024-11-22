@@ -20,12 +20,12 @@ const TimesheetItem = ({ item }: TimesheetItemProps) => {
       <View
         style={{
           flex: 1,
-          height: 500,
+          height: 200,
           justifyContent: 'center',
           alignItems: 'center'
         }}
       >
-        <MyText styleProps={{ fontFamily: myFontWeight.italic, fontSize: 16 }} text='Không có tiết học' />
+        <MyText styleProps={{ fontFamily: myFontWeight.regular, fontSize: 16 }} text='Không có tiết học' />
       </View>
     )
   }
