@@ -33,7 +33,7 @@ export const getRegistrationToken = async () => {
 
   try {
     const currentToken = await getToken(firebaseCloudMessaging, {
-      vapidKey: process.env.FIREBASE_VAPID_KEY
+      vapidKey: process.env.EXPO_PUBLIC_FIREBASE_VAPID_KEY
     })
 
     return currentToken ? currentToken : null

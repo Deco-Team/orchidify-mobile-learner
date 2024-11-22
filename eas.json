@@ -9,24 +9,24 @@
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
-        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
-        "FIREBASE_VAPID_KEY": "BFsWY2GOl8aBd1DAi33hK1NWVqhsDeFNGOI-wuH0LP1ugtdcRO_7YigDC4mPzAcEj77EpmvbpepYUVKX7JPuw3s"
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
+        "EXPO_PUBLIC_FIREBASE_VAPID_KEY": "BFsWY2GOl8aBd1DAi33hK1NWVqhsDeFNGOI-wuH0LP1ugtdcRO_7YigDC4mPzAcEj77EpmvbpepYUVKX7JPuw3s"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
-        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
-        "FIREBASE_VAPID_KEY": "BFsWY2GOl8aBd1DAi33hK1NWVqhsDeFNGOI-wuH0LP1ugtdcRO_7YigDC4mPzAcEj77EpmvbpepYUVKX7JPuw3s"
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
+        "EXPO_PUBLIC_FIREBASE_VAPID_KEY": "BFsWY2GOl8aBd1DAi33hK1NWVqhsDeFNGOI-wuH0LP1ugtdcRO_7YigDC4mPzAcEj77EpmvbpepYUVKX7JPuw3s"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
         "EXPO_PUBLIC_API_URL": "https://api.orchidify.tech/",
-        "STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
-        "FIREBASE_VAPID_KEY": "BFsWY2GOl8aBd1DAi33hK1NWVqhsDeFNGOI-wuH0LP1ugtdcRO_7YigDC4mPzAcEj77EpmvbpepYUVKX7JPuw3s"
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4",
+        "EXPO_PUBLIC_FIREBASE_VAPID_KEY": "BFsWY2GOl8aBd1DAi33hK1NWVqhsDeFNGOI-wuH0LP1ugtdcRO_7YigDC4mPzAcEj77EpmvbpepYUVKX7JPuw3s"
       }
     }
   },
