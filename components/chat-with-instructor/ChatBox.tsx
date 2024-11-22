@@ -12,7 +12,8 @@ import {
   where
 } from '@react-native-firebase/firestore'
 import dayjs from 'dayjs'
-import { useCallback, useLayoutEffect, useState } from 'react'
+import isToday from 'dayjs/plugin/isToday'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { Bubble, GiftedChat, IMessage, Send } from 'react-native-gifted-chat'
 import 'dayjs/locale/vi'
 import { LoaderScreen, Text, View } from 'react-native-ui-lib'
@@ -33,6 +34,8 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
 
   const { user } = useUserAuth()
 
+  dayjs.extend(isToday)
+
   const checkExistChatRoom = async () => {
     const q = query(
       collection(firebaseFirestore, 'chat-room'),
@@ -45,60 +48,74 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
 
     const querySnapshot = await getDocs(q)
 
-    if (querySnapshot.empty) {
-      await addDoc(collection(firebaseFirestore, 'chat-room'), {
+    if (!querySnapshot.empty) {
+      setChatRoomId(querySnapshot.docs[0].id)
+    } else {
+      const docRef = await addDoc(collection(firebaseFirestore, 'chat-room'), {
         classId,
         learnerId,
         instructorId,
         createdAt: serverTimestamp()
       })
-    } else {
-      setChatRoomId(querySnapshot.docs[0].id)
-      const messageQuery = query(
-        collection(firebaseFirestore, 'message'),
-        where('chatRoomId', '==', querySnapshot.docs[0].id),
-        limit(500),
-        orderBy('createdAt', 'desc')
-      )
-
-      const unsubscribe = onSnapshot(messageQuery, (QuerySnapshot) => {
-        const fetchedMessages: IMessage[] = []
-        QuerySnapshot.forEach((doc) => {
-          fetchedMessages.push({
-            _id: doc.id,
-            createdAt: doc.data().createdAt.toDate(),
-            text: doc.data().message,
-            user: {
-              _id: doc.data().senderId
-            }
-          } as IMessage)
-        })
-
-        const sortedMessages = fetchedMessages.sort((a, b) => {
-          const dateA = a.createdAt instanceof Date ? a.createdAt.getTime() : a.createdAt
-          const dateB = b.createdAt instanceof Date ? b.createdAt.getTime() : b.createdAt
-          return dateB - dateA
-        })
-        setMessages(sortedMessages)
-      })
-
-      return unsubscribe
+      setChatRoomId(docRef.id)
     }
   }
+
+  const loadMessages = useCallback(() => {
+    if (!chatRoomId) return
+
+    const messageQuery = query(
+      collection(firebaseFirestore, 'message'),
+      where('chatRoomId', '==', chatRoomId),
+      limit(500),
+      orderBy('createdAt', 'desc')
+    )
+
+    const unsubscribe = onSnapshot(messageQuery, (QuerySnapshot) => {
+      const fetchedMessages: IMessage[] = []
+      QuerySnapshot.forEach((doc) => {
+        fetchedMessages.push({
+          _id: doc.id,
+          createdAt: doc.data().createdAt.toDate(),
+          text: doc.data().message,
+          user: {
+            _id: doc.data().senderId
+          }
+        } as IMessage)
+      })
+
+      const sortedMessages = fetchedMessages.sort((a, b) => {
+        const dateA = a.createdAt instanceof Date ? a.createdAt.getTime() : a.createdAt
+        const dateB = b.createdAt instanceof Date ? b.createdAt.getTime() : b.createdAt
+        return dateB - dateA
+      })
+      setMessages(sortedMessages)
+    })
+
+    return unsubscribe
+  }, [chatRoomId])
 
   useLayoutEffect(() => {
     checkExistChatRoom()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const formatMessageDate = (date: Date | number): string => {
-    const currentDate = dayjs()
-    const messageDate = dayjs(date)
+  useEffect(() => {
+    if (chatRoomId) {
+      const unsubscribe = loadMessages()
+      return () => {
+        if (unsubscribe) {
+          unsubscribe()
+        }
+      }
+    }
+  }, [chatRoomId, loadMessages])
 
-    if (messageDate.isSame(currentDate, 'day')) {
+  const formatMessageDate = (date: Date | number): string => {
+    if (dayjs(date).isToday()) {
       return 'Hôm nay'
     } else {
-      return messageDate.format('DD [Th]MM YYYY')
+      return dayjs(date).locale('vi').format('DD MMM YYYY')
     }
   }
 
@@ -150,9 +167,10 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
         textInputProps={{
           style: {
             borderRadius: 8,
-            padding: 10,
-            margin: 10,
-            width: width - 70
+            padding: 20,
+            paddingRight: 10,
+            marginRight: 10,
+            width: width - 60
           }
         }}
         renderLoading={() => <LoaderScreen size='large' color={myTheme.primary} />}
