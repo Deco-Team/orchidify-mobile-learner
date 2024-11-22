@@ -116,5 +116,10 @@ export enum LEARNER_STATUS {
   INACTIVE = 'INACTIVE'
 }
 
+export enum ATTENDANCE_STATUS {
+  ABSENT = 'ABSENT',
+  PRESENT = 'PRESENT'
+}
+
 export const height = Dimensions.get('screen').height
 export const width = Dimensions.get('screen').width
