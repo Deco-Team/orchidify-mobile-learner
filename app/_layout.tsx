@@ -52,7 +52,7 @@ export default function Root() {
   return (
     <StripeProvider
       publishableKey={
-        process.env.STRIPE_PUBLISHABLE_KEY ||
+        process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
         'pk_test_51QGGvb01iokJDIvLnmxeTnDzRxsY3HQ5UVtOQu0TiSAwkOcdLjdrAViNfCZHbCTwi3oKPI1s7TSD26ZrcFDpMz4k00QEgzvjG4'
       }
     >
