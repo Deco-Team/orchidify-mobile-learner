@@ -1,4 +1,5 @@
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
+import { setBackgroundMessageHandler } from '@react-native-firebase/messaging'
 import { Header, HeaderBackButton } from '@react-navigation/elements'
 import { StripeProvider } from '@stripe/stripe-react-native'
 import { useFonts } from 'expo-font'
@@ -9,6 +10,7 @@ import { View } from 'react-native-ui-lib'
 
 import { SessionProvider } from '@/contexts/AuthContext'
 import { myFontWeight } from '@/contracts/constants'
+import { firebaseCloudMessaging } from '@/utils/firebase'
 SplashScreen.preventAutoHideAsync()
 
 export default function Root() {
@@ -41,6 +43,10 @@ export default function Root() {
     container: {
       flex: 1
     }
+  })
+
+  setBackgroundMessageHandler(firebaseCloudMessaging, async (remoteMessage) => {
+    console.log('Message handled in the background!', remoteMessage)
   })
 
   return (

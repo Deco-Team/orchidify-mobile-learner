@@ -2,6 +2,7 @@ node_modules/
 .expo/
 dist/
 android/
+ios/
 npm-debug.*
 *.jks
 *.p8
@@ -21,3 +22,4 @@ expo-env.d.ts
 # @end expo-cli
 
 .env
+google-services.json

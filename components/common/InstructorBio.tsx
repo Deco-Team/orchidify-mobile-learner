@@ -12,7 +12,7 @@ import { IInstructor } from '@/contracts/interfaces/course.interface'
 interface IInstructorBio {
   instructorInfo: IInstructor
   contactButton: boolean
-  classInfo: IClassDetail
+  classInfo?: IClassDetail
 }
 
 const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton, classInfo }) => {
@@ -73,8 +73,8 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
                 pathname: '/(app)/(class)/class-detail/[classId]/chat-box/[instructorId]',
                 params: {
                   instructorId: instructorInfo._id,
-                  classId: classInfo._id,
-                  title: classInfo.code + ' - ' + instructorInfo.name
+                  classId: classInfo ? classInfo._id : '',
+                  title: (classInfo ? classInfo.code : '') + ' - ' + instructorInfo.name
                 }
               })
             }}

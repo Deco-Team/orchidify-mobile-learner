@@ -1,19 +1,19 @@
 import { useLocalSearchParams } from 'expo-router'
-import { signInWithCustomToken } from 'firebase/auth'
 import { useEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { LoaderScreen } from 'react-native-ui-lib'
 
 import ChatBox from '@/components/chat-with-instructor/ChatBox'
 import { myFontWeight, myTheme } from '@/contracts/constants'
 import useFirebaseAuth from '@/hooks/api/useFirebaseAuth'
-import { auth } from '@/utils/firebase-config'
+import useUserAuth from '@/hooks/firebase/useUserAuth'
+import { firebaseAuth } from '@/utils/firebase'
 
 const ChatWithInstructorScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
+
   const { createCustomToken } = useFirebaseAuth()
 
-  const [user] = useAuthState(auth)
+  const { user } = useUserAuth()
 
   useEffect(() => {
     ;(async () => {
@@ -21,7 +21,7 @@ const ChatWithInstructorScreen = () => {
       const data = await createCustomToken()
       if (data) {
         try {
-          await signInWithCustomToken(auth, data.token)
+          await firebaseAuth.signInWithCustomToken(data.token)
         } catch (error) {
           console.log('error', error)
         }

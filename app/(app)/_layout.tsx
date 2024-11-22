@@ -1,16 +1,42 @@
 import { Header, HeaderBackButton } from '@react-navigation/elements'
 import { Redirect, Stack, useGlobalSearchParams, useRouter } from 'expo-router'
+import * as SecureStore from 'expo-secure-store'
+import { useEffect } from 'react'
 import { Appearance, StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { useSession } from '@/contexts/AuthContext'
 import { myFontWeight } from '@/contracts/constants'
+import useNotification from '@/hooks/api/useNotification'
+import { getRegistrationToken } from '@/utils/push-notification'
 
 export default function AppLayout() {
   const { accessToken } = useSession()
   const router = useRouter()
 
   const { title } = useGlobalSearchParams<{ title: string }>()
+  const { registerUserDevice } = useNotification()
+
+  useEffect(() => {
+    if (accessToken) {
+      ;(async () => {
+        const fcmToken = await getRegistrationToken()
+
+        if (fcmToken) {
+          try {
+            const currentToken = await SecureStore.getItemAsync('fcm_token')
+            if (!currentToken || currentToken !== fcmToken) {
+              registerUserDevice({ fcmToken, browser: 'None', os: 'Android' })
+              SecureStore.setItemAsync('fcm_token', fcmToken)
+            }
+          } catch (error) {
+            console.log(error)
+          }
+        }
+      })()
+    }
+  }, [accessToken, registerUserDevice])
+
   if (!accessToken) {
     return <Redirect href='../../../welcome' />
   }
