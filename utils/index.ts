@@ -5,7 +5,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import isoWeek from 'dayjs/plugin/isoWeek'
 import * as ImagePicker from 'expo-image-picker'
 
-import { LEVEL, SLOT_NUMBER, WEEKDAY } from '@/contracts/constants'
+import { ATTENDANCE_STATUS, LEVEL, SLOT_NUMBER, WEEKDAY } from '@/contracts/constants'
 import { errorMessage } from '@/contracts/messages'
 import { CommonErrorResponse } from '@/contracts/types'
 dayjs.extend(isSameOrBefore)
@@ -136,9 +136,9 @@ export const extractWeekday = (value: WEEKDAY) => {
 export const extractSlot = (slotNumber: SLOT_NUMBER) => {
   switch (slotNumber) {
     case SLOT_NUMBER.ONE:
-      return { slotStart: '07:00', slotEnd: '09:00' }
+      return { slotStart: '7:00', slotEnd: '9:00' }
     case SLOT_NUMBER.TWO:
-      return { slotStart: '09:30', slotEnd: '11:30' }
+      return { slotStart: '9:30', slotEnd: '11:30' }
     case SLOT_NUMBER.THREE:
       return { slotStart: '12:30', slotEnd: '14:30' }
     case SLOT_NUMBER.FOUR:
@@ -154,5 +154,20 @@ export const resolveError = (error: unknown) => {
     return response.message as string
   } else {
     return errorMessage.ERM033
+  }
+}
+
+export const extractAttendanceStatus = (status: ATTENDANCE_STATUS) => {
+  switch (status) {
+    case ATTENDANCE_STATUS.PRESENT:
+      return {
+        color: '#2EC4B6',
+        title: 'Có mặt'
+      }
+    case ATTENDANCE_STATUS.ABSENT:
+      return {
+        color: '#F66868',
+        title: 'Vắng'
+      }
   }
 }
