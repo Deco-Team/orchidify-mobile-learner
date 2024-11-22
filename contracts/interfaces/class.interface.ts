@@ -58,6 +58,7 @@ export interface IClassDetail {
       '5': number
     }
   }
+  hasSentFeedback: boolean
   learnerLimit: number
   learnerQuantity: number
   weekdays: WEEKDAY[]

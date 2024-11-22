@@ -78,26 +78,31 @@ const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, 
               ) : (
                 <>
                   <MyText
-                    text={`${progress.completed}/${progress.total}`}
+                    text={`${progress.completed === progress.total ? 'Đã kết thúc' : `${progress.completed}/${progress.total}`}`}
                     weight={myFontWeight.semiBold}
-                    styleProps={{ color: myTextColor.primary, fontSize: 15 }}
+                    styleProps={{
+                      color: progress.completed === progress.total ? myTheme.red : myTextColor.primary,
+                      fontSize: 15
+                    }}
                   />
-                  <AnimatedCircularProgress
-                    size={45}
-                    width={6}
-                    fill={progress.percentage}
-                    rotation={0}
-                    tintColor={myTheme.primary}
-                    backgroundColor='#f6faf9'
-                  >
-                    {() => (
-                      <MyText
-                        text={`${progress.percentage}%`}
-                        weight={myFontWeight.semiBold}
-                        styleProps={{ color: myTextColor.primary, fontSize: 10 }}
-                      />
-                    )}
-                  </AnimatedCircularProgress>
+                  {progress.completed === progress.total ? undefined : (
+                    <AnimatedCircularProgress
+                      size={45}
+                      width={6}
+                      fill={progress.percentage}
+                      rotation={0}
+                      tintColor={myTheme.primary}
+                      backgroundColor='#f6faf9'
+                    >
+                      {() => (
+                        <MyText
+                          text={`${progress.percentage}%`}
+                          weight={myFontWeight.semiBold}
+                          styleProps={{ color: myTextColor.primary, fontSize: 10 }}
+                        />
+                      )}
+                    </AnimatedCircularProgress>
+                  )}
                 </>
               )}
             </View>

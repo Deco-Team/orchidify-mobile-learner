@@ -34,6 +34,7 @@ const defaultClassDetail: IClassDetail = {
     id: '',
     name: ''
   },
+  hasSentFeedback: false,
   gardenId: '',
   gardenRequiredToolkits: '',
   histories: [],
@@ -283,6 +284,7 @@ const ClassDetailScreen = () => {
           </View>
           {openFeedback ? (
             <Button
+              disabled={data.hasSentFeedback}
               backgroundColor={myTheme.primary}
               labelStyle={{ fontFamily: myFontWeight.semiBold }}
               style={{ marginBottom: 22.5, width: '90%' }}
