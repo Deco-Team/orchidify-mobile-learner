@@ -51,7 +51,7 @@ const CheckOutScreen = () => {
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: '#FFF',
-        paddingTop: 12
+        paddingTop: 10
       }}
     >
       <MyCheckoutCard
