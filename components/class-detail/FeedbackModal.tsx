@@ -1,6 +1,6 @@
 import { AntDesign } from '@expo/vector-icons'
 import { Image } from 'expo-image'
-import React, { useState } from 'react'
+import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import Modal from 'react-native-modal'
 import StarRating from 'react-native-star-rating-widget'
@@ -32,9 +32,6 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
   setComment,
   setRate
 }) => {
-}
-
-const FeedbackModal: React.FC<FeedbackModalProps> = ({ setFeedbackModalVisible, feedbackModalVisible, data }) => {
   return (
     <Modal avoidKeyboard isVisible={feedbackModalVisible}>
       <View style={{ backgroundColor: '#FFF', borderRadius: 16, padding: 12, gap: 6, position: 'relative' }}>
