@@ -203,7 +203,7 @@ export default function AppLayout() {
           }}
         />
         <Stack.Screen
-          name='(class)/class-detail/[classId]/index'
+          name='(class)/class-detail/[classId]'
           options={{
             header: () => (
               <Header
@@ -292,7 +292,7 @@ export default function AppLayout() {
           }}
         />
         <Stack.Screen
-          name='(class)/class-detail/[classId]/chat-box/[instructorId]'
+          name='(class)/class-detail/chat-box/[instructorId]'
           options={{
             header: () => (
               <Header

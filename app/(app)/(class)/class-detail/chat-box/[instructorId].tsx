@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LoaderScreen } from 'react-native-ui-lib'
 
 import ChatBox from '@/components/chat-with-instructor/ChatBox'
@@ -31,7 +31,6 @@ const ChatWithInstructorScreen = () => {
   }, [createCustomToken])
 
   const { instructorId, classId } = useLocalSearchParams()
-
   return (
     <>
       {isLoading && !user ? (
