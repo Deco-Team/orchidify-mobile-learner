@@ -93,7 +93,7 @@ export default function AppLayout() {
           }}
         />
         <Stack.Screen
-          name='(profile)/[certificateUrl]'
+          name='(profile)/certificate-detail/[certificateUrl]'
           options={{
             header: () => (
               <Header
