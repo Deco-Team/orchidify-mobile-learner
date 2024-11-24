@@ -70,7 +70,7 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
             backgroundColor={myTheme.primary}
             onPress={() => {
               router.push({
-                pathname: '/(app)/(class)/class-detail/[classId]/chat-box/[instructorId]',
+                pathname: '/(app)/(class)/class-detail/chat-box/[instructorId]',
                 params: {
                   instructorId: instructorInfo._id,
                   classId: classInfo ? classInfo._id : '',
