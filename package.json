@@ -11,6 +11,7 @@
     "test": "jest --watchAll",
     "build:dev": "eas build --profile development --platform android",
     "build:prod": "eas build --profile production --platform android",
+    "build:pre": "eas build --profile preview --platform android",
     "install:emulator": "eas build:run -p android",
     "lint": "expo lint",
     "prettier": "prettier --write \"*/**/(*.tsx|*.ts|*.css|*.scss)\""

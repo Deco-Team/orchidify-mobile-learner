@@ -63,7 +63,7 @@ const MyCertificateCard: React.FC<IMyCertificateCard> = ({ id, code, image, name
             style={{ borderRadius: 6, width: '100%' }}
             onPress={() =>
               router.push({
-                pathname: '/(app)/(profile)/[certificateUrl]',
+                pathname: '/(app)/(profile)/certificate-detail/[certificateUrl]',
                 params: {
                   certificateUrl: image
                 }
