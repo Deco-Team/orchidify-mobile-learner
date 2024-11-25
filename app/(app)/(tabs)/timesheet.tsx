@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import isoWeek from 'dayjs/plugin/isoWeek'
 import React, { useEffect, useState, useCallback } from 'react'
+import { RefreshControl } from 'react-native'
 import { AgendaList, CalendarProvider, ExpandableCalendar, LocaleConfig } from 'react-native-calendars'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LoaderScreen, View } from 'react-native-ui-lib'
@@ -59,6 +60,7 @@ const TimesheetScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState<{ title: string; data: ITimesheet[] }[]>([])
   const [markedDates, setMarkedDates] = useState<{ [key: string]: { marked: true } }>({})
+  const [refreshing, setRefreshing] = React.useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -92,6 +94,26 @@ const TimesheetScreen = () => {
     ({ item }: { item: ITimesheet | undefined }) => (item ? <TimesheetItem item={item} /> : null),
     []
   )
+
+  const onRefresh = useCallback(() => {
+    ;(async () => {
+      setRefreshing(true)
+      const timesheet = await getMyTimesheet(date)
+
+      if (timesheet && typeof timesheet !== 'string') {
+        const groupedData = groupByDate(timesheet)
+        setData(groupedData)
+
+        const marks = timesheet.reduce((acc: { [key: string]: { marked: true } }, item) => {
+          const key = formatDate(item.start)
+          acc[key] = { marked: true }
+          return acc
+        }, {})
+        setMarkedDates(marks)
+      }
+      setRefreshing(false)
+    })()
+  }, [date, getMyTimesheet])
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
@@ -133,6 +155,8 @@ const TimesheetScreen = () => {
           />
         ) : (
           <AgendaList
+            refreshing={refreshing}
+            refreshControl={<RefreshControl colors={[myTheme.primary]} refreshing={refreshing} onRefresh={onRefresh} />}
             dayFormat='ddd, dd MMMM'
             avoidDateUpdates
             sections={
