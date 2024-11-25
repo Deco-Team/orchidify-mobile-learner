@@ -66,7 +66,7 @@ const LoginScreen = () => {
       keyboardVerticalOffset={100}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <ScrollView style={{ flexDirection: 'column', paddingHorizontal: 20 }}>
+        <ScrollView style={{ flexDirection: 'column', paddingHorizontal: 15 }}>
           <MyText
             text='Xin chào, mừng bạn quay trở lại Orchidify!'
             styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginVertical: 24 }}

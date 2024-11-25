@@ -55,7 +55,7 @@ const EditProfileScreen = () => {
         setValue('name', data.name)
         setValue('avatar', data.avatar)
         setValue('phone', data.phone)
-        setValue('dateOfBirth', new Date(data.dateOfBirth || ''))
+        setValue('dateOfBirth', data.dateOfBirth ? new Date(data.dateOfBirth) : new Date('1970-01-01'))
       }
     }
     getData()
@@ -83,8 +83,8 @@ const EditProfileScreen = () => {
         setValue('name', data.name)
         setValue('avatar', data.avatar)
         setValue('phone', data.phone)
-        setValue('dateOfBirth', new Date(data.dateOfBirth || ''))
-        Alert.alert(extractMessage(successMessage.SSM032, ['Cập nhật']))
+        setValue('dateOfBirth', data.dateOfBirth ? new Date(data.dateOfBirth) : new Date('1970-01-01'))
+        Alert.alert('Thành công', extractMessage(successMessage.SSM032, ['Cập nhật hồ sơ']))
       }
     } else {
       setError('root', {
@@ -117,9 +117,13 @@ const EditProfileScreen = () => {
               position: 'relative'
             }}
             onPress={handlePickImage}
-            source={{
-              uri: image[0]?.uri ? image[0]?.uri : user.avatar ? user.avatar : 'https://avatar.iran.liara.run/public'
-            }}
+            source={
+              image[0]?.uri
+                ? { uri: image[0]?.uri }
+                : user.avatar
+                  ? { uri: user.avatar }
+                  : require('@/assets/images/no_avatar.png')
+            }
           >
             <Feather
               style={{

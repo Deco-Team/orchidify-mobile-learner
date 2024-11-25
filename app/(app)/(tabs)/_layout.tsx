@@ -2,12 +2,12 @@ import Feather from '@expo/vector-icons/Feather'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Header } from '@react-navigation/elements'
 import { Tabs } from 'expo-router'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { ImageBackground, StyleSheet } from 'react-native'
 import { Avatar, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
-import { LEARNER_STATUS, myDeviceWidth, myFontWeight, myTheme, width } from '@/contracts/constants'
+import { LEARNER_STATUS, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { IUser } from '@/contracts/interfaces/user.interface'
 import useUser from '@/hooks/api/useUser'
 
@@ -59,14 +59,29 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name='index'
+        listeners={{
+          focus: async () => {
+            const data = await getProfile()
+            if (data && typeof data !== 'string') setUser(data)
+          }
+        }}
         options={{
           header: () => (
-            <Header
-              title='Home'
-              headerTitleStyle={{
-                fontFamily: myFontWeight.bold
-              }}
-            />
+            <>
+              <Header
+                title={`Xin chào ${user.name || ''}`}
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+              <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+                <MyText text='Tạo bởi' styleProps={{ fontSize: 14, marginRight: 5 }} />
+                <MyText
+                  text='Orchidify 👋'
+                  styleProps={{ fontSize: 14, fontFamily: myFontWeight.bold, color: myTextColor.primary }}
+                />
+              </View>
+            </>
           ),
           tabBarIcon: ({ color, focused }) => (
             <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
@@ -167,9 +182,7 @@ export default function TabLayout() {
                 containerStyle={{
                   alignSelf: 'center'
                 }}
-                source={{
-                  uri: user.avatar ? user.avatar : 'https://avatar.iran.liara.run/public'
-                }}
+                source={user.avatar ? { uri: user.avatar } : require('@/assets/images/no_avatar.png')}
               />
               <MyText
                 styleProps={{

@@ -1,31 +1,35 @@
-import Constants from 'expo-constants'
-import * as WebBrowser from 'expo-web-browser'
-import { useState } from 'react'
-import { Button, Text, View, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { LoaderScreen } from 'react-native-ui-lib'
 
-export default function App() {
-  const [result, setResult] = useState<any>(null)
+import { myFontWeight, myTheme } from '@/contracts/constants'
 
-  const _handlePressButtonAsync = async () => {
-    const result = await WebBrowser.openBrowserAsync(
-      'https://docs.google.com/viewerng/viewer?url=http://res.cloudinary.com/orchidify/raw/upload/v1729267199/bmyv28vzk9ewqf71yx2g.docx'
-    )
-    setResult(result)
-  }
+export default function HomeScreen() {
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
-    <View style={styles.container}>
-      <Button title='Open WebBrowser' onPress={_handlePressButtonAsync} />
-      <Text>{result && JSON.stringify(result)}</Text>
-    </View>
+    <>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1, backgroundColor: '#FFF' }}
+          keyboardVerticalOffset={100}
+        >
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            {isLoading ? (
+              <LoaderScreen
+                size='large'
+                message='Đang tải...'
+                color={myTheme.primary}
+                messageStyle={{ fontFamily: myFontWeight.regular }}
+              />
+            ) : (
+              <></>
+            )}
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </GestureHandlerRootView>
+    </>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1'
-  }
-})

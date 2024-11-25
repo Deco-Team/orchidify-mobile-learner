@@ -43,9 +43,9 @@ const VerifyScreen = () => {
       setError(result)
     } else if (page === 'login') {
       await login(email, password)
-      router.replace('/')
+      router.push('/')
     } else {
-      router.replace('/login')
+      router.push('/login')
     }
     setIsLoading(false)
   }
