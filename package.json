@@ -3,7 +3,8 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --no-dev --minify",
+    "dev": "expo start",
     "update": "expo install --check",
     "android": "expo start --android",
     "android:build": "expo run:android",

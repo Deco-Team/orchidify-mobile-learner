@@ -85,7 +85,7 @@ const SessionDetailScreen = () => {
               {data.media.map((value, i) => {
                 switch (value.resource_type) {
                   case 'image':
-                    return <Image key={i} source={value.url} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
+                    return <Image key={i} source={value.url} style={{ aspectRatio: '16/9' }} />
                   case 'video':
                     return (
                       <View

@@ -83,12 +83,12 @@ const Overview = ({
               )
           }
         })}
-        {media.length === 0 ? (
+        {/* {media.length === 0 ? (
           <Image
             source={require('@/assets/images/no_image_placeholder.png')}
             style={{ aspectRatio: 16 / 9, borderRadius: 16 }}
           />
-        ) : undefined}
+        ) : undefined} */}
       </Carousel>
       <View style={{ paddingHorizontal: 15 }}>
         <MyText
