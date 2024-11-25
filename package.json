@@ -7,6 +7,7 @@
     "dev": "expo start",
     "update": "expo install --check",
     "android": "expo start --android",
+    "doctor": "expo-doctor",
     "android:build": "expo run:android",
     "web": "expo start --web",
     "test": "jest --watchAll",

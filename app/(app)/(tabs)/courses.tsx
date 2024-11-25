@@ -45,7 +45,8 @@ const CourseScreen = () => {
       title: searchKey,
       type: filterCourseType.join(', '),
       level: filterLevel,
-      sort: sort.join('_')
+      sort: sort.join('_'),
+      limit: 90 //TODO: Fix later
     })
     if (data && typeof data !== 'string') {
       setData(data)
@@ -62,7 +63,8 @@ const CourseScreen = () => {
         title: searchKey,
         level: filterLevel,
         type: filterCourseType.join(', '),
-        sort: sort.join('_')
+        sort: sort.join('_'),
+        limit: 90 //TODO: Fix later
       })
       if (data && typeof data !== 'string') {
         setData(data)
@@ -74,7 +76,10 @@ const CourseScreen = () => {
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      const data = await getCourseList({})
+      const data = await getCourseList({
+        limit: 90, //TODO: Fix later
+        page: 1
+      })
       if (data && typeof data !== 'string') {
         setData(data)
       }

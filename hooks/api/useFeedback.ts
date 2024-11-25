@@ -34,14 +34,17 @@ const useFeedback = () => {
   )
 
   const getCourseFeedbackList = useCallback(
-    async (courseId: string, rate?: string) => {
+    async (courseId: string, rate?: string, page?: number, limit?: number, sort?: string) => {
       try {
         const result = await callApi<IPagination<ICourseFeedbackListResponse>>(
           'get',
           `${rootEndpoint}courses/${courseId}`,
           {},
           {
-            rate
+            rate,
+            page,
+            limit,
+            sort
           }
         )
         return result.data

@@ -26,7 +26,10 @@ const CertificateScreen = () => {
   const onRefresh = useCallback(async () => {
     ;(async () => {
       setRefreshing(true)
-      const data = await getCertificationList({})
+      const data = await getCertificationList({
+        limit: 90, //TODO: Fix later,
+        page: 1
+      })
       if (data && typeof data !== 'string') {
         setData(data)
       }

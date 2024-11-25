@@ -38,5 +38,6 @@ export default {
     eas: {
       projectId: '75d3dc90-36ee-4b24-94ad-674d619198a0'
     }
-  }
+  },
+  owner: 'sukute1712'
 }

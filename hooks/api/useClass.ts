@@ -44,13 +44,17 @@ const useClass = () => {
       level,
       sort,
       status,
-      title
+      title,
+      page,
+      limit
     }: {
       title?: string
       type?: string
       level?: string[]
       status?: string[]
       sort?: string
+      page?: number
+      limit?: number
     }) => {
       try {
         const result = await callApi<IPagination<IClass>>(
@@ -62,7 +66,9 @@ const useClass = () => {
             level,
             sort,
             status,
-            title
+            title,
+            page,
+            limit
           }
         )
         return result.data

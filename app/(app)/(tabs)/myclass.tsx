@@ -45,6 +45,8 @@ const MyClassScreen = () => {
   const handleApplyFilter = async () => {
     setIsLoading(true)
     const data = await getClassList({
+      limit: 90, //TODO: Fix later
+      page: 1,
       title: searchKey,
       type: filterCourseType.join(', '),
       sort: sortTitle,
@@ -62,6 +64,8 @@ const MyClassScreen = () => {
     setRefreshing(true)
     ;(async () => {
       const data = await getClassList({
+        limit: 90, //TODO: Fix later
+        page: 1,
         title: searchKey,
         status: [classStatus],
         level: filterLevel,
@@ -79,6 +83,8 @@ const MyClassScreen = () => {
     ;(async () => {
       setIsLoading(true)
       const data = await getClassList({
+        limit: 90, //TODO: Fix later
+        page: 1,
         status: [classStatus]
       })
       if (data && typeof data !== 'string') {

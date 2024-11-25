@@ -71,7 +71,7 @@ const CourseDetailScreen = () => {
       setIsLoading(true)
       const [courseDetail, feedbackList] = await Promise.all([
         getCourseDetail(courseId as string),
-        getCourseFeedbackList(courseId as string)
+        getCourseFeedbackList(courseId as string, undefined, 1, 5)
       ])
       if (courseDetail && typeof courseDetail !== 'string' && feedbackList && typeof feedbackList !== 'string') {
         setFeedbackData(feedbackList)
