@@ -3,22 +3,21 @@ import { useRouter } from 'expo-router'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
-import { Chip, View } from 'react-native-ui-lib'
+import { View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
-import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { myFontWeight, myTextColor, width } from '@/contracts/constants'
 
 interface IMyCourseCard {
   title: string
   instructor: string
   price: number
-  publishStatus?: boolean
   image: string
   id: string
 }
 
 const MyCourseCard = (props: IMyCourseCard) => {
-  const { title, instructor, price, image, id, publishStatus = false } = props
+  const { title, instructor, price, image, id } = props
   const router = useRouter()
   return (
     <Shadow style={{ width: (width * 11) / 12 }}>
@@ -68,16 +67,6 @@ const MyCourseCard = (props: IMyCourseCard) => {
                 fontSize: 18
               }}
             />
-            {publishStatus && (
-              <View style={{ alignItems: 'center', gap: 2 }}>
-                <Chip
-                  label='Sắp bắt đầu'
-                  backgroundColor={myTheme.yellow}
-                  containerStyle={{ borderWidth: 0 }}
-                  labelStyle={{ color: '#FFF', fontFamily: myFontWeight.semiBold }}
-                />
-              </View>
-            )}
           </View>
         </View>
       </TouchableOpacity>

@@ -23,7 +23,6 @@ const SessionList = ({
   classStatus?: CLASS_STATUS
 }) => {
   const router = useRouter()
-
   return (
     <View style={{ width: (width * 11) / 12, padding: 10, flexDirection: 'column', rowGap: 12.5 }}>
       {sessionList.map((value, i) => (

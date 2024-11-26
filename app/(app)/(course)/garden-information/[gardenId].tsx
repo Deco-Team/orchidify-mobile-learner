@@ -83,12 +83,6 @@ const GardenDetailScreen = () => {
               {data.images.map((value, i) => (
                 <Image key={i} source={value} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
               ))}
-              {data.images.length === 0 ? (
-                <Image
-                  source={require('@/assets/images/no_image_placeholder.png')}
-                  style={{ aspectRatio: 16 / 9, borderRadius: 16 }}
-                />
-              ) : undefined}
             </Carousel>
             <View style={{ paddingHorizontal: 15, alignSelf: 'flex-start', gap: 10 }}>
               <MyText text='Tên nhà vườn' weight={myFontWeight.bold} styleProps={{ fontSize: 20 }} />

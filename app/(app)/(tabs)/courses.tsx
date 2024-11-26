@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons'
+import { useLocalSearchParams } from 'expo-router'
 import React, { useCallback, useEffect, useState } from 'react'
 import {
   Keyboard,
@@ -14,24 +15,31 @@ import { LoaderScreen, TextField } from 'react-native-ui-lib'
 import MyText from '@/components/common/MyText'
 import FilterModal from '@/components/course-list/FilterModal'
 import MyCourseCard from '@/components/course-list/MyCourseCard'
-import { COURSE_STATUS, height, myDeviceHeight, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { height, myDeviceHeight, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
 import { ICourseListResponse } from '@/contracts/interfaces/course.interface'
 import { IPagination } from '@/contracts/types'
 import useCourse from '@/hooks/api/useCourse'
 
 const CourseScreen = () => {
   //#region state variable
+  const {
+    forwardSearchKey,
+    forwardSortPrice,
+    forwardSortTitle,
+    forwardFilterCourseType,
+    forwardFilterLevel,
+    forwardSort
+  } = useLocalSearchParams()
+  console.log(forwardSearchKey, forwardSortPrice, forwardSortTitle, forwardFilterCourseType, forwardFilterLevel)
   const [data, setData] = useState<IPagination<ICourseListResponse> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const { getCourseList } = useCourse()
-
   const [filterModal, setFilterModal] = useState(-1)
   const [filterCourseType, setFilterCourseType] = useState<string[]>([])
   const [filterLevel, setFilterLevel] = useState<string[]>([])
   const [sort, setSort] = useState<string[]>([])
   const [sortTitle, setSortTitle] = useState<'title.asc' | 'title.desc' | ''>('')
   const [sortPrice, setSortPrice] = useState<'price.asc' | 'price.desc' | ''>('')
-
   const [searchKey, setSearchKey] = useState('')
 
   const [refreshing, setRefreshing] = useState(false)
@@ -73,19 +81,41 @@ const CourseScreen = () => {
     })()
   }, [filterCourseType, filterLevel, getCourseList, searchKey, sort, sortPrice, sortTitle])
 
+  // useEffect(() => {
+  //   ;(async () => {
+  //     setIsLoading(true)
+  //     const data = await getCourseList({
+  //       limit: 90, //TODO: Fix later
+  //       page: 1
+  //     })
+  //     if (data && typeof data !== 'string') {
+  //       setData(data)
+  //     }
+  //     setIsLoading(false)
+  //   })()
+  // }, [getCourseList])
+
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
+      // setSortPrice(forwardSortPrice as 'price.asc' | 'price.desc' | '')
+      // setSortTitle(forwardSortTitle as 'title.asc' | 'title.desc' | '')
+      setSearchKey(forwardSearchKey as string)
       const data = await getCourseList({
         limit: 90, //TODO: Fix later
-        page: 1
+        page: 1,
+        title: forwardSearchKey as string,
+        type: forwardFilterCourseType as string,
+        level: forwardFilterLevel as string[],
+        sort: forwardSort as string
       })
       if (data && typeof data !== 'string') {
         setData(data)
+        // setFilterLevel(forwardFilterLevel as string[])
       }
       setIsLoading(false)
     })()
-  }, [getCourseList])
+  }, [getCourseList, forwardSearchKey, forwardFilterCourseType, forwardFilterLevel, forwardSort])
 
   const handleClearFilter = () => {
     setFilterCourseType([])
@@ -177,7 +207,6 @@ const CourseScreen = () => {
                     image={value.item.thumbnail}
                     title={value.item.title}
                     price={value.item.price}
-                    publishStatus={value.item.status === COURSE_STATUS.ACTIVE}
                     instructor={value.item.instructor.name}
                   />
                 )}

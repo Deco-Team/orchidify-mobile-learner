@@ -313,6 +313,28 @@ export default function AppLayout() {
             )
           }}
         />
+        <Stack.Screen
+          name='(home)/notification'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title='Thông báo'
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
       </Stack>
     </GestureHandlerRootView>
   )

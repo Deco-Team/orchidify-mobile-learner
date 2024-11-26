@@ -83,17 +83,9 @@ const Overview = ({
               )
           }
         })}
-        {/* {media.length === 0 ? (
-          <Image
-            source={require('@/assets/images/no_image_placeholder.png')}
-            style={{ aspectRatio: 16 / 9, borderRadius: 16 }}
-          />
-        ) : undefined} */}
       </Carousel>
       <View style={{ paddingHorizontal: 15 }}>
         <MyText
-          ellipsizeMode='tail'
-          numberOfLines={1}
           text={title}
           styleProps={{ fontFamily: myFontWeight.bold, fontSize: 20, alignSelf: 'flex-start', marginBottom: 10 }}
         />

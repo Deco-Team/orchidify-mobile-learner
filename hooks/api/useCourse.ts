@@ -28,9 +28,17 @@ const useCourse = () => {
       sort?: string
     }) => {
       try {
+        console.log({
+          title,
+          type,
+          level,
+          page,
+          limit,
+          sort
+        })
         const result = await callApi<IPagination<ICourseListResponse>>(
           'get',
-          rootEndpoint,
+          `${rootEndpoint}learner`,
           {},
           {
             title,
@@ -61,7 +69,99 @@ const useCourse = () => {
     [callApi]
   )
 
-  return { getCourseList, getCourseDetail }
+  const getCourseListBestSeller = useCallback(
+    async ({
+      title,
+      type,
+      level,
+      page,
+      limit,
+      sort
+    }: {
+      title?: string
+      type?: string
+      level?: string[]
+      page?: number
+      limit?: number
+      sort?: string
+    }) => {
+      try {
+        console.log({
+          title,
+          type,
+          level,
+          page,
+          limit,
+          sort
+        })
+        const result = await callApi<IPagination<ICourseListResponse>>(
+          'get',
+          `${rootEndpoint}learner/best-seller`,
+          {},
+          {
+            title,
+            type,
+            level,
+            page,
+            limit,
+            sort
+          }
+        )
+        return result.data
+      } catch (error) {
+        return resolveError(error)
+      }
+    },
+    [callApi]
+  )
+
+  const getCourseListRecommend = useCallback(
+    async ({
+      title,
+      type,
+      level,
+      page,
+      limit,
+      sort
+    }: {
+      title?: string
+      type?: string
+      level?: string[]
+      page?: number
+      limit?: number
+      sort?: string
+    }) => {
+      try {
+        console.log({
+          title,
+          type,
+          level,
+          page,
+          limit,
+          sort
+        })
+        const result = await callApi<IPagination<ICourseListResponse>>(
+          'get',
+          `${rootEndpoint}learner/recommended`,
+          {},
+          {
+            title,
+            type,
+            level,
+            page,
+            limit,
+            sort
+          }
+        )
+        return result.data
+      } catch (error) {
+        return resolveError(error)
+      }
+    },
+    [callApi]
+  )
+
+  return { getCourseList, getCourseDetail, getCourseListBestSeller, getCourseListRecommend }
 }
 
 export default useCourse
