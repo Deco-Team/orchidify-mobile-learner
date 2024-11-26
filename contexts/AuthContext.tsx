@@ -10,13 +10,13 @@ import { log } from '@/utils/logger'
 
 const AuthContext = createContext<{
   login: (email: string, password: string) => Promise<boolean | string | undefined>
-  logout: () => Promise<void>
+  logout: () => Promise<string | undefined>
   accessToken?: string | null
   refreshToken?: string | null
   setToken: (accessToken: string, refreshToken: string) => void
 }>({
   login: () => Promise.resolve(false),
-  logout: () => Promise.resolve(),
+  logout: () => Promise.resolve(''),
   accessToken: null,
   refreshToken: null,
   setToken: () => {}

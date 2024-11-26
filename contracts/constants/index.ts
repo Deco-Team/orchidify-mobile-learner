@@ -48,6 +48,8 @@ export const courseTypeItems = [
   'Cấy mô'
 ]
 
+export const courseTypeItemsShort = ['Lan phi điệp', 'Lan hải yến', 'Dendrobium', 'Cattleya', 'Lan hồ điệp']
+
 export enum LEVEL {
   INTERMEDIATE = 'INTERMEDIATE',
   BASIC = 'BASIC',

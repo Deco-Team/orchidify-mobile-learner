@@ -1,10 +1,10 @@
 import Feather from '@expo/vector-icons/Feather'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Header } from '@react-navigation/elements'
-import { Tabs } from 'expo-router'
+import { Tabs, useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { ImageBackground, StyleSheet } from 'react-native'
-import { Avatar, View } from 'react-native-ui-lib'
+import { ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
+import { Avatar, Badge, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
 import { LEARNER_STATUS, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
@@ -12,6 +12,7 @@ import { IUser } from '@/contracts/interfaces/user.interface'
 import useUser from '@/hooks/api/useUser'
 
 export default function TabLayout() {
+  const router = useRouter()
   const { getProfile } = useUser()
   const [user, setUser] = useState<IUser>({
     email: '',
@@ -67,21 +68,45 @@ export default function TabLayout() {
         }}
         options={{
           header: () => (
-            <>
-              <Header
-                title={`Xin chào ${user.name || ''}`}
-                headerTitleStyle={{
-                  fontFamily: myFontWeight.bold
-                }}
-              />
-              <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-                <MyText text='Tạo bởi' styleProps={{ fontSize: 14, marginRight: 5 }} />
-                <MyText
-                  text='Orchidify 👋'
-                  styleProps={{ fontSize: 14, fontFamily: myFontWeight.bold, color: myTextColor.primary }}
-                />
-              </View>
-            </>
+            <Header
+              headerTitle={({ children }) => (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: (width * 10.5) / 12,
+                    alignItems: 'center'
+                  }}
+                >
+                  <View>
+                    <MyText text={children} styleProps={{ fontSize: 20, fontFamily: myFontWeight.bold }} />
+                    <View style={{ alignSelf: 'flex-start', flexDirection: 'row' }}>
+                      <MyText text='Hãy khám phá' styleProps={{ fontSize: 14, marginRight: 5 }} />
+                      <MyText
+                        text='Orchidify!'
+                        styleProps={{ fontSize: 14, fontFamily: myFontWeight.bold, color: myTextColor.primary }}
+                      />
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => router.push({ pathname: '/(app)/(home)/notification' })}
+                    style={{ position: 'relative' }}
+                  >
+                    <Badge
+                      backgroundColor={myTheme.red}
+                      style={{ position: 'absolute', zIndex: 10, left: 12.5, top: -5 }}
+                      label='1'
+                      size={14}
+                    />
+                    <Feather name='bell' size={24} color='black' />
+                  </TouchableOpacity>
+                </View>
+              )}
+              title={`Xin chào ${user.name || ''} 👋`}
+              headerTitleStyle={{
+                fontFamily: myFontWeight.bold
+              }}
+            />
           ),
           tabBarIcon: ({ color, focused }) => (
             <View style={style.button} backgroundColor={focused ? myTheme.lighter : undefined}>
