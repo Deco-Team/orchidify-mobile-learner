@@ -14,10 +14,12 @@ interface IMyCourseCard {
   price: number
   image: string
   id: string
+  finalPrice: number
+  discount: number
 }
 
 const MyCourseCard = (props: IMyCourseCard) => {
-  const { title, instructor, price, image, id } = props
+  const { title, instructor, image, id } = props
   const router = useRouter()
   return (
     <Shadow style={{ width: (width * 11) / 12 }}>
@@ -54,19 +56,29 @@ const MyCourseCard = (props: IMyCourseCard) => {
               width: '100%',
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-between',
               maxHeight: 25,
-              paddingRight: 12.5
+              paddingRight: 12.5,
+              gap: 5
             }}
           >
             <MyText
-              text={`${price.toLocaleString()}đ`}
+              text={`${props.finalPrice.toLocaleString()}đ`}
               styleProps={{
                 fontFamily: myFontWeight.bold,
                 color: myTextColor.primary,
-                fontSize: 18
+                fontSize: 16
               }}
             />
+            {props.discount !== 0 ? (
+              <MyText
+                text={`${props.price.toLocaleString()}đ`}
+                styleProps={{
+                  textDecorationLine: 'line-through',
+                  color: myTextColor.caption,
+                  fontSize: 12
+                }}
+              />
+            ) : undefined}
           </View>
         </View>
       </TouchableOpacity>

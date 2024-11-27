@@ -11,11 +11,13 @@ import { myFontWeight, myTextColor, width } from '@/contracts/constants'
 interface IMyCourseCard {
   title: string
   instructor: string
-  price: number
   image: string
   id: string
+  finalPrice: number
+  price: number
+  discount: number
 }
-const MyCourseCard: React.FC<IMyCourseCard> = ({ id, image, instructor, price, title }) => {
+const MyCourseCard: React.FC<IMyCourseCard> = ({ price, discount, finalPrice, id, image, instructor, title }) => {
   const router = useRouter()
 
   return (
@@ -48,13 +50,23 @@ const MyCourseCard: React.FC<IMyCourseCard> = ({ id, image, instructor, price, t
           />
           <MyText text={instructor} styleProps={{ color: myTextColor.caption, fontSize: 15 }} />
           <MyText
-            text={`${price.toLocaleString()}đ`}
+            text={`${finalPrice.toLocaleString()}đ`}
             styleProps={{
               fontFamily: myFontWeight.bold,
               color: myTextColor.primary,
-              fontSize: 18
+              fontSize: 16
             }}
           />
+          {discount !== 0 ? (
+            <MyText
+              text={`${price.toLocaleString()}đ`}
+              styleProps={{
+                textDecorationLine: 'line-through',
+                color: myTextColor.caption,
+                fontSize: 12
+              }}
+            />
+          ) : undefined}
         </View>
       </TouchableOpacity>
     </Shadow>

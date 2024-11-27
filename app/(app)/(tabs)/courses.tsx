@@ -22,15 +22,7 @@ import useCourse from '@/hooks/api/useCourse'
 
 const CourseScreen = () => {
   //#region state variable
-  const {
-    forwardSearchKey,
-    forwardSortPrice,
-    forwardSortTitle,
-    forwardFilterCourseType,
-    forwardFilterLevel,
-    forwardSort
-  } = useLocalSearchParams()
-  console.log(forwardSearchKey, forwardSortPrice, forwardSortTitle, forwardFilterCourseType, forwardFilterLevel)
+  const { forwardSearchKey, forwardFilterCourseType, forwardFilterLevel, forwardSort } = useLocalSearchParams()
   const [data, setData] = useState<IPagination<ICourseListResponse> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const { getCourseList } = useCourse()
@@ -208,6 +200,8 @@ const CourseScreen = () => {
                     title={value.item.title}
                     price={value.item.price}
                     instructor={value.item.instructor.name}
+                    discount={value.item.discount}
+                    finalPrice={value.item.finalPrice}
                   />
                 )}
                 refreshControl={
