@@ -4,6 +4,7 @@ import { IMedia } from './index.interface'
 export interface ICourseListResponse {
   _id: string
   code: string
+  finalPrice: number
   title: string
   price: number
   level: string

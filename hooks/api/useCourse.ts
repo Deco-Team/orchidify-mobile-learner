@@ -28,14 +28,6 @@ const useCourse = () => {
       sort?: string
     }) => {
       try {
-        console.log({
-          title,
-          type,
-          level,
-          page,
-          limit,
-          sort
-        })
         const result = await callApi<IPagination<ICourseListResponse>>(
           'get',
           `${rootEndpoint}learner`,
@@ -86,14 +78,6 @@ const useCourse = () => {
       sort?: string
     }) => {
       try {
-        console.log({
-          title,
-          type,
-          level,
-          page,
-          limit,
-          sort
-        })
         const result = await callApi<IPagination<ICourseListResponse>>(
           'get',
           `${rootEndpoint}learner/best-seller`,
@@ -132,14 +116,6 @@ const useCourse = () => {
       sort?: string
     }) => {
       try {
-        console.log({
-          title,
-          type,
-          level,
-          page,
-          limit,
-          sort
-        })
         const result = await callApi<IPagination<ICourseListResponse>>(
           'get',
           `${rootEndpoint}learner/recommended`,

@@ -34,7 +34,6 @@ const SessionDetailScreen = () => {
       setIsLoading(true)
       const sessionDetail = await getSessionDetail(sessionId as string, classId as string)
       if (sessionDetail && typeof sessionDetail !== 'string') {
-        console.log(sessionDetail)
         setData(sessionDetail)
       }
       setIsLoading(false)

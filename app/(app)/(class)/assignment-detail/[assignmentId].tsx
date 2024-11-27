@@ -43,7 +43,6 @@ const AssignmentDetailScreen = () => {
       setImage(result)
     }
   }
-  console.log(classId, assignmentId)
   const handleOpenBrowser = async (url: string, isMedia = false) => {
     if (isMedia) return await WebBrowser.openBrowserAsync(url)
     return await WebBrowser.openBrowserAsync(`https://docs.google.com/viewerng/viewer?embedded=true&url=${url}`)

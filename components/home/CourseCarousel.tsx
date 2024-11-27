@@ -19,11 +19,13 @@ const CourseCarousel: React.FC<{ data: ICourseListResponse[] }> = ({ data }) => 
     >
       {data.map((value) => (
         <MyCourseCard
+          price={value.price}
           key={value._id}
           id={value._id}
           image={value.thumbnail}
           instructor={value.instructor.name}
-          price={value.price}
+          discount={value.discount}
+          finalPrice={value.finalPrice}
           title={value.title}
         />
       ))}
