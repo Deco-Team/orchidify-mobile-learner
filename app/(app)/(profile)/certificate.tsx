@@ -77,7 +77,7 @@ const CertificateScreen = () => {
                 )}
                 contentContainerStyle={{
                   alignItems: 'center',
-                  rowGap: 15,
+                  rowGap: 25,
                   height: 'auto',
                   paddingBottom: 50,
                   paddingTop: 10

@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import useApi from './useApi'
 
 import { IMedia } from '@/contracts/interfaces/index.interface'
-import { IBase64Request, IBase64Response } from '@/contracts/interfaces/media.interface'
+import { IBase64Request } from '@/contracts/interfaces/media.interface'
 import { resolveError } from '@/utils'
 
 const useMedia = () => {

@@ -4,7 +4,7 @@ import Entypo from '@expo/vector-icons/Entypo'
 import dayjs from 'dayjs'
 import { Image } from 'expo-image'
 import { ImagePickerAsset } from 'expo-image-picker'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useEffect, useState } from 'react'
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -37,6 +37,9 @@ const AssignmentDetailScreen = () => {
   const { uploadViaBase64 } = useMedia()
   const { submitAssignment } = useClass()
   const { showActionSheetWithOptions } = useActionSheet()
+
+  const router = useRouter()
+
   const handlePickImage = async () => {
     const result = await pickImage()
     if (result) {
@@ -110,8 +113,10 @@ const AssignmentDetailScreen = () => {
         )
         if (typeof result === 'boolean' && result === true) {
           Alert.alert('Thành công', extractMessage(successMessage.SSM032, ['Nộp bài']))
+          router.back()
         } else if (typeof result === 'string') {
           Alert.alert('Đã xảy ra lỗi', result)
+          router.back()
         }
       }
     }
