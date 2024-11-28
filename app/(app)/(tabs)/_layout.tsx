@@ -4,7 +4,7 @@ import { Header } from '@react-navigation/elements'
 import { Tabs, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
-import { Avatar, Badge, View } from 'react-native-ui-lib'
+import { Avatar, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
 import { LEARNER_STATUS, myDeviceWidth, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
@@ -88,16 +88,7 @@ export default function TabLayout() {
                       />
                     </View>
                   </View>
-                  <TouchableOpacity
-                    onPress={() => router.push({ pathname: '/(app)/(home)/notification' })}
-                    style={{ position: 'relative' }}
-                  >
-                    <Badge
-                      backgroundColor={myTheme.red}
-                      style={{ position: 'absolute', zIndex: 10, left: 12.5, top: -5 }}
-                      label='1'
-                      size={14}
-                    />
+                  <TouchableOpacity onPress={() => router.push({ pathname: '/(app)/(home)/notification' })}>
                     <Feather name='bell' size={24} color='black' />
                   </TouchableOpacity>
                 </View>
