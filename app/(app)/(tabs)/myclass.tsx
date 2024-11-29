@@ -15,7 +15,16 @@ import { Button, LoaderScreen, TextField, View } from 'react-native-ui-lib'
 import FilterModal from '@/components/class-list/FilterModal'
 import MyClassCard from '@/components/class-list/MyClassCard'
 import MyText from '@/components/common/MyText'
-import { CLASS_STATUS, height, myDeviceHeight, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import {
+  CLASS_STATUS,
+  height,
+  myDeviceHeight,
+  myDeviceWidth,
+  myFontWeight,
+  myTextColor,
+  myTheme,
+  width
+} from '@/contracts/constants'
 import { IClass } from '@/contracts/interfaces/class.interface'
 import { IPagination } from '@/contracts/types'
 import useClass from '@/hooks/api/useClass'
@@ -193,12 +202,16 @@ const MyClassScreen = () => {
                             backgroundColor: value.value === classStatus ? myTheme.primary : 'transparent',
                             justifyContent: 'center'
                           }}
-                          labelStyle={{
-                            fontFamily: myFontWeight.semiBold,
-                            fontSize: 13,
-                            color: value.value === classStatus ? '#FFF' : myTextColor.caption
-                          }}
-                        />
+                        >
+                          <MyText
+                            styleProps={{
+                              fontFamily: myFontWeight.semiBold,
+                              fontSize: width < myDeviceWidth.sm ? 12 : 14,
+                              color: value.value === classStatus ? '#FFF' : myTextColor.caption
+                            }}
+                            text={value.title}
+                          />
+                        </Button>
                       ))}
                     </View>
                   </View>

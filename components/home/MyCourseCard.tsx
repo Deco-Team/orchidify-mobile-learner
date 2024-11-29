@@ -24,7 +24,7 @@ const MyCourseCard: React.FC<IMyCourseCard> = ({ price, discount, finalPrice, id
     <Shadow style={{ width: (width * 7) / 12, borderRadius: 16 }}>
       <TouchableOpacity
         style={{
-          minHeight: 230,
+          minHeight: 240,
           flexDirection: 'column'
         }}
         onPress={() =>

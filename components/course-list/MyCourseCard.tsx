@@ -55,7 +55,7 @@ const MyCourseCard = (props: IMyCourseCard) => {
               marginTop: 20,
               width: '100%',
               flexDirection: 'row',
-              alignItems: 'center',
+              alignItems: 'baseline',
               maxHeight: 25,
               paddingRight: 12.5,
               gap: 5
