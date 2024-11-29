@@ -34,6 +34,7 @@ const defaultCourseDetail: ICourseDetail = {
   media: [],
   status: COURSE_STATUS.DRAFT,
   sessions: [],
+  finalPrice: 0,
   learnerLimit: 0,
   rate: 0,
   discount: 0,
@@ -94,7 +95,8 @@ const CourseDetailScreen = () => {
         title: data.title,
         image: data.thumbnail,
         price: data.price,
-        discount: data.discount
+        discount: data.discount,
+        finalPrice: data.finalPrice
       }
     })
   }
@@ -249,14 +251,26 @@ const CourseDetailScreen = () => {
             >
               <View>
                 <MyText text='Tổng cộng' />
-                <MyText
-                  text={`${data.price.toLocaleString()}đ`}
-                  styleProps={{
-                    fontFamily: myFontWeight.bold,
-                    color: myTextColor.primary,
-                    fontSize: 18
-                  }}
-                />
+                <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 5 }}>
+                  <MyText
+                    text={`${data.finalPrice.toLocaleString()}đ`}
+                    styleProps={{
+                      fontFamily: myFontWeight.bold,
+                      color: myTextColor.primary,
+                      fontSize: 18
+                    }}
+                  />
+                  {data.discount !== 0 ? (
+                    <MyText
+                      text={`${data.price.toLocaleString()}đ`}
+                      styleProps={{
+                        textDecorationLine: 'line-through',
+                        color: myTextColor.caption,
+                        fontSize: 16
+                      }}
+                    />
+                  ) : undefined}
+                </View>
               </View>
               <Button
                 onPress={

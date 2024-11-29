@@ -1,21 +1,22 @@
 import { Image } from 'expo-image'
 import React from 'react'
 import { Shadow } from 'react-native-shadow-2'
-import { Chip, View } from 'react-native-ui-lib'
+import { View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
-import { myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
+import { myFontWeight, myTextColor, width } from '@/contracts/constants'
 
 interface IMyCheckoutCard {
   title: string
   instructor: string
   price: string
-  publishStatus?: boolean
   image: string
+  discount: number
+  finalPrice: number
 }
 
 const MyCheckoutCard = (props: IMyCheckoutCard) => {
-  const { title, instructor, price, image, publishStatus = false } = props
+  const { title, instructor, price, image, discount, finalPrice } = props
   return (
     <Shadow
       style={{ width: (width * 11) / 12, minHeight: 125, borderRadius: 16, flexDirection: 'row', alignItems: 'center' }}
@@ -35,30 +36,30 @@ const MyCheckoutCard = (props: IMyCheckoutCard) => {
             marginTop: 20,
             width: '100%',
             flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            alignItems: 'baseline',
             maxHeight: 25,
-            paddingRight: 12.5
+            paddingRight: 12.5,
+            gap: 5
           }}
         >
           <MyText
-            text={price}
+            text={`${finalPrice.toLocaleString()}đ`}
             styleProps={{
               fontFamily: myFontWeight.bold,
               color: myTextColor.primary,
-              fontSize: 18
+              fontSize: 16
             }}
           />
-          {publishStatus && (
-            <View style={{ alignItems: 'center', gap: 2 }}>
-              <Chip
-                label='Sắp bắt đầu'
-                backgroundColor={myTheme.yellow}
-                containerStyle={{ borderWidth: 0 }}
-                labelStyle={{ color: '#FFF', fontFamily: myFontWeight.semiBold }}
-              />
-            </View>
-          )}
+          {discount !== 0 ? (
+            <MyText
+              text={`${price.toLocaleString()}`}
+              styleProps={{
+                textDecorationLine: 'line-through',
+                color: myTextColor.caption,
+                fontSize: 12
+              }}
+            />
+          ) : undefined}
         </View>
       </View>
     </Shadow>

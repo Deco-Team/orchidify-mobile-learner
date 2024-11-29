@@ -107,7 +107,20 @@ export default function HomeScreen() {
       learnMoreLink: {
         pathname: '/(app)/myclass'
       },
-      component: <ClassCarousel data={inProgressClassData?.docs || []} />
+      component:
+        inProgressClassData?.docs.length !== 0 ? (
+          <ClassCarousel data={inProgressClassData?.docs || []} />
+        ) : (
+          <MyText
+            styleProps={{
+              fontFamily: myFontWeight.semiBold,
+              color: myTextColor.caption,
+              textAlign: 'center',
+              marginTop: 15
+            }}
+            text='Không có lớp học'
+          />
+        )
     },
     {
       title: 'Gợi ý khóa học',

@@ -13,7 +13,7 @@ import useClass from '@/hooks/api/useClass'
 import { extractMessage } from '@/utils'
 
 const CheckOutScreen = () => {
-  const { classId, instructorName, title, image, price, discount } = useLocalSearchParams()
+  const { classId, instructorName, title, image, price, discount, finalPrice } = useLocalSearchParams()
   const { enrolClass } = useClass()
   const { initPaymentSheet, presentPaymentSheet } = useStripe()
   const [loading, setLoading] = useState(false)
@@ -55,6 +55,8 @@ const CheckOutScreen = () => {
       }}
     >
       <MyCheckoutCard
+        discount={Number(discount as string)}
+        finalPrice={Number(finalPrice as string)}
         image={image as string}
         instructor={instructorName as string}
         title={title as string}
@@ -71,18 +73,12 @@ const CheckOutScreen = () => {
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <MyText text='Giảm giá' />
-            <MyText text={discount ? `${Number(discount as string).toLocaleString()}đ` : '0đ'} />
+            <MyText text={`${(Number(price as string) - Number(finalPrice as string)).toLocaleString()}đ`} />
           </View>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '90%', paddingVertical: 16 }}>
           <MyText text='Tổng cộng' />
-          <MyText
-            text={
-              !discount
-                ? `${Number(price as string).toLocaleString()}đ`
-                : `${(Number(price as string) - Number(discount as string)).toLocaleString()}đ`
-            }
-          />
+          <MyText text={`${Number(finalPrice as string).toLocaleString()}đ`} />
         </View>
         <Button
           onPress={() => handleEnrolClass()}

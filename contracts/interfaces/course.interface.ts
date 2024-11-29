@@ -61,6 +61,7 @@ export interface ICourseDetail {
       '5': number
     }
   }
+  finalPrice: number
   media: IMedia[]
   status: COURSE_STATUS
   sessions: {
