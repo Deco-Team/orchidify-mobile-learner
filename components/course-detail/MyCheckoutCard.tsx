@@ -21,7 +21,10 @@ const MyCheckoutCard = (props: IMyCheckoutCard) => {
     <Shadow
       style={{ width: (width * 11) / 12, minHeight: 125, borderRadius: 16, flexDirection: 'row', alignItems: 'center' }}
     >
-      <Image source={image} style={{ width: 100, height: 100, borderRadius: 16, margin: 12.5, marginRight: 7.5 }} />
+      <Image
+        source={{ uri: image }}
+        style={{ width: 100, height: 100, borderRadius: 16, margin: 12.5, marginRight: 7.5 }}
+      />
       <View style={{ flex: 1 }}>
         <MyText
           ellipsizeMode='tail'

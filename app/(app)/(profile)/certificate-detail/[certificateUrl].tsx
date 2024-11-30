@@ -10,7 +10,10 @@ const CertificateDetailScreen = () => {
 
   return (
     <View style={{ width, height, padding: 15, backgroundColor: '#FFF' }}>
-      <Image source={(certificateUrl as string).replace('pdf', 'png')} style={{ width: '100%', height: '75%' }} />
+      <Image
+        source={{ uri: (certificateUrl as string).replace('pdf', 'png') }}
+        style={{ width: '100%', height: '75%' }}
+      />
     </View>
   )
 }

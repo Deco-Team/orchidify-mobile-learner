@@ -87,6 +87,7 @@ const CourseScreen = () => {
       })
       if (data && typeof data !== 'string') {
         setData(data)
+        // setFilterLevel(forwardFilterLevel as string[])
       }
       setIsLoading(false)
     })()

@@ -39,7 +39,7 @@ const MyCourseCard: React.FC<IMyCourseCard> = ({ price, discount, finalPrice, id
       >
         <Image
           style={{ aspectRatio: 16 / 9, borderTopLeftRadius: 16, borderTopRightRadius: 16, width: '100%' }}
-          source={image}
+          source={{ uri: image }}
         />
         <View style={{ margin: 7.5 }}>
           <MyText
