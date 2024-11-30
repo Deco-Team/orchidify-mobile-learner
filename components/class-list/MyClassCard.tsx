@@ -78,14 +78,17 @@ const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, 
               ) : (
                 <>
                   <MyText
-                    text={`${progress.completed === progress.total ? 'Đã kết thúc' : `${progress.completed}/${progress.total}`}`}
+                    text={`${status === CLASS_STATUS.COMPLETED ? 'Đã kết thúc' : status === CLASS_STATUS.CANCELED ? 'Đã hủy' : `${progress.completed}/${progress.total}`}`}
                     weight={myFontWeight.semiBold}
                     styleProps={{
-                      color: progress.completed === progress.total ? myTheme.red : myTextColor.primary,
+                      color:
+                        status === CLASS_STATUS.COMPLETED || status === CLASS_STATUS.CANCELED
+                          ? myTheme.red
+                          : myTextColor.primary,
                       fontSize: 15
                     }}
                   />
-                  {progress.completed === progress.total ? undefined : (
+                  {status === CLASS_STATUS.COMPLETED || status === CLASS_STATUS.CANCELED ? undefined : (
                     <AnimatedCircularProgress
                       size={45}
                       width={6}

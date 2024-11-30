@@ -46,7 +46,8 @@ const MyClassScreen = () => {
     { title: 'Tất cả', value: '' },
     { title: 'Sắp bắt đầu', value: CLASS_STATUS.PUBLISHED },
     { title: 'Đang học', value: CLASS_STATUS.IN_PROGRESS },
-    { title: 'Đã kết thúc', value: CLASS_STATUS.COMPLETED }
+    { title: 'Đã kết thúc', value: CLASS_STATUS.COMPLETED },
+    { title: 'Đã hủy', value: CLASS_STATUS.CANCELED }
   ]
   //#endregion
 
@@ -193,14 +194,15 @@ const MyClassScreen = () => {
                       }}
                     >
                       {classStatusList.map((value, i) => (
-                        <Button
+                        <TouchableOpacity
                           key={i}
                           onPress={() => setClassStatus(value.value as '' | CLASS_STATUS)}
-                          label={value.title}
-                          size='xSmall'
                           style={{
                             backgroundColor: value.value === classStatus ? myTheme.primary : 'transparent',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            paddingVertical: 2.5,
+                            borderRadius: 99,
+                            paddingHorizontal: 7.5
                           }}
                         >
                           <MyText
@@ -211,7 +213,7 @@ const MyClassScreen = () => {
                             }}
                             text={value.title}
                           />
-                        </Button>
+                        </TouchableOpacity>
                       ))}
                     </View>
                   </View>

@@ -73,25 +73,9 @@ const CourseScreen = () => {
     })()
   }, [filterCourseType, filterLevel, getCourseList, searchKey, sort, sortPrice, sortTitle])
 
-  // useEffect(() => {
-  //   ;(async () => {
-  //     setIsLoading(true)
-  //     const data = await getCourseList({
-  //       limit: 90, //TODO: Fix later
-  //       page: 1
-  //     })
-  //     if (data && typeof data !== 'string') {
-  //       setData(data)
-  //     }
-  //     setIsLoading(false)
-  //   })()
-  // }, [getCourseList])
-
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      // setSortPrice(forwardSortPrice as 'price.asc' | 'price.desc' | '')
-      // setSortTitle(forwardSortTitle as 'title.asc' | 'title.desc' | '')
       setSearchKey(forwardSearchKey as string)
       const data = await getCourseList({
         limit: 90, //TODO: Fix later
@@ -207,7 +191,7 @@ const CourseScreen = () => {
                 refreshControl={
                   <RefreshControl colors={[myTheme.primary]} refreshing={refreshing} onRefresh={onRefresh} />
                 }
-                contentContainerStyle={{ alignItems: 'center', rowGap: 15, height: 'auto', paddingBottom: 50 }}
+                contentContainerStyle={{ alignItems: 'center', rowGap: 25, height: 'auto', paddingBottom: 50 }}
               />
             )}
           </TouchableWithoutFeedback>
