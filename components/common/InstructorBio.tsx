@@ -57,7 +57,11 @@ const InstructorBio: React.FC<IInstructorBio> = ({ instructorInfo, contactButton
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Avatar
-            source={instructorInfo.avatar ? { uri: instructorInfo.avatar } : require('@/assets/images/no_avatar.png')}
+            source={
+              instructorInfo.avatar
+                ? { uri: instructorInfo.avatar.replace('http://', 'https://') }
+                : require('@/assets/images/no_avatar.png')
+            }
             name={instructorInfo.name}
           />
           <MyText styleProps={{ fontFamily: myFontWeight.bold }} text={instructorInfo.name} />

@@ -198,7 +198,11 @@ export default function TabLayout() {
                 containerStyle={{
                   alignSelf: 'center'
                 }}
-                source={user.avatar ? { uri: user.avatar } : require('@/assets/images/no_avatar.png')}
+                source={
+                  user.avatar
+                    ? { uri: user.avatar.replace('http://', 'https://') }
+                    : require('@/assets/images/no_avatar.png')
+                }
               />
               <MyText
                 styleProps={{

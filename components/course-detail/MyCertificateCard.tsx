@@ -28,7 +28,7 @@ const MyCertificateCard: React.FC<IMyCertificateCard> = ({ certificateUrl, name 
         }}
       >
         <Image
-          source={{ uri: certificateUrl.replace('pdf', 'png') }}
+          source={certificateUrl.replace('pdf', 'png').replace('http://', 'https://')}
           style={{ width: 100, height: 100, borderRadius: 16, margin: 12.5, marginRight: 7.5 }}
         />
         <View style={{ flex: 1, gap: 40 }}>
