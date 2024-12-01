@@ -2,7 +2,6 @@ import { useStripe } from '@stripe/stripe-react-native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
-import { Shadow } from 'react-native-shadow-2'
 import { Button, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
@@ -62,7 +61,7 @@ const CheckOutScreen = () => {
         title={title as string}
         price={`${Number(price as string).toLocaleString()}đ`}
       />
-      <Shadow style={{ width, flexDirection: 'column', alignItems: 'center' }}>
+      <View backgroundColor='white' style={{ elevation: 5, width, flexDirection: 'column', alignItems: 'center' }}>
         <MyText text='Chi tiết thanh toán' styleProps={{ fontSize: 16, margin: 16 }} weight={myFontWeight.bold} />
         <View
           style={{ paddingBottom: 16, borderBottomWidth: 0.5, width: '90%', gap: 10, borderBottomColor: '#f4f4f4' }}
@@ -89,7 +88,7 @@ const CheckOutScreen = () => {
           labelStyle={{ fontFamily: myFontWeight.bold }}
           style={{ marginVertical: 16, width: '90%' }}
         />
-      </Shadow>
+      </View>
     </View>
   )
 }

@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Shadow } from 'react-native-shadow-2'
 import { Badge, View } from 'react-native-ui-lib'
 
 import MyText from '../common/MyText'
@@ -26,30 +25,32 @@ const SessionList = ({
   return (
     <View style={{ width: (width * 11) / 12, padding: 10, flexDirection: 'column', rowGap: 12.5 }}>
       {sessionList.map((value, i) => (
-        <TouchableOpacity
-          onPress={() =>
-            router.push({
-              pathname: '/(app)/(class)/session-detail/[sessionId]',
-              params: {
-                sessionId: value._id,
-                classId,
-                classStatus
-              }
-            })
-          }
-          disabled={!onPressHandleEvent}
-          key={i}
+        <View
+          backgroundColor='white'
+          style={{
+            elevation: 5,
+            width: '100%',
+            borderRadius: 16,
+            paddingHorizontal: 15,
+            flexDirection: 'row',
+            columnGap: 10,
+            alignItems: 'center',
+            paddingVertical: 15
+          }}
         >
-          <Shadow
-            style={{
-              width: '100%',
-              borderRadius: 16,
-              paddingHorizontal: 15,
-              flexDirection: 'row',
-              columnGap: 10,
-              alignItems: 'center',
-              paddingVertical: 15
-            }}
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: '/(app)/(class)/session-detail/[sessionId]',
+                params: {
+                  sessionId: value._id,
+                  classId,
+                  classStatus
+                }
+              })
+            }
+            disabled={!onPressHandleEvent}
+            key={i}
           >
             <Badge
               labelStyle={{ color: myTextColor.primary, fontSize: 14, fontFamily: myFontWeight.semiBold, margin: 0 }}
@@ -64,9 +65,9 @@ const SessionList = ({
               numberOfLines={1}
               weight={myFontWeight.semiBold}
               styleProps={{ fontSize: 14, width: '85%' }}
-            />
-          </Shadow>
-        </TouchableOpacity>
+            />{' '}
+          </TouchableOpacity>
+        </View>
       ))}
     </View>
   )

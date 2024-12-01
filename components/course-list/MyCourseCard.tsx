@@ -2,7 +2,6 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Shadow } from 'react-native-shadow-2'
 import { View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
@@ -22,7 +21,7 @@ const MyCourseCard = (props: IMyCourseCard) => {
   const { title, instructor, image, id } = props
   const router = useRouter()
   return (
-    <Shadow style={{ width: (width * 11) / 12 }}>
+    <View backgroundColor='white' style={{ elevation: 5, borderRadius: 16, width: (width * 11) / 12 }}>
       <TouchableOpacity
         style={{
           minHeight: 125,
@@ -85,7 +84,7 @@ const MyCourseCard = (props: IMyCourseCard) => {
           </View>
         </View>
       </TouchableOpacity>
-    </Shadow>
+    </View>
   )
 }
 

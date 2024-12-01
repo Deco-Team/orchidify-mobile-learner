@@ -2,7 +2,6 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Shadow } from 'react-native-shadow-2'
 import { View } from 'react-native-ui-lib'
 
 import MyText from '../common/MyText'
@@ -21,7 +20,7 @@ const MyCourseCard: React.FC<IMyCourseCard> = ({ price, discount, finalPrice, id
   const router = useRouter()
 
   return (
-    <Shadow style={{ width: (width * 7) / 12, borderRadius: 16 }}>
+    <View backgroundColor='white' style={{ elevation: 5, width: (width * 7) / 12, borderRadius: 16 }}>
       <TouchableOpacity
         style={{
           minHeight: 240,
@@ -69,7 +68,7 @@ const MyCourseCard: React.FC<IMyCourseCard> = ({ price, discount, finalPrice, id
           ) : undefined}
         </View>
       </TouchableOpacity>
-    </Shadow>
+    </View>
   )
 }
 

@@ -112,6 +112,12 @@ export interface IAssignment {
   attachments: IMedia[]
   sessionNumber?: number
   deadline?: string
+  instructor: {
+    _id: string
+    name: string
+    idCardPhoto: string
+    avatar: string
+  }
 }
 
 export interface IAssignmentSubmissionPayload {
