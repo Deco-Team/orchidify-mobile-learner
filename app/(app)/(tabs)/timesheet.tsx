@@ -131,7 +131,8 @@ const TimesheetScreen = () => {
             dotColor: myTheme.primary,
             textMonthFontFamily: myFontWeight.semiBold,
             textDayFontFamily: myFontWeight.medium,
-            textDayHeaderFontFamily: myFontWeight.regular
+            textDayHeaderFontFamily: myFontWeight.regular,
+            textDisabledColor: '#2d4150'
           }}
           hideKnob
           style={{ elevation: 5 }}
@@ -175,8 +176,10 @@ const TimesheetScreen = () => {
                 <View
                   style={{
                     paddingHorizontal: 12,
-                    paddingTop: 12,
-                    paddingBottom: 8
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                    marginBottom: 4,
+                    backgroundColor: '#FFF'
                   }}
                 >
                   <MyText
@@ -190,6 +193,9 @@ const TimesheetScreen = () => {
               ) : null
             }
             renderItem={renderItem}
+            style={{
+              marginTop: 12
+            }}
           />
         )}
       </CalendarProvider>

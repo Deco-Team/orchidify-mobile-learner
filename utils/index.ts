@@ -169,5 +169,10 @@ export const extractAttendanceStatus = (status: ATTENDANCE_STATUS) => {
         color: '#F66868',
         title: 'Vắng'
       }
+    default:
+      return {
+        color: '#697B7A',
+        title: 'Chưa điểm danh'
+      }
   }
 }
