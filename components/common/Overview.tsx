@@ -53,7 +53,13 @@ const Overview = ({
         {media.map((value, i) => {
           switch (value.resource_type) {
             case 'image':
-              return <Image key={i} source={{ uri: value.url }} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
+              return (
+                <Image
+                  key={i}
+                  source={value.url.replace('http://', 'https://')}
+                  style={{ aspectRatio: '16/9', borderRadius: 16 }}
+                />
+              )
             case 'video':
               return (
                 <View
@@ -74,7 +80,7 @@ const Overview = ({
                       height: '100%'
                     }}
                     source={{
-                      uri: value.url
+                      uri: value.url.replace('http://', 'https://')
                     }}
                     useNativeControls
                     resizeMode={ResizeMode.CONTAIN}

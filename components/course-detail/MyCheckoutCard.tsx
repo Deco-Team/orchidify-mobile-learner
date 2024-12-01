@@ -22,7 +22,7 @@ const MyCheckoutCard = (props: IMyCheckoutCard) => {
       style={{ width: (width * 11) / 12, minHeight: 125, borderRadius: 16, flexDirection: 'row', alignItems: 'center' }}
     >
       <Image
-        source={{ uri: image }}
+        source={image.replace('http://', 'https://')}
         style={{ width: 100, height: 100, borderRadius: 16, margin: 12.5, marginRight: 7.5 }}
       />
       <View style={{ flex: 1 }}>

@@ -263,7 +263,7 @@ const AssignmentDetailScreen = () => {
             {image[0]?.uri ? (
               <Image
                 style={{ aspectRatio: '16/9', borderRadius: 16, width: (width * 11) / 12 }}
-                source={image[0]?.uri}
+                source={image[0]?.uri.replace('http://', 'https://')}
               />
             ) : undefined}
             {data.submission ? (
@@ -272,7 +272,7 @@ const AssignmentDetailScreen = () => {
             {data.submission ? (
               <Image
                 style={{ aspectRatio: '16/9', borderRadius: 16, width: (width * 11) / 12 }}
-                source={data.submission.attachments[0].url}
+                source={data.submission.attachments[0].url.replace('http://', 'https://')}
               />
             ) : undefined}
             {!assignmentSubmission ? (

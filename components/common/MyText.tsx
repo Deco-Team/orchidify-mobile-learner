@@ -5,15 +5,24 @@ const MyText = ({
   weight = 'Main-Font-Regular',
   text,
   styleProps,
+  ellipsizeMode,
+  numberOfLines,
   ...props
 }: {
   weight?: string
   text: string
   styleProps?: StyleProp<TextStyle>
   [key: string]: any
+  ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip' | undefined
+  numberOfLines?: number | undefined
 }) => {
   return (
-    <Text style={[{ fontFamily: weight }, styleProps]} {...props}>
+    <Text
+      ellipsizeMode={ellipsizeMode}
+      numberOfLines={numberOfLines}
+      style={[{ fontFamily: weight }, styleProps]}
+      {...props}
+    >
       {text}
     </Text>
   )

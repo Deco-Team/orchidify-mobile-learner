@@ -24,9 +24,13 @@ const RatingList: React.FC<RatingListProps> = ({ feedbackList }) => {
         >
           <View style={{ flexDirection: 'row', columnGap: 10 }}>
             <Avatar
-              source={{
-                uri: value.learner.avatar
-              }}
+              source={
+                value.learner.avatar
+                  ? {
+                      uri: value.learner.avatar.replace('http://', 'https://')
+                    }
+                  : require('@/assets/images/no_avatar.png')
+              }
             />
             <View
               style={{
