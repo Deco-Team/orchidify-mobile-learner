@@ -121,7 +121,7 @@ const EditProfileScreen = () => {
               image[0]?.uri
                 ? { uri: image[0]?.uri }
                 : user.avatar
-                  ? { uri: user.avatar }
+                  ? { uri: user.avatar.replace('http://', 'https://') }
                   : require('@/assets/images/no_avatar.png')
             }
           >

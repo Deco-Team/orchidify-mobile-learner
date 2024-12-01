@@ -46,7 +46,7 @@ const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, 
         }
       >
         <Image
-          source={{ uri: image }}
+          source={image.replace('http://', 'https://')}
           style={{ width: 100, height: 100, borderRadius: 16, margin: 12.5, marginRight: 7.5 }}
         />
         <View style={{ flex: 1 }}>

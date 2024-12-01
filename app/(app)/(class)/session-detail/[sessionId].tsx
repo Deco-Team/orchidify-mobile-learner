@@ -86,7 +86,13 @@ const SessionDetailScreen = () => {
               {data.media.map((value, i) => {
                 switch (value.resource_type) {
                   case 'image':
-                    return <Image key={i} source={value.url} style={{ aspectRatio: '16/9' }} />
+                    return (
+                      <Image
+                        key={i}
+                        source={value.url.replace('http://', 'https://')}
+                        style={{ aspectRatio: '16/9' }}
+                      />
+                    )
                   case 'video':
                     return (
                       <View
@@ -105,7 +111,7 @@ const SessionDetailScreen = () => {
                             height: '100%'
                           }}
                           source={{
-                            uri: value.url
+                            uri: value.url.replace('http://', 'https://')
                           }}
                           useNativeControls
                           resizeMode={ResizeMode.CONTAIN}

@@ -81,7 +81,11 @@ const GardenDetailScreen = () => {
               pageWidth={data.images.length === 1 ? (width * 19) / 20 : (width * 4.5) / 6}
             >
               {data.images.map((value, i) => (
-                <Image key={i} source={value} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
+                <Image
+                  key={i}
+                  source={value.replace('http://', 'https://')}
+                  style={{ aspectRatio: '16/9', borderRadius: 16 }}
+                />
               ))}
             </Carousel>
             <View style={{ paddingHorizontal: 15, alignSelf: 'flex-start', gap: 10 }}>

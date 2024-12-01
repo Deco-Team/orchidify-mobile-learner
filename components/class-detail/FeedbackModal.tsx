@@ -48,7 +48,10 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
         >
           <AntDesign name='closecircle' size={22} color={myTheme.primary} />
         </TouchableOpacity>
-        <Image source={{ uri: data.thumbnail }} style={{ aspectRatio: '16/9', borderRadius: 16 }} />
+        <Image
+          source={data.thumbnail.replace('http://', 'https://')}
+          style={{ aspectRatio: '16/9', borderRadius: 16 }}
+        />
         <MyText
           text={data.title}
           styleProps={{ fontSize: 20, fontFamily: myFontWeight.semiBold, textAlign: 'center' }}

@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Button, LoaderScreen, TextField, View } from 'react-native-ui-lib'
+import { LoaderScreen, TextField, View } from 'react-native-ui-lib'
 
 import FilterModal from '@/components/class-list/FilterModal'
 import MyClassCard from '@/components/class-list/MyClassCard'

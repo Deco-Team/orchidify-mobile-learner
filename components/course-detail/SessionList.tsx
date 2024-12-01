@@ -58,7 +58,13 @@ const SessionList = ({
               size={35}
               borderRadius={999}
             />
-            <MyText text={value.title} weight={myFontWeight.semiBold} styleProps={{ fontSize: 14 }} />
+            <MyText
+              text={value.title}
+              ellipsizeMode='tail'
+              numberOfLines={1}
+              weight={myFontWeight.semiBold}
+              styleProps={{ fontSize: 14, width: '85%' }}
+            />
           </Shadow>
         </TouchableOpacity>
       ))}
