@@ -1,6 +1,5 @@
 import { Image } from 'expo-image'
 import React from 'react'
-import { Shadow } from 'react-native-shadow-2'
 import { View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
@@ -18,8 +17,16 @@ interface IMyCheckoutCard {
 const MyCheckoutCard = (props: IMyCheckoutCard) => {
   const { title, instructor, price, image, discount, finalPrice } = props
   return (
-    <Shadow
-      style={{ width: (width * 11) / 12, minHeight: 125, borderRadius: 16, flexDirection: 'row', alignItems: 'center' }}
+    <View
+      backgroundColor='white'
+      style={{
+        elevation: 5,
+        width: (width * 11) / 12,
+        minHeight: 125,
+        borderRadius: 16,
+        flexDirection: 'row',
+        alignItems: 'center'
+      }}
     >
       <Image
         source={image.replace('http://', 'https://')}
@@ -65,7 +72,7 @@ const MyCheckoutCard = (props: IMyCheckoutCard) => {
           ) : undefined}
         </View>
       </View>
-    </Shadow>
+    </View>
   )
 }
 

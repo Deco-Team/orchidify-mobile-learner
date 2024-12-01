@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Shadow } from 'react-native-shadow-2'
 import { Button, View } from 'react-native-ui-lib'
 
 import MyText from '../common/MyText'
@@ -22,8 +21,16 @@ const MyCertificateCard: React.FC<IMyCertificateCard> = ({ id, code, image, name
   const router = useRouter()
 
   return (
-    <Shadow
-      style={{ width: (width * 11) / 12, minHeight: 125, borderRadius: 16, flexDirection: 'row', alignItems: 'center' }}
+    <View
+      backgroundColor='white'
+      style={{
+        elevation: 5,
+        width: (width * 11) / 12,
+        minHeight: 125,
+        borderRadius: 16,
+        flexDirection: 'row',
+        alignItems: 'center'
+      }}
     >
       <Image
         source={image.replace('pdf', 'png').replace('http://', 'https://')}
@@ -73,7 +80,7 @@ const MyCertificateCard: React.FC<IMyCertificateCard> = ({ id, code, image, name
           />
         </View>
       </View>
-    </Shadow>
+    </View>
   )
 }
 

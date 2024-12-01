@@ -1,7 +1,6 @@
 import Feather from '@expo/vector-icons/Feather'
 import dayjs from 'dayjs'
 import React from 'react'
-import { Shadow } from 'react-native-shadow-2'
 import { Carousel, Chip, View } from 'react-native-ui-lib'
 
 import MyLink from './MyLink'
@@ -17,8 +16,10 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
       {classList.length === 1 ? (
         <View style={{ padding: 15, paddingHorizontal: 20 }}>
           {classList.map((value, i) => (
-            <Shadow
+            <View
+              backgroundColor='white'
               style={{
+                elevation: 5,
                 gap: 7.5,
                 borderRadius: 16,
                 padding: 12
@@ -69,7 +70,7 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
                   styleProps={{ color: myTextColor.caption, textDecorationLine: 'underline' }}
                 />
               </View>
-            </Shadow>
+            </View>
           ))}
         </View>
       ) : (
@@ -80,15 +81,17 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
           pageControlProps={{
             color: myTheme.primary
           }}
-          pageWidth={(width * 4.5) / 6}
+          pageWidth={(width * 5) / 6}
         >
           {classList.map((value, i) => (
-            <Shadow
+            <View
+              backgroundColor='white'
               style={{
                 gap: 7.5,
+                elevation: 5,
                 borderRadius: 16,
                 padding: 12,
-                width: (width * 4) / 6
+                width: (width * 4.5) / 6
               }}
               key={i}
             >
@@ -136,7 +139,7 @@ const ClassList = ({ classList }: { classList: IClass[] }) => {
                   styleProps={{ color: myTextColor.caption, textDecorationLine: 'underline' }}
                 />
               </View>
-            </Shadow>
+            </View>
           ))}
         </Carousel>
       )}

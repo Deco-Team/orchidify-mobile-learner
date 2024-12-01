@@ -2,7 +2,6 @@ import { Entypo } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { Shadow } from 'react-native-shadow-2'
 import { Button, View } from 'react-native-ui-lib'
 
 import MyText from '../common/MyText'
@@ -19,8 +18,10 @@ const MyCertificateCard: React.FC<IMyCertificateCard> = ({ certificateUrl, name 
 
   return (
     <View style={{ marginVertical: 8 }}>
-      <Shadow
+      <View
+        backgroundColor='white'
         style={{
+          elevation: 5,
           width: (width * 10) / 12,
           borderRadius: 16,
           flexDirection: 'row',
@@ -58,7 +59,7 @@ const MyCertificateCard: React.FC<IMyCertificateCard> = ({ certificateUrl, name 
             size='xSmall'
           />
         </View>
-      </Shadow>
+      </View>
     </View>
   )
 }

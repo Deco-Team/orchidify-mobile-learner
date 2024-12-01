@@ -5,7 +5,6 @@ import { Image } from 'expo-image'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native'
-import { Shadow } from 'react-native-shadow-2'
 import { Badge, Carousel, LoaderScreen, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
@@ -145,15 +144,16 @@ const SessionDetailScreen = () => {
                   }
                   key={i}
                 >
-                  <Shadow
+                  <View
+                    backgroundColor='white'
                     style={{
+                      elevation: 5,
                       width: (width * 11) / 12,
                       borderRadius: 16,
-                      paddingHorizontal: 15,
+                      padding: 15,
                       flexDirection: 'row',
                       columnGap: 10,
-                      alignItems: 'center',
-                      paddingVertical: 15
+                      alignItems: 'center'
                     }}
                   >
                     <Badge
@@ -163,7 +163,7 @@ const SessionDetailScreen = () => {
                       borderRadius={999}
                     />
                     <MyText text={value.title} weight={myFontWeight.semiBold} styleProps={{ fontSize: 14 }} />
-                  </Shadow>
+                  </View>
                 </TouchableOpacity>
               ))}
             </View>

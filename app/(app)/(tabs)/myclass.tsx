@@ -239,7 +239,7 @@ const MyClassScreen = () => {
                 refreshControl={
                   <RefreshControl colors={[myTheme.primary]} refreshing={refreshing} onRefresh={onRefresh} />
                 }
-                contentContainerStyle={{ alignItems: 'center', rowGap: 15, height: 'auto', paddingBottom: 50 }}
+                contentContainerStyle={{ alignItems: 'center', rowGap: 25, height: 'auto', paddingBottom: 50 }}
               />
             )}
           </TouchableWithoutFeedback>

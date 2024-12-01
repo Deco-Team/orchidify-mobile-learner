@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router'
 import React from 'react'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Shadow } from 'react-native-shadow-2'
 import { Chip, View } from 'react-native-ui-lib'
 
 import MyText from '../common/MyText'
@@ -27,11 +26,10 @@ interface IClassCard {
 const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, title, id, image, progress }) => {
   const router = useRouter()
   return (
-    <Shadow style={{ width: (width * 11) / 12 }}>
+    <View backgroundColor='white' style={{ elevation: 5, width: (width * 11) / 12, borderRadius: 16 }}>
       <TouchableOpacity
         style={{
           minHeight: 125,
-          borderRadius: 16,
           flexDirection: 'row',
           alignItems: 'center'
         }}
@@ -115,7 +113,7 @@ const MyClassCard: React.FC<IClassCard> = ({ status, classCode, instructorName, 
           </View>
         </View>
       </TouchableOpacity>
-    </Shadow>
+    </View>
   )
 }
 

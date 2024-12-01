@@ -7,9 +7,8 @@ import { ImagePickerAsset } from 'expo-image-picker'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useEffect, useState } from 'react'
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, View } from 'react-native'
-import { Shadow } from 'react-native-shadow-2'
-import { Avatar, Badge, Button, LoaderScreen } from 'react-native-ui-lib'
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native'
+import { Avatar, Badge, Button, LoaderScreen, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
 import { CLASS_STATUS, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
@@ -24,7 +23,13 @@ const defaultAssignmentDetail: IAssignment = {
   attachments: [],
   description: '',
   submission: null,
-  title: ''
+  title: '',
+  instructor: {
+    _id: '',
+    name: '',
+    idCardPhoto: '',
+    avatar: ''
+  }
 }
 
 const AssignmentDetailScreen = () => {
@@ -172,18 +177,20 @@ const AssignmentDetailScreen = () => {
                   switch (value.resource_type) {
                     case 'image':
                       return (
-                        <TouchableOpacity key={i} onPress={() => handleOpenBrowser(value.url, true)}>
-                          <Shadow
-                            style={{
-                              width: (width * 11) / 12,
-                              borderRadius: 16,
-                              paddingHorizontal: 15,
-                              flexDirection: 'row',
-                              columnGap: 10,
-                              alignItems: 'center',
-                              paddingVertical: 15
-                            }}
-                          >
+                        <View
+                          backgroundColor='white'
+                          style={{
+                            elevation: 5,
+                            width: (width * 11) / 12,
+                            borderRadius: 16,
+                            paddingHorizontal: 15,
+                            flexDirection: 'row',
+                            columnGap: 10,
+                            alignItems: 'center',
+                            paddingVertical: 15
+                          }}
+                        >
+                          <TouchableOpacity key={i} onPress={() => handleOpenBrowser(value.url, true)}>
                             <Badge
                               customElement={<Feather name='image' size={20} color={myTheme.primary} />}
                               backgroundColor={myTheme.lightPrimary}
@@ -194,24 +201,28 @@ const AssignmentDetailScreen = () => {
                               text={value.original_filename}
                               weight={myFontWeight.semiBold}
                               styleProps={{ fontSize: 14 }}
-                            />
-                          </Shadow>
-                        </TouchableOpacity>
+                            />{' '}
+                          </TouchableOpacity>
+                        </View>
                       )
                     case 'video':
                       return (
-                        <TouchableOpacity onPress={() => handleOpenBrowser(value.url, true)}>
-                          <Shadow
-                            style={{
-                              width: (width * 11) / 12,
-                              borderRadius: 16,
-                              paddingHorizontal: 15,
-                              flexDirection: 'row',
-                              columnGap: 10,
-                              alignItems: 'center',
-                              paddingVertical: 15
-                            }}
-                          >
+                        <View
+                          backgroundColor='white'
+                          style={{
+                            elevation: 5,
+
+                            width: (width * 11) / 12,
+                            borderRadius: 16,
+                            paddingHorizontal: 15,
+                            flexDirection: 'row',
+                            columnGap: 10,
+                            alignItems: 'center',
+                            paddingVertical: 15
+                          }}
+                        >
+                          {' '}
+                          <TouchableOpacity onPress={() => handleOpenBrowser(value.url, true)}>
                             <Badge
                               customElement={<Feather name='video' size={20} color={myTheme.primary} />}
                               backgroundColor={myTheme.lightPrimary}
@@ -222,24 +233,28 @@ const AssignmentDetailScreen = () => {
                               text={value.original_filename}
                               weight={myFontWeight.semiBold}
                               styleProps={{ fontSize: 14 }}
-                            />
-                          </Shadow>
-                        </TouchableOpacity>
+                            />{' '}
+                          </TouchableOpacity>
+                        </View>
                       )
                     case 'raw':
                       return (
-                        <TouchableOpacity onPress={() => handleOpenBrowser(value.url)}>
-                          <Shadow
-                            style={{
-                              width: (width * 11) / 12,
-                              borderRadius: 16,
-                              paddingHorizontal: 15,
-                              flexDirection: 'row',
-                              columnGap: 10,
-                              alignItems: 'center',
-                              paddingVertical: 15
-                            }}
-                          >
+                        <View
+                          backgroundColor='white'
+                          style={{
+                            elevation: 5,
+
+                            width: (width * 11) / 12,
+                            borderRadius: 16,
+                            paddingHorizontal: 15,
+                            flexDirection: 'row',
+                            columnGap: 10,
+                            alignItems: 'center',
+                            paddingVertical: 15
+                          }}
+                        >
+                          {' '}
+                          <TouchableOpacity onPress={() => handleOpenBrowser(value.url)}>
                             <Badge
                               customElement={<Feather name='file-text' size={20} color={myTheme.primary} />}
                               backgroundColor={myTheme.lightPrimary}
@@ -250,9 +265,9 @@ const AssignmentDetailScreen = () => {
                               text={value.original_filename}
                               weight={myFontWeight.semiBold}
                               styleProps={{ fontSize: 14 }}
-                            />
-                          </Shadow>
-                        </TouchableOpacity>
+                            />{' '}
+                          </TouchableOpacity>
+                        </View>
                       )
                   }
                 })
@@ -276,35 +291,40 @@ const AssignmentDetailScreen = () => {
               />
             ) : undefined}
             {!assignmentSubmission ? (
-              <TouchableOpacity onPress={onPress}>
-                <Shadow
-                  style={{
-                    width: (width * 11) / 12,
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                    borderRadius: 16,
-                    paddingVertical: 16
-                  }}
-                >
+              <View
+                backgroundColor='white'
+                style={{
+                  elevation: 5,
+
+                  width: (width * 11) / 12,
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                  borderRadius: 16,
+                  paddingVertical: 16
+                }}
+              >
+                <TouchableOpacity onPress={onPress}>
                   <Entypo name='upload-to-cloud' size={60} color={myTheme.primary} />
                   <MyText
                     text={image[0]?.uri ? 'Nhấn vào để thay đổi bài nộp' : 'Nhấn vào để tải lên'}
                     weight={myFontWeight.semiBold}
                     styleProps={{ fontSize: 14 }}
-                  />
-                </Shadow>
-              </TouchableOpacity>
+                  />{' '}
+                </TouchableOpacity>
+              </View>
             ) : undefined}
             {data.submission?.point && data.submission?.feedback ? (
               <View style={{ gap: 10, width: '100%' }}>
                 <MyText text='Nhận xét của giảng viên' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                   <Avatar
-                    source={{
-                      uri: 'https://picsum.photos/200'
-                    }}
+                    source={
+                      data.instructor.avatar
+                        ? { uri: data.instructor.avatar.replace('http://', 'https://') }
+                        : require('@/assets/images/no_avatar.png')
+                    }
                   />
-                  <MyText styleProps={{ fontFamily: myFontWeight.bold }} text='PhongNH' />
+                  <MyText styleProps={{ fontFamily: myFontWeight.bold }} text={data.instructor.name} />
                 </View>
                 <MyText
                   text={`Điểm: ${data.submission?.point}/10`}
@@ -321,7 +341,7 @@ const AssignmentDetailScreen = () => {
             ) : undefined}
           </ScrollView>
           {(assignmentSubmission && classStatus === CLASS_STATUS.IN_PROGRESS && !data.submission) || image[0]?.uri ? (
-            <Shadow style={{ width, alignItems: 'center', paddingVertical: 10 }}>
+            <View backgroundColor='white' style={{ elevation: 5, width, alignItems: 'center', paddingVertical: 10 }}>
               <Button
                 disabled={isLoading}
                 onPress={image[0]?.uri ? handleSubmitAssignment : handleOpenSubmission}
@@ -330,7 +350,7 @@ const AssignmentDetailScreen = () => {
                 style={{ width: (width * 11) / 12 }}
                 label={image[0]?.uri ? 'Nộp bài' : 'Bài làm'}
               />
-            </Shadow>
+            </View>
           ) : undefined}
         </KeyboardAvoidingView>
       )}
