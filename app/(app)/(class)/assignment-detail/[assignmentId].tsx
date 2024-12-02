@@ -201,7 +201,7 @@ const AssignmentDetailScreen = () => {
                               text={value.original_filename}
                               weight={myFontWeight.semiBold}
                               styleProps={{ fontSize: 14 }}
-                            />{' '}
+                            />
                           </TouchableOpacity>
                         </View>
                       )
@@ -221,7 +221,6 @@ const AssignmentDetailScreen = () => {
                             paddingVertical: 15
                           }}
                         >
-                          {' '}
                           <TouchableOpacity onPress={() => handleOpenBrowser(value.url, true)}>
                             <Badge
                               customElement={<Feather name='video' size={20} color={myTheme.primary} />}
@@ -233,7 +232,7 @@ const AssignmentDetailScreen = () => {
                               text={value.original_filename}
                               weight={myFontWeight.semiBold}
                               styleProps={{ fontSize: 14 }}
-                            />{' '}
+                            />
                           </TouchableOpacity>
                         </View>
                       )
@@ -253,7 +252,6 @@ const AssignmentDetailScreen = () => {
                             paddingVertical: 15
                           }}
                         >
-                          {' '}
                           <TouchableOpacity onPress={() => handleOpenBrowser(value.url)}>
                             <Badge
                               customElement={<Feather name='file-text' size={20} color={myTheme.primary} />}
@@ -265,7 +263,7 @@ const AssignmentDetailScreen = () => {
                               text={value.original_filename}
                               weight={myFontWeight.semiBold}
                               styleProps={{ fontSize: 14 }}
-                            />{' '}
+                            />
                           </TouchableOpacity>
                         </View>
                       )
@@ -309,7 +307,7 @@ const AssignmentDetailScreen = () => {
                     text={image[0]?.uri ? 'Nhấn vào để thay đổi bài nộp' : 'Nhấn vào để tải lên'}
                     weight={myFontWeight.semiBold}
                     styleProps={{ fontSize: 14 }}
-                  />{' '}
+                  />
                 </TouchableOpacity>
               </View>
             ) : undefined}

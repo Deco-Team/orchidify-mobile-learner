@@ -65,7 +65,7 @@ const SessionList = ({
               numberOfLines={1}
               weight={myFontWeight.semiBold}
               styleProps={{ fontSize: 14, width: '85%' }}
-            />{' '}
+            />
           </TouchableOpacity>
         </View>
       ))}
