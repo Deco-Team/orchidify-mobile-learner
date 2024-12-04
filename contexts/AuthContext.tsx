@@ -1,4 +1,3 @@
-import { getAuth } from '@react-native-firebase/auth'
 import { useNavigation } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 import { jwtDecode } from 'jwt-decode'
@@ -91,18 +90,14 @@ export function SessionProvider({ children }: PropsWithChildren) {
         },
         logout: async () => {
           try {
-            const auth = getAuth()
-            await Promise.all([
-              auth.signOut(),
-              POST(
-                'auth/learner/logout',
-                { refreshToken },
-                {},
-                { Accept: 'application/json', Authorization: `Bearer ${refreshToken}` }
-              ),
-              await SecureStore.deleteItemAsync('refreshToken'),
-              await SecureStore.deleteItemAsync('accessToken')
-            ])
+            await POST(
+              'auth/learner/logout',
+              { refreshToken },
+              {},
+              { Accept: 'application/json', Authorization: `Bearer ${refreshToken}` }
+            )
+            await SecureStore.deleteItemAsync('refreshToken')
+            await SecureStore.deleteItemAsync('accessToken')
             setAccessToken(undefined)
             setRefreshToken(undefined)
           } catch (error) {
