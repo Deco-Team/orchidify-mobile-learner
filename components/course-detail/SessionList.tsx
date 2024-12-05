@@ -25,19 +25,7 @@ const SessionList = ({
   return (
     <View style={{ width: (width * 11) / 12, padding: 10, flexDirection: 'column', rowGap: 12.5 }}>
       {sessionList.map((value, i) => (
-        <View
-          backgroundColor='white'
-          style={{
-            elevation: 5,
-            width: '100%',
-            borderRadius: 16,
-            paddingHorizontal: 15,
-            flexDirection: 'row',
-            columnGap: 10,
-            alignItems: 'center',
-            paddingVertical: 15
-          }}
-        >
+        <View backgroundColor='white' style={{ elevation: 5, borderRadius: 16 }}>
           <TouchableOpacity
             onPress={() =>
               router.push({
@@ -49,6 +37,14 @@ const SessionList = ({
                 }
               })
             }
+            style={{
+              width: (width * 10) / 12,
+              paddingHorizontal: 15,
+              flexDirection: 'row',
+              columnGap: 10,
+              alignItems: 'center',
+              paddingVertical: 15
+            }}
             disabled={!onPressHandleEvent}
             key={i}
           >

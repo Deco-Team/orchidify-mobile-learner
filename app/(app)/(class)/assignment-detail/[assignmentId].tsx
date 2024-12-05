@@ -181,16 +181,21 @@ const AssignmentDetailScreen = () => {
                           backgroundColor='white'
                           style={{
                             elevation: 5,
-                            width: (width * 11) / 12,
-                            borderRadius: 16,
-                            paddingHorizontal: 15,
-                            flexDirection: 'row',
-                            columnGap: 10,
-                            alignItems: 'center',
-                            paddingVertical: 15
+                            borderRadius: 16
                           }}
                         >
-                          <TouchableOpacity key={i} onPress={() => handleOpenBrowser(value.url, true)}>
+                          <TouchableOpacity
+                            style={{
+                              width: (width * 11) / 12,
+                              paddingHorizontal: 15,
+                              flexDirection: 'row',
+                              columnGap: 10,
+                              alignItems: 'center',
+                              paddingVertical: 15
+                            }}
+                            key={i}
+                            onPress={() => handleOpenBrowser(value.url, true)}
+                          >
                             <Badge
                               customElement={<Feather name='image' size={20} color={myTheme.primary} />}
                               backgroundColor={myTheme.lightPrimary}
@@ -211,17 +216,21 @@ const AssignmentDetailScreen = () => {
                           backgroundColor='white'
                           style={{
                             elevation: 5,
-
-                            width: (width * 11) / 12,
-                            borderRadius: 16,
-                            paddingHorizontal: 15,
-                            flexDirection: 'row',
-                            columnGap: 10,
-                            alignItems: 'center',
-                            paddingVertical: 15
+                            borderRadius: 16
                           }}
                         >
-                          <TouchableOpacity onPress={() => handleOpenBrowser(value.url, true)}>
+                          <TouchableOpacity
+                            style={{
+                              width: (width * 11) / 12,
+                              paddingHorizontal: 15,
+                              flexDirection: 'row',
+                              columnGap: 10,
+                              alignItems: 'center',
+                              paddingVertical: 15
+                            }}
+                            key={i}
+                            onPress={() => handleOpenBrowser(value.url, true)}
+                          >
                             <Badge
                               customElement={<Feather name='video' size={20} color={myTheme.primary} />}
                               backgroundColor={myTheme.lightPrimary}
@@ -242,17 +251,21 @@ const AssignmentDetailScreen = () => {
                           backgroundColor='white'
                           style={{
                             elevation: 5,
-
-                            width: (width * 11) / 12,
-                            borderRadius: 16,
-                            paddingHorizontal: 15,
-                            flexDirection: 'row',
-                            columnGap: 10,
-                            alignItems: 'center',
-                            paddingVertical: 15
+                            borderRadius: 16
                           }}
                         >
-                          <TouchableOpacity onPress={() => handleOpenBrowser(value.url)}>
+                          <TouchableOpacity
+                            style={{
+                              width: (width * 11) / 12,
+                              paddingHorizontal: 15,
+                              flexDirection: 'row',
+                              columnGap: 10,
+                              alignItems: 'center',
+                              paddingVertical: 15
+                            }}
+                            key={i}
+                            onPress={() => handleOpenBrowser(value.url)}
+                          >
                             <Badge
                               customElement={<Feather name='file-text' size={20} color={myTheme.primary} />}
                               backgroundColor={myTheme.lightPrimary}
@@ -273,6 +286,7 @@ const AssignmentDetailScreen = () => {
             {image[0]?.uri ? (
               <MyText text='Tải ảnh' weight={myFontWeight.bold} styleProps={{ fontSize: 16 }} />
             ) : undefined}
+
             {image[0]?.uri ? (
               <Image
                 style={{ aspectRatio: '16/9', borderRadius: 16, width: (width * 11) / 12 }}
@@ -293,7 +307,6 @@ const AssignmentDetailScreen = () => {
                 backgroundColor='white'
                 style={{
                   elevation: 5,
-
                   width: (width * 11) / 12,
                   alignSelf: 'center',
                   alignItems: 'center',
@@ -301,7 +314,7 @@ const AssignmentDetailScreen = () => {
                   paddingVertical: 16
                 }}
               >
-                <TouchableOpacity onPress={onPress}>
+                <TouchableOpacity style={{ alignItems: 'center' }} onPress={onPress}>
                   <Entypo name='upload-to-cloud' size={60} color={myTheme.primary} />
                   <MyText
                     text={image[0]?.uri ? 'Nhấn vào để thay đổi bài nộp' : 'Nhấn vào để tải lên'}

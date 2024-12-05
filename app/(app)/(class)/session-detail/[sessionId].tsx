@@ -129,31 +129,27 @@ const SessionDetailScreen = () => {
               />
               <MyText text={data.description} styleProps={{ marginBottom: 7.5, color: myTextColor.caption }} />
               {data.assignments.map((value, i) => (
-                <TouchableOpacity
-                  onPress={() =>
-                    router.push({
-                      pathname: '/(app)/(class)/assignment-detail/[assignmentId]',
-                      params: {
-                        assignmentId: value._id,
-                        classId,
-                        sessionNumber: data.sessionNumber,
-                        sessionTitle: data.title,
-                        classStatus
-                      }
-                    })
-                  }
-                  key={i}
-                >
-                  <View
-                    backgroundColor='white'
+                <View backgroundColor='white' style={{ elevation: 5, borderRadius: 16 }} key={i}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      router.push({
+                        pathname: '/(app)/(class)/assignment-detail/[assignmentId]',
+                        params: {
+                          assignmentId: value._id,
+                          classId,
+                          sessionNumber: data.sessionNumber,
+                          sessionTitle: data.title,
+                          classStatus
+                        }
+                      })
+                    }
                     style={{
-                      elevation: 5,
                       width: (width * 11) / 12,
-                      borderRadius: 16,
-                      padding: 15,
+                      paddingHorizontal: 15,
                       flexDirection: 'row',
                       columnGap: 10,
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      paddingVertical: 15
                     }}
                   >
                     <Badge
@@ -163,8 +159,8 @@ const SessionDetailScreen = () => {
                       borderRadius={999}
                     />
                     <MyText text={value.title} weight={myFontWeight.semiBold} styleProps={{ fontSize: 14 }} />
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                </View>
               ))}
             </View>
           </ScrollView>
