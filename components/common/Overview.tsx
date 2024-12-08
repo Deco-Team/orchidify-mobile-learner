@@ -35,7 +35,17 @@ const Overview = ({
   sessionCount: number
   classCount?: number
   media: IMedia[]
-  rate?: number
+  rate?: {
+    totalSum: number
+    totalCount: number
+    totalCountByRate: {
+      '1': number
+      '2': number
+      '3': number
+      '4': number
+      '5': number
+    }
+  }
 }) => {
   const video = useRef<any>(null)
 
@@ -110,9 +120,17 @@ const Overview = ({
         </View>
         {!rate ? undefined : (
           <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-            <MyText text='0' styleProps={{ fontFamily: myFontWeight.bold, marginRight: 5 }} />
-            <StarRatingDisplay starSize={20} color={myTheme.yellow} starStyle={{ marginHorizontal: 0 }} rating={rate} />
-            <MyText text='(445)' styleProps={{ marginRight: 5, color: myTextColor.caption }} />
+            <MyText
+              text={rate.totalSum.toLocaleString()}
+              styleProps={{ fontFamily: myFontWeight.bold, marginRight: 5 }}
+            />
+            <StarRatingDisplay
+              starSize={20}
+              color={myTheme.yellow}
+              starStyle={{ marginHorizontal: 0 }}
+              rating={rate.totalSum}
+            />
+            <MyText text={`(${rate.totalCount})`} styleProps={{ marginRight: 5, color: myTextColor.caption }} />
           </View>
         )}
         <View style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>

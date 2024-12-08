@@ -1,4 +1,5 @@
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { useRouter } from 'expo-router'
@@ -48,9 +49,17 @@ const ProfileScreen = () => {
       title: 'Chứng chỉ của tôi'
     },
     {
-      icon: <MaterialCommunityIcons style={style.icon} name='logout' size={24} color={myTheme.primary} />,
+      icon: <MaterialCommunityIcons style={style.icon} name='logout' size={24} color={myTheme.red} />,
       onPress: () => handleLogout(),
       title: 'Đăng xuất'
+    }
+  ]
+
+  const otherMenu = [
+    {
+      icon: <FontAwesome style={style.icon} name='phone' size={24} color={myTheme.primary} />,
+      onPress: () => router.push('/(app)/(profile)/contact'),
+      title: 'Liên hệ'
     }
   ]
 
@@ -68,6 +77,28 @@ const ProfileScreen = () => {
       <FlatList
         contentContainerStyle={{ rowGap: 24 }}
         data={settingMenu}
+        renderItem={(value) => (
+          <TouchableOpacity onPress={value.item.onPress} style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              {value.item.icon}
+              <MyText styleProps={{ fontSize: width < myDeviceWidth.sm ? 16 : 18 }} text={value.item.title} />
+            </View>
+            <MaterialIcons name='keyboard-arrow-right' size={24} color='black' />
+          </TouchableOpacity>
+        )}
+      />
+      <MyText
+        text='Khác'
+        styleProps={{
+          fontSize: width < myDeviceWidth.sm ? 18 : 20,
+          textAlign: 'left',
+          marginTop: 24,
+          fontFamily: myFontWeight.bold
+        }}
+      />
+      <FlatList
+        contentContainerStyle={{ rowGap: 24 }}
+        data={otherMenu}
         renderItem={(value) => (
           <TouchableOpacity onPress={value.item.onPress} style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
