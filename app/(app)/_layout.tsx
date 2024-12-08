@@ -93,6 +93,28 @@ export default function AppLayout() {
           }}
         />
         <Stack.Screen
+          name='(profile)/contact'
+          options={{
+            header: () => (
+              <Header
+                headerLeft={() => (
+                  <HeaderBackButton
+                    label='Quay lại'
+                    labelStyle={{
+                      fontFamily: myFontWeight.regular
+                    }}
+                    onPress={() => router.back()}
+                  />
+                )}
+                title='Liên hệ'
+                headerTitleStyle={{
+                  fontFamily: myFontWeight.bold
+                }}
+              />
+            )
+          }}
+        />
+        <Stack.Screen
           name='(profile)/certificate-detail/[certificateUrl]'
           options={{
             header: () => (

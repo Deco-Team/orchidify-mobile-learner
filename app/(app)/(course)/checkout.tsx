@@ -31,13 +31,15 @@ const CheckOutScreen = () => {
       })
       const { error } = await presentPaymentSheet()
       if (error) {
-        Alert.alert('Lỗi', extractMessage(errorMessage.ERM025, ['thanh toán']))
+        if (error.code !== 'Canceled') {
+          Alert.alert('Lỗi', extractMessage(errorMessage.ERM025, ['thanh toán']))
+        }
       } else {
         Alert.alert('Thành công', successMessage.SSM033)
         router.push('/(tabs)/myclass')
       }
     } else {
-      Alert.alert(errorMessage.ERM033)
+      Alert.alert('Lỗi', data as string)
     }
     setLoading(false)
   }

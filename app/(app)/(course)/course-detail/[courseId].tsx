@@ -118,7 +118,7 @@ const CourseDetailScreen = () => {
         >
           <ScrollView contentContainerStyle={{ alignItems: 'center', flexGrow: 1 }} style={{ flex: 1 }}>
             <Overview
-              rate={data.rate}
+              rate={data.ratingSummary}
               media={data.media}
               duration={data.duration}
               classCount={data.classes.length}
