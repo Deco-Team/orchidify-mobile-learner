@@ -8,7 +8,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useEffect, useState } from 'react'
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native'
-import { Avatar, Badge, Button, LoaderScreen, View } from 'react-native-ui-lib'
+import { Avatar, Badge, Button, Chip, LoaderScreen, View } from 'react-native-ui-lib'
 
 import MyText from '@/components/common/MyText'
 import { CLASS_STATUS, myFontWeight, myTextColor, myTheme, width } from '@/contracts/constants'
@@ -337,11 +337,19 @@ const AssignmentDetailScreen = () => {
                   />
                   <MyText styleProps={{ fontFamily: myFontWeight.bold }} text={data.instructor.name} />
                 </View>
-                <MyText
-                  text={`Điểm: ${data.submission?.point}/10`}
-                  weight={myFontWeight.bold}
-                  styleProps={{ fontSize: 14 }}
-                />
+                <View style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+                  <MyText
+                    text={`Điểm: ${data.submission?.point}/10`}
+                    weight={myFontWeight.bold}
+                    styleProps={{ fontSize: 14 }}
+                  />
+                  <Chip
+                    label={`${data.submission?.point >= 5 ? 'Đạt' : 'Không đạt'}`}
+                    backgroundColor={data.submission?.point >= 5 ? myTheme.primary : myTheme.red}
+                    containerStyle={{ borderWidth: 0 }}
+                    labelStyle={{ color: '#FFF', fontFamily: myFontWeight.bold, fontSize: 12, margin: -2.5 }}
+                  />
+                </View>
                 <MyText text='Nhận xét:' weight={myFontWeight.bold} styleProps={{ fontSize: 14 }} />
                 <MyText text={data.submission.feedback} styleProps={{ fontSize: 14, color: myTextColor.caption }} />
                 <MyText
