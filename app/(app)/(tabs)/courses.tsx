@@ -39,14 +39,15 @@ const CourseScreen = () => {
 
   //#region event function
   const handleApplyFilter = async () => {
-    setSort([sortPrice, sortTitle].filter((value) => value === ''))
+    setSort([sortPrice, sortTitle])
     setIsLoading(true)
     const data = await getCourseList({
       title: searchKey,
       type: filterCourseType.join(', '),
       level: filterLevel,
-      sort: sort.join('_'),
-      limit: 90 //TODO: Fix later
+      sort: [sortPrice, sortTitle].join('_'),
+      limit: 90, //TODO: Fix later
+      page: 1
     })
     if (data && typeof data !== 'string') {
       setData(data)
@@ -87,7 +88,6 @@ const CourseScreen = () => {
       })
       if (data && typeof data !== 'string') {
         setData(data)
-        // setFilterLevel(forwardFilterLevel as string[])
       }
       setIsLoading(false)
     })()

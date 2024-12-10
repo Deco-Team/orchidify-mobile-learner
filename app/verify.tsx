@@ -24,7 +24,7 @@ const VerifyScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { minutes, seconds, isRunning, start, restart } = useTimer({ expiryTimestamp })
   useEffect(() => {
-    start
+    start()
     if (page === 'login') {
       handleResendOtp(false)
     }
@@ -33,9 +33,10 @@ const VerifyScreen = () => {
   const handleResendOtp = async (isRestart = true) => {
     setIsLoading(true)
     await resendOtp({ email })
-    if (isRestart) restart
+    if (isRestart) restart(new Date(new Date().getTime() + 5 * 60 * 1000))
     setIsLoading(false)
   }
+
   const handleVerifyOtp = async () => {
     setIsLoading(true)
     const result = await verifyOtp({ code, email })
