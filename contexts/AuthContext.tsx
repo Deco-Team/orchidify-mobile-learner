@@ -11,14 +11,20 @@ import { log } from '@/utils/logger'
 const AuthContext = createContext<{
   login: (email: string, password: string) => Promise<boolean | string | undefined>
   logout: () => Promise<string | undefined>
+  saveFirebaseToken: (firebaseToken: string) => Promise<boolean | string | undefined>
+  removeFirebaseToken: () => Promise<boolean | string | undefined>
   accessToken?: string | null
   refreshToken?: string | null
+  firebaseToken?: string | null
   setToken: (accessToken: string, refreshToken: string) => void
 }>({
   login: () => Promise.resolve(false),
   logout: () => Promise.resolve(''),
+  saveFirebaseToken: () => Promise.resolve(false),
+  removeFirebaseToken: () => Promise.resolve(false),
   accessToken: null,
   refreshToken: null,
+  firebaseToken: null,
   setToken: () => {}
 })
 
@@ -36,13 +42,15 @@ export function useSession() {
 export function SessionProvider({ children }: PropsWithChildren) {
   const [accessToken, setAccessToken] = useState<string | undefined>()
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
+  const [firebaseToken, setFirebaseToken] = useState<string | undefined>()
   const navigation = useNavigation()
   useEffect(() => {
     ;(async () => {
       try {
         const storedToken = await Promise.all([
           SecureStore.getItemAsync('accessToken'),
-          SecureStore.getItemAsync('refreshToken')
+          SecureStore.getItemAsync('refreshToken'),
+          SecureStore.getItemAsync('firebaseToken')
         ])
         if (storedToken[0] && storedToken[1]) {
           setAccessToken(storedToken[0])
@@ -54,6 +62,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
               routes: [{ name: '(app)' as never }]
             })
           }
+        }
+
+        if (storedToken[2]) {
+          setFirebaseToken(storedToken[2])
         }
       } catch (error) {
         log.error(error)
@@ -98,8 +110,26 @@ export function SessionProvider({ children }: PropsWithChildren) {
             )
             await SecureStore.deleteItemAsync('refreshToken')
             await SecureStore.deleteItemAsync('accessToken')
+            await SecureStore.deleteItemAsync('firebaseToken')
             setAccessToken(undefined)
             setRefreshToken(undefined)
+            setFirebaseToken(undefined)
+          } catch (error) {
+            return resolveError(error)
+          }
+        },
+        saveFirebaseToken: async (firebaseToken: string) => {
+          try {
+            await SecureStore.setItemAsync('firebaseToken', firebaseToken)
+            setFirebaseToken(firebaseToken)
+          } catch (error) {
+            return resolveError(error)
+          }
+        },
+        removeFirebaseToken: async () => {
+          try {
+            await SecureStore.deleteItemAsync('firebaseToken')
+            setFirebaseToken(undefined)
           } catch (error) {
             return resolveError(error)
           }
@@ -111,7 +141,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
           await SecureStore.setItemAsync('refreshToken', refreshToken)
         },
         accessToken,
-        refreshToken
+        refreshToken,
+        firebaseToken
       }}
     >
       {children}

@@ -1,39 +1,26 @@
-import { useLocalSearchParams } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import { router, useLocalSearchParams } from 'expo-router'
+import React from 'react'
+import { Alert } from 'react-native/Libraries/Alert/Alert'
 import { LoaderScreen } from 'react-native-ui-lib'
 
 import ChatBox from '@/components/chat-with-instructor/ChatBox'
 import { myFontWeight, myTheme } from '@/contracts/constants'
-import useFirebaseAuth from '@/hooks/api/useFirebaseAuth'
+import { errorMessage } from '@/contracts/messages'
 import useUserAuth from '@/hooks/firebase/useUserAuth'
-import { firebaseAuth } from '@/utils/firebase'
 
 const ChatWithInstructorScreen = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const { user, error } = useUserAuth()
+  console.log('user', user)
 
-  const { createCustomToken } = useFirebaseAuth()
-
-  const { user } = useUserAuth()
-
-  useEffect(() => {
-    ;(async () => {
-      setIsLoading(true)
-      const data = await createCustomToken()
-      if (data) {
-        try {
-          await firebaseAuth.signInWithCustomToken(data.token)
-        } catch (error) {
-          console.log('error', error)
-        }
-      }
-      setIsLoading(false)
-    })()
-  }, [createCustomToken])
+  if (error) {
+    Alert.alert('Lỗi', errorMessage.ERM033)
+    router.back()
+  }
 
   const { instructorId, classId } = useLocalSearchParams()
   return (
     <>
-      {isLoading && !user ? (
+      {!user ? (
         <LoaderScreen
           size='large'
           message='Đang tải...'
@@ -44,7 +31,7 @@ const ChatWithInstructorScreen = () => {
         <ChatBox
           classId={Array.isArray(classId) ? classId[0] : classId}
           instructorId={Array.isArray(instructorId) ? instructorId[0] : instructorId}
-          learnerId={user?.uid || ''}
+          learnerId={user.uid}
         />
       )}
     </>

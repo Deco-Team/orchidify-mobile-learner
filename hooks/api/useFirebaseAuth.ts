@@ -14,7 +14,7 @@ const useFirebaseAuth = () => {
       const result = await callApi<{ token: string }>('post', rootEndpoint)
       return result.data
     } catch (error) {
-      resolveError(error)
+      return resolveError(error)
     }
   }, [callApi])
 

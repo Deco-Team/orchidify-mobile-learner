@@ -19,7 +19,6 @@ import 'dayjs/locale/vi'
 import { LoaderScreen, Text, View } from 'react-native-ui-lib'
 
 import { myTheme, width } from '@/contracts/constants'
-import useUserAuth from '@/hooks/firebase/useUserAuth'
 import { firebaseFirestore } from '@/utils/firebase'
 
 interface ChatBoxProps {
@@ -31,8 +30,6 @@ interface ChatBoxProps {
 const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
   const [messages, setMessages] = useState<IMessage[]>([])
   const [chatRoomId, setChatRoomId] = useState('')
-
-  const { user } = useUserAuth()
 
   dayjs.extend(isToday)
 
@@ -151,7 +148,7 @@ const ChatBox = ({ classId, instructorId, learnerId }: ChatBoxProps) => {
         }}
         placeholder='Aa'
         user={{
-          _id: user?.uid || ''
+          _id: learnerId
         }}
         renderSend={(props) => (
           <Send
