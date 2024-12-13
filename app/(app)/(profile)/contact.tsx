@@ -110,6 +110,7 @@ const ContactScreen = () => {
             />
           </TouchableOpacity>
         </View>
+        <MyText text='Phiên bản v1.0.0' styleProps={{ marginVertical: 10, color: myTextColor.caption }} />
       </ScrollView>
     </KeyboardAvoidingView>
   )
