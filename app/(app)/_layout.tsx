@@ -1,6 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Header, HeaderBackButton } from '@react-navigation/elements'
 import { Redirect, Stack, useGlobalSearchParams, useRouter } from 'expo-router'
-import * as SecureStore from 'expo-secure-store'
 import { useEffect } from 'react'
 import { Appearance, StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -24,10 +24,10 @@ export default function AppLayout() {
 
         if (fcmToken) {
           try {
-            const currentToken = await SecureStore.getItemAsync('fcm_token')
+            const currentToken = await AsyncStorage.getItem('fcm_token')
             if (!currentToken || currentToken !== fcmToken) {
               registerUserDevice({ fcmToken, browser: 'None', os: 'Android' })
-              SecureStore.setItemAsync('fcm_token', fcmToken)
+              await AsyncStorage.setItem('fcm_token', fcmToken)
             }
           } catch (error) {
             console.log(error)

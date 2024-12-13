@@ -1,5 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from 'expo-router'
-import * as SecureStore from 'expo-secure-store'
 import { jwtDecode } from 'jwt-decode'
 import { useContext, createContext, type PropsWithChildren, useState, useEffect } from 'react'
 
@@ -48,9 +48,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
     ;(async () => {
       try {
         const storedToken = await Promise.all([
-          SecureStore.getItemAsync('accessToken'),
-          SecureStore.getItemAsync('refreshToken'),
-          SecureStore.getItemAsync('firebaseToken')
+          AsyncStorage.getItem('accessToken'),
+          AsyncStorage.getItem('refreshToken'),
+          AsyncStorage.getItem('firebaseToken')
         ])
         if (storedToken[0] && storedToken[1]) {
           setAccessToken(storedToken[0])
@@ -85,8 +85,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
             const { data } = await POST('auth/learner/login', { email, password }, {}, {})
             setAccessToken(data.data.accessToken)
             setRefreshToken(data.data.refreshToken)
-            await SecureStore.setItemAsync('accessToken', data.data.accessToken)
-            await SecureStore.setItemAsync('refreshToken', data.data.refreshToken)
+            await AsyncStorage.setItem('accessToken', data.data.accessToken)
+            await AsyncStorage.setItem('refreshToken', data.data.refreshToken)
             if (navigation.canGoBack()) {
               navigation.goBack()
             } else {
@@ -108,9 +108,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
               {},
               { Accept: 'application/json', Authorization: `Bearer ${refreshToken}` }
             )
-            await SecureStore.deleteItemAsync('refreshToken')
-            await SecureStore.deleteItemAsync('accessToken')
-            await SecureStore.deleteItemAsync('firebaseToken')
+            await AsyncStorage.removeItem('refreshToken')
+            await AsyncStorage.removeItem('accessToken')
+            await AsyncStorage.removeItem('firebaseToken')
             setAccessToken(undefined)
             setRefreshToken(undefined)
             setFirebaseToken(undefined)
@@ -120,7 +120,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         },
         saveFirebaseToken: async (firebaseToken: string) => {
           try {
-            await SecureStore.setItemAsync('firebaseToken', firebaseToken)
+            await AsyncStorage.setItem('firebaseToken', firebaseToken)
             setFirebaseToken(firebaseToken)
           } catch (error) {
             return resolveError(error)
@@ -128,7 +128,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         },
         removeFirebaseToken: async () => {
           try {
-            await SecureStore.deleteItemAsync('firebaseToken')
+            await AsyncStorage.removeItem('firebaseToken')
             setFirebaseToken(undefined)
           } catch (error) {
             return resolveError(error)
@@ -137,8 +137,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
         setToken: async (accessToken, refreshToken) => {
           setAccessToken(accessToken)
           setRefreshToken(refreshToken)
-          await SecureStore.setItemAsync('accessToken', accessToken)
-          await SecureStore.setItemAsync('refreshToken', refreshToken)
+          await AsyncStorage.setItem('accessToken', accessToken)
+          await AsyncStorage.setItem('refreshToken', refreshToken)
         },
         accessToken,
         refreshToken,
