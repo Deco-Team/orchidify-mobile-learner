@@ -83,8 +83,7 @@ const TimesheetScreen = () => {
   }, [date, getMyTimesheet])
 
   const handleDateChange = (selectedDate: string) => {
-    const weekInView = dayjs(selectedDate).isoWeek()
-    setDate(dayjs().isoWeek(weekInView).startOf('isoWeek').format('YYYY-MM-DD'))
+    setDate(dayjs(selectedDate).startOf('isoWeek').format('YYYY-MM-DD'))
     setSelectedDate(selectedDate)
   }
 
