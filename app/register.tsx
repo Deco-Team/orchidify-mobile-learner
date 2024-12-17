@@ -3,14 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  TouchableOpacity,
-  TouchableWithoutFeedback
-} from 'react-native'
+import { Keyboard, KeyboardAvoidingView, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { Button, TextField, View } from 'react-native-ui-lib'
 
 import MyLink from '@/components/common/MyLink'
@@ -62,13 +55,14 @@ const RegisterScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1, backgroundColor: '#FFF' }}
-      keyboardVerticalOffset={100}
-    >
+    <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={100}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <ScrollView style={{ paddingHorizontal: 20, backgroundColor: '#FFF' }}>
+        <ScrollView
+          style={{
+            paddingHorizontal: 20,
+            backgroundColor: '#FFF'
+          }}
+        >
           <MyText
             text='Điền thông tin phía dưới để tham gia trải nghiệm các khóa học tuyệt vời của chúng tôi.'
             styleProps={{ fontSize: width < myDeviceWidth.sm ? 14 : 16, textAlign: 'left', marginVertical: 24 }}
